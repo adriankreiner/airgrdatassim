@@ -55,7 +55,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
     if (!(is.atomic(NbMbr) && is.numeric(NbMbr) && length(NbMbr) == 1 && NbMbr >= 2)) {
       stop("'NbMbr' should be a single vector of a numeric value >= 2")
     } else {
-      NbMbr <- as.integer(NbMb    }
+      NbMbr <- as.integer(NbMb)
     if (IsMeteo) {
       NbMbrMeteo <- ncol(InputsPert[[2]])
       if (NbMbr > NbMbrMeteo) {
