@@ -55,16 +55,17 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
     if (!(is.atomic(NbMbr) && is.numeric(NbMbr) && length(NbMbr) == 1 && NbMbr >= 2)) {
       stop("'NbMbr' should be a single vector of a numeric value >= 2")
     } else {
-      NbMbr <- as.integer(NbMb)
-    if (IsMeteo) {
-      NbMbrMeteo <- ncol(InputsPert[[2]])
-      if (NbMbr > NbMbrMeteo) {
-        stop(sprintf("cannot take a number of ensemble members (%i) larger than the number available for the perturbed meteorological variables (%i)",
-                     NbMbr, NbMbrMeteo))
-      }
-      if (NbMbr < NbMbrMeteo) {
-        warning(sprintf("only %i ensemble members are taken, whereas the number available for the perturbed meteorological variables is equal to %i",
-                        NbMbr, NbMbrMeteo))
+      NbMbr <- as.integer(NbMbr)
+      if (IsMeteo) {
+        NbMbrMeteo <- ncol(InputsPert[[2]])
+        if (NbMbr > NbMbrMeteo) {
+          stop(sprintf("cannot take a number of ensemble members (%i) larger than the number available for the perturbed meteorological variables (%i)",
+                       NbMbr, NbMbrMeteo))
+        }
+        if (NbMbr < NbMbrMeteo) {
+          warning(sprintf("only %i ensemble members are taken, whereas the number available for the perturbed meteorological variables is equal to %i",
+                          NbMbr, NbMbrMeteo))
+        }
       }
     }
     
