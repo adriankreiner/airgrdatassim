@@ -4,9 +4,18 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
     
   # ------ Checks
   
+  FUN_MODList <- c("RunModel_GR4J",
+                   "RunModel_GR5J",
+                   "RunModel_GR6J")
+  
+  FUN_MODSnowList <- c("RunModel_CemaNeigeGR4J",
+                       "RunModel_CemaNeigeGR5J",
+                       "RunModel_CemaNeigeGR6J")
+  
   FUN_MOD <- match.fun(FUN_MOD)
-  if (!identical(FUN_MOD, RunModel_GR5J) && !identical(FUN_MOD, RunModel_CemaNeigeGR5J)) {
-    stop("incorrect 'FUN_MOD', only 'RunModel_GR5J' and 'RunModel_CemaNeigeGR5J' can be used")
+  
+  if (!any(sapply(c(FUN_MODList,FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
+    stop(sprintf("incorrect 'FUN_MOD' for use in 'CreateInputsPerturb'. Only %s can be used", paste(c(FUN_MODList,FUN_MODSnowList), collapse = ", ")))
   }
   
   if (!(is.atomic(NbMbr) && is.numeric(NbMbr) && length(NbMbr) == 1 && NbMbr >= 2)) {
@@ -66,11 +75,11 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
   #***************************************************************************************************************
   # Generation of the InputsModel object
   
-  if (identical(FUN_MOD, RunModel_GR5J))  {
+  if (any(sapply(c(FUN_MODList), function(x) identical(FUN_MOD, match.fun(x)))))  {
     InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
                                            Precip = Precip, PotEvap = PotEvap)
     
-  } else if (identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
+  } else if (any(sapply(c(FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
     InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
                                            Precip = Precip, PotEvap = PotEvap,
                                            TempMean = TempMean, ZInputs = ZInputs,
