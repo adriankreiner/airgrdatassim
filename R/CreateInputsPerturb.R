@@ -5,8 +5,8 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
   # ------ Checks
   
   FUN_MOD <- match.fun(FUN_MOD)
-  if (!identical(FUN_MOD, RunModel_GR5J)) {
-    stop("incorrect 'FUN_MOD', only 'RunModel_GR5J' can be used")
+  if (!identical(FUN_MOD, RunModel_GR5J) && !identical(FUN_MOD, RunModel_CemaNeigeGR5J)) {
+    stop("incorrect 'FUN_MOD', only 'RunModel_GR5J' and 'RunModel_CemaNeigeGR5J' can be used")
   }
   
   if (!(is.atomic(NbMbr) && is.numeric(NbMbr) && length(NbMbr) == 1 && NbMbr >= 2)) {
