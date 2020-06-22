@@ -1,5 +1,6 @@
 
-CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, NbMbr, Seed = NULL) {
+CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = NULL, 
+                                ZInputs = NULL, HypsoData = NULL, NLayers = NULL, NbMbr, Seed = NULL) {
     
   # ------ Checks
   
