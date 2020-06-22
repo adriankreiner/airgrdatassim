@@ -1,11 +1,12 @@
 
-CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, NbMbr, Seed = NULL) {
+CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = NULL, 
+                                ZInputs = NULL, HypsoData = NULL, NLayers = NULL, NbMbr, Seed = NULL) {
     
   # ------ Checks
   
   FUN_MOD <- match.fun(FUN_MOD)
-  if (!identical(FUN_MOD, RunModel_GR5J)) {
-    stop("incorrect 'FUN_MOD', only 'RunModel_GR5J' can be used")
+  if (!identical(FUN_MOD, RunModel_GR5J) && !identical(FUN_MOD, RunModel_CemaNeigeGR5J)) {
+    stop("incorrect 'FUN_MOD', only 'RunModel_GR5J' and 'RunModel_CemaNeigeGR5J' can be used")
   }
   
   if (!(is.atomic(NbMbr) && is.numeric(NbMbr) && length(NbMbr) == 1 && NbMbr >= 2)) {
@@ -65,10 +66,16 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
   #***************************************************************************************************************
   # Generation of the InputsModel object
   
-  InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
-                                         Precip = Precip, PotEvap = PotEvap)
-  
-
+  if (identical(FUN_MOD, RunModel_GR5J))  {
+    InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
+                                           Precip = Precip, PotEvap = PotEvap)
+    
+  } else if (identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
+    InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
+                                           Precip = Precip, PotEvap = PotEvap,
+                                           TempMean = TempMean, ZInputs = ZInputs,
+                                           HypsoData = HypsoData, NLayers = NLayers)
+  }
   
   #***************************************************************************************************************
   # Initialisation of the parameters of the first-order autoregressive model 
