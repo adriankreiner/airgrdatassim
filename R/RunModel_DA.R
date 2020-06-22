@@ -6,8 +6,8 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
   
   # FUN_MOD
   FUN_MOD <- match.fun(FUN_MOD)
-  if (!identical(FUN_MOD, RunModel_GR5J)) {
-    stop("incorrect 'FUN_MOD', only 'RunModel_GR5J' can be used")
+  if (!identical(FUN_MOD, RunModel_GR5J) && !identical(FUN_MOD, RunModel_CemaNeigeGR5J)) {
+    stop("incorrect 'FUN_MOD', only 'RunModel_GR5J' and 'RunModel_CemaNeigeGR5J' can be used")
   }
   
   # DaMethod
