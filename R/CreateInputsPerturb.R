@@ -66,10 +66,16 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
   #***************************************************************************************************************
   # Generation of the InputsModel object
   
-  InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
-                                         Precip = Precip, PotEvap = PotEvap)
-  
-
+  if (identical(FUN_MOD, RunModel_GR5J))  {
+    InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
+                                           Precip = Precip, PotEvap = PotEvap)
+    
+  } else if (identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
+    InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
+                                           Precip = Precip, PotEvap = PotEvap,
+                                           TempMean = TempMean, ZInputs = ZInputs,
+                                           HypsoData = HypsoData, NLayers = NLayers)
+  }
   
   #***************************************************************************************************************
   # Initialisation of the parameters of the first-order autoregressive model 
