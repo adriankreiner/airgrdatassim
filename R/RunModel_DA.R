@@ -186,7 +186,6 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
         
         IniStates <- IniStatesEns[[iMbr]]
         IniStates$Store$Rest <- rep(NA, times = 3)
-        IniStates$CemaNeigeLayers <- NULL
         IniStates <- unlist(IniStates)
         IniStates[is.na(IniStates)] <- 0
         RunOptionsIter$IniStates <- IniStates
