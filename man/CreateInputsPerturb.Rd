@@ -8,7 +8,8 @@
 \title{Generation of ensemble model inputs for data assimilation}
 
 \usage{
-CreateInputsPerturb(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, NbMbr, Seed = NULL)
+CreateInputsPerturb(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = NULL, 
+                    ZInputs = NULL, HypsoData = NULL, NLayers = NULL, NbMbr, Seed = NULL)
 
 }
 
