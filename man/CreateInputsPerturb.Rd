@@ -23,6 +23,14 @@ CreateInputsPerturb(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = N
 
 \item{PotEvap}{(optional) [numeric] time series of potential evapotranspiration [mm/d]}
 
+\item{TempMean}{(optional) [numeric] time series of mean air temperature [°C], required to create the CemaNeige module inputs}
+
+\item{ZInputs}{(optional) [numeric] real giving the mean elevation of the Precip and Temp series (before extrapolation) [m], possibly used to create the CemaNeige module inputs}
+
+\item{HypsoData}{(optional) [numeric] vector of 101 reals: min, q01 to q99 and max of catchment elevation distribution [m], if not defined a single elevation is used for CemaNeige}
+
+\item{NLayers}{(optional) [numeric] integer giving the number of elevation layers requested [-], required to create CemaNeige module inputs, default=5}
+
 \item{NbMbr}{[numeric] number of ensemble members}
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
