@@ -1,0 +1,127 @@
+stages:
+  - update_packages
+  - build
+  - tests
+
+default:
+  before_script:
+    - echo "setwd(\"$(pwd)\")" > .Rprofile
+    - PATH=~/R/sources/R-${R_VERSION}/bin:$PATH
+    - rename "s/${R_VERSION}.airGRdatassim/airGRdatassim/" *.tar.gz
+
+.update_packages:
+  stage: update_packages
+  only:
+    refs:
+      - tags
+      - schedules
+  script:
+    - Rscript -e "update.packages(ask=FALSE, repos=\"http://cran.r-project.org\")"
+
+.build:
+  stage: build
+  script:
+    - cd ..
+    - echo "setwd(\"$(pwd)\")" > .Rprofile
+    - R CMD build airgrdatassim
+    - rename "s/airGRdatassim/${R_VERSION}.airGRdatassim/" airGRdatassim_*.tar.gz
+    - mv *.tar.gz airgrdatassim/
+  artifacts:
+    untracked: true
+    expire_in: 1 week
+
+.check_not_cran:
+  stage: tests
+  variables:
+    NOT_CRAN: "true"
+  script:
+    - R CMD check airGRdatassim_*.tar.gz
+
+.check_as_cran:
+  stage: tests
+  script:
+    - R CMD check --as-cran airGRdatassim_*.tar.gz
+
+update_packages_patched:
+  variables:
+    R_VERSION: "patched"
+  extends: .update_packages
+
+build_patched:
+  variables:
+    R_VERSION: "patched"
+  extends: .build
+
+check_not_cran_patched:
+  variables:
+    R_VERSION: "patched"
+  extends: .check_not_cran
+
+check_as_cran_patched:
+  variables:
+    R_VERSION: "patched"
+  extends: .check_as_cran
+
+update_packages_devel:
+  variables:
+    R_VERSION: "devel"
+  extends: .update_packages
+
+build_devel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "devel"
+  extends: .build
+
+check_not_cran_devel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "devel"
+  extends: .check_not_cran
+
+check_as_cran_devel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "devel"
+  extends: .check_as_cran
+
+update_packages_oldrel:
+  variables:
+    R_VERSION: "oldrel"
+  extends: .update_packages
+
+build_oldrel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "oldrel"
+  extends: .build
+
+check_not_cran_oldrel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "oldrel"
+  extends: .check_not_cran
+
+check_as_cran_oldrel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "oldrel"
+  extends: .check_as_cran
