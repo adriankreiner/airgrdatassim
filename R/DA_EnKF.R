@@ -1,22 +1,27 @@
 
 DA_EnKF <- function(Obs, Qsim, EnsState,
-                    IsState, IndState, 
+                    PertState = NULL, StateEnKF = NULL, 
                     Param, VarThr, NbMbr, StateNames) {
   
   # ------ Checks
-  IndState <- match.arg(IndState, choices = StateNames, several.ok = TRUE)
-  IndState <- as.numeric(StateNames %in% IndState)
+  StateEnKF <- match.arg(StateEnKF, choices = StateNames, several.ok = TRUE)
   
+  if (any(!PertState %in% StateEnKF)){
+    stop('Perturbation is allowed only for the state variables updated via EnKF. 
+         Please check the consistency between PertState and StateEnKF')
+  }
   
   # ------ Settings
   
   NbState  <- nrow(EnsState)
-  IndDa    <- which(IndState == 1)
+  IndDa    <- which(StateEnKF == 1)
   NbVarDa  <- length(IndDa)
   StateBkg <- EnsState[IndDa, , drop = FALSE]
   
   # member names
   MbrNames <- sprintf("Mbr_%s", seq_len(NbMbr))
+  
+
   
   #***************************************************************************************************************
   # Observation error covariance matrix 
@@ -86,7 +91,8 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   #***************************************************************************************************************
   # States perturbation
   
-  if (IsState) {
+  if (!is.null(PertState)) {
+    IndPert <- as.numeric(StateNames %in% PertState)
     Sd0 <- apply(EnsStateEnkf, 1, sd)
     SdState <- pmin(3, pmax(1.2, Sd0))
     names(SdState) <- StateNames
@@ -97,7 +103,7 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
                        dimnames = list(StateNames,
                                        MbrNames))
     
-    TaoState[IndState == 0, ] <- 0
+    TaoState[IndPert == 0, ] <- 0
     
     EnsStatePert <- EnsStateEnkf + TaoState
     
@@ -117,7 +123,7 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   # Outputs
   
   ans <- list(EnsStateEnkf = EnsStateEnkf, ObsPert = ObsPert)
-  if (IsState) {
+  if (!is.null(PertState)) {
     ans$EnsStatePert <- EnsStatePert
   }
   return(ans)
