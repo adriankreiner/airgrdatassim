@@ -33,7 +33,7 @@ RunModel_DA(DaMethod, IndRun, IndState, NbMbr,
   
 \item{NbMbr}{[numeric] number of ensemble members}
 
-\item{FUN_MOD}{[function] hydrological model function (e.g. \code{\link{RunModel_GR5J}}, \code{\link{RunModel_CemaNeigeGR5J}})}
+\item{FUN_MOD}{[function] daily hydrological model functions (GR4J, GR5J or GR6J; e.g. \code{\link{RunModel_GR5J}}, \code{\link{RunModel_CemaNeigeGR5J}})}
 
 \item{InputsModel}{[list] object of class \emph{InputsModel} containing the data required to run the model  (see \code{\link{CreateInputsModel}} for details)}
 
