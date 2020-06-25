@@ -4,7 +4,7 @@
 \name{RunModel_DA}
 \alias{RunModel_DA}
 
-\title{Run streamflow simulations with ensemble-based data assimilation}
+\title{Run discharge simulations with ensemble-based data assimilation}
 
 \usage{
 RunModel_DA(DaMethod, IndRun, IndState, NbMbr,
@@ -27,26 +27,20 @@ RunModel_DA(DaMethod, IndRun, IndState, NbMbr,
   \tabular{ll}{                                                        
     Prod \tab level of the production store [mm] \cr      
     Rout \tab level of the routing store [mm]    \cr      
-    UH   \tab unit hydrograph level [mm]         \cr      
+    UH1  \tab unit hydrograph 1 levels [mm] (not defined in GR5J model)     \cr    
+    UH2  \tab unit hydrograph 2 levels [mm]
   }}  
   
 \item{NbMbr}{[numeric] number of ensemble members}
 
-\item{FUN_MOD}{[function] hydrological model function (i.e. \code{\link{RunModel_GR5J}})}
+\item{FUN_MOD}{[function] daily hydrological model functions (GR4J, GR5J or GR6J; e.g. \code{\link{RunModel_GR5J}}, \code{\link{RunModel_CemaNeigeGR5J}})}
 
 \item{InputsModel}{[list] object of class \emph{InputsModel} containing the data required to run the model  (see \code{\link{CreateInputsModel}} for details)}
 
 \item{InputsPert}{(optional) [list] object of class \emph{InputsModel} containing the ensembles of perturbed data required to evaluate the model probabilistic outputs, if the uncertainty in meteorological forcings is taken into account. The variables data proposed in \emph{InputsPert} will erase the variables data given in \emph{InputsModel}}
 
-\item{Param}{[numeric] vector of 5 parameters:
-  \tabular{ll}{                                                                      
-    GR5J X1 \tab production store capacity [mm]             \cr
-    GR5J X2 \tab intercatchment exchange coefficient [mm/d] \cr
-    GR5J X3 \tab routing store capacity [mm]                \cr
-    GR5J X4 \tab unit hydrograph time constant [d]          \cr
-    GR5J X5 \tab intercatchment exchange threshold [-]      \cr
-  }}
-
+\item{Param}{[numeric] vector of model parameters (number of parameters depends on the used hydrological model, from 4 parameters in \emph{RunModel_GR4J} up to 10 parameters in \emph{RunModel_CemaNeigeGR6J})}
+  
 \item{IsState}{[logical] flag to enable/disable the perturbation of state variables defined in \emph{IndState}:
   \tabular{ll}{                                                                      
     if IsState = TRUE  \tab perturbation of state variables      \cr
@@ -75,13 +69,13 @@ RunModel_DA(DaMethod, IndRun, IndState, NbMbr,
 }
 
 \description{
-Function which performs streamflow ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes.
+Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes.
 }
 
 \details{
 Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != 'none' ) via EnKF or PF scheme. Because of the recursive approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.  
 \cr
-When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble streamflow simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPerturb}} for details).
+When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble discharge simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPerturb}} for details).
 \cr
 While all model states are jointly updated via PF, it is possible to enable/disable the update of specific state variables via EnKF, by defining their names in \emph{IndState}.
 \cr
@@ -90,6 +84,8 @@ Both the PF and EnKF can account for uncertainty in model states. If \emph{IsSta
 In order to ensure reproducible results, \emph{Seed} can be set to fix the randomness in the generation of perturbations. 
 \cr
 For further details and guidelines on the choice of the DA technique, see the references section.
+\cr
+Nota: The function can be applied when using GR4J, GR5J and GR6J models (i.e. daily model time step), with or withouth the CemaNeige module (see \emph{airGR} package).
 }
 
 \examples{

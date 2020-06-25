@@ -5,9 +5,18 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
   # ------ Checks
   
   # FUN_MOD
+  FUN_MODList <- c("RunModel_GR4J",
+                   "RunModel_GR5J",
+                   "RunModel_GR6J")
+  
+  FUN_MODSnowList <- c("RunModel_CemaNeigeGR4J",
+                       "RunModel_CemaNeigeGR5J",
+                       "RunModel_CemaNeigeGR6J")
+  
   FUN_MOD <- match.fun(FUN_MOD)
-  if (!identical(FUN_MOD, RunModel_GR5J) && !identical(FUN_MOD, RunModel_CemaNeigeGR5J)) {
-    stop("incorrect 'FUN_MOD', only 'RunModel_GR5J' and 'RunModel_CemaNeigeGR5J' can be used")
+  if (!any(sapply(c(FUN_MODList,FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
+    stop(sprintf("incorrect 'FUN_MOD' for use in 'CreateInputsPerturb'. Only %s can be used",
+                 paste(c(FUN_MODList, FUN_MODSnowList), collapse = ", ")))
   }
   
   # DaMethod
@@ -91,7 +100,13 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
   IsDa <- DaMethod != "none"
   
   Nt <- length(IndRun)
-  StateNames <- c("Prod", "Rout", "UH")
+  
+  if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
+    StateNames <- c("Prod", "Rout", "UH2")
+  } else {
+    StateNames <- c("Prod", "Rout", "UH1", "UH2")
+  }
+  
   NbState <- length(StateNames)
   
   Qobs[Qobs < 0] <- NaN
@@ -210,7 +225,10 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
       
       EnsStateBkg["Prod", iMbr, iTime] <- OutputsModel$Prod
       EnsStateBkg["Rout", iMbr, iTime] <- OutputsModel$Rout
-      EnsStateBkg["UH"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH2[1]
+      EnsStateBkg["UH2"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH2[1]
+      if ("UH1" %in% StateNames){
+        EnsStateBkg["UH1"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH1[1]
+      }
       
       QsimEns[iMbr, iTime]  <- OutputsModel$Qsim
       
@@ -228,12 +246,15 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
         ans <- DA_EnKF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], EnsState = EnsStateBkg[, , iTime],
                        IsState = IsState,
                        IndState = IndState,
-                       Param = Param, VarThr = VarThr, NbMbr = NbMbr)
+                       Param = Param, VarThr = VarThr, NbMbr = NbMbr, StateNames = StateNames)
         
         for (iMbr in seq_len(NbMbr)) { # olivier : it is possible to write the following 3 loops without loops?
           IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStateEnkf["Prod", iMbr]
           IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStateEnkf["Rout", iMbr]
-          IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStateEnkf["UH"  , iMbr]
+          IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStateEnkf["UH2" , iMbr]
+          if ("UH1" %in% StateNames){
+            IniStatesEns[[iMbr]]$UH$UH1[1]  <- ans$EnsStateEnkf["UH1", iMbr]  
+          }
         }   
         
         if (iTime < Nt) {
@@ -245,7 +266,10 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
           for (iMbr in seq_len(NbMbr)) {
             IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStatePert["Prod", iMbr]
             IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStatePert["Rout", iMbr]
-            IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStatePert["UH"  , iMbr]
+            IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStatePert["UH2" , iMbr]
+            if ("UH1" %in% StateNames){
+              IniStatesEns[[iMbr]]$UH$UH1[1]  <- ans$EnsStatePert["UH1", iMbr]  
+            }
           } 
         }   
         
@@ -263,7 +287,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
       } else if (DaMethod == "PF") {
         ans <- DA_PF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], States = IniStatesEns, 
                      IsState = IsState, IndState = IndState, Param = Param, 
-                     VarThr = VarThr, NbMbr = NbMbr)
+                     VarThr = VarThr, NbMbr = NbMbr, StateNames = StateNames)
         
         if (IsState) {
           IniStatesEns <- ans$EnsStatePert
@@ -273,7 +297,10 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
         
         EnsStateA["Prod", , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$Store$Prod)
         EnsStateA["Rout", , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$Store$Rout)
-        EnsStateA["UH"  , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH2[1])
+        EnsStateA["UH2" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH2[1])
+        if ("UH1" %in% StateNames){
+          EnsStateA["UH1" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH1[1])  
+        }
         
         if (iTime < Nt) { # olivier?
           IniStatesEnsNt[[iTime+1]] <- ans$EnsStatePf
