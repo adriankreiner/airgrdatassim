@@ -153,7 +153,10 @@ DA_PF <- function(Obs, Qsim, States, PertState = NULL, Param, VarThr, NbMbr, Sta
     } # END IF 
     CurrentState <- c(CurrentState, TempState)
     
-    rm(TempState, TempStatePert)
+    rm(TempState)
+    if (exists("TempStatePert")) {
+      rm(TempStatePert)
+    }
     
   } # END FOR repeats
   
