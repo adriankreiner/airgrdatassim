@@ -7,9 +7,9 @@
 \title{Run discharge simulations with ensemble-based data assimilation}
 
 \usage{
-RunModel_DA(DaMethod, IndRun, IndState, NbMbr,
+RunModel_DA(DaMethod, IndRun, StateEnKF = NULL, NbMbr,
             FUN_MOD, InputsModel, InputsPert = NULL, Param,
-            IsState, Qobs = NULL, Seed = NULL)
+            StatePert = NULL, Qobs = NULL, Seed = NULL)
 }
 
 \arguments{
@@ -23,7 +23,7 @@ RunModel_DA(DaMethod, IndRun, IndState, NbMbr,
   
 \item{IndRun}{[numeric] index of period to be used for the model run [-]}
 
-\item{IndState}{[character] vector of the names of state variables to be updated and/or perturbed (see \emph{IsState}):
+\item{StateEnKF}{[character] vector of the names of state variables to be updated via EnKF:
   \tabular{ll}{                                                        
     Prod \tab level of the production store [mm] \cr      
     Rout \tab level of the routing store [mm]    \cr      
@@ -41,11 +41,13 @@ RunModel_DA(DaMethod, IndRun, IndState, NbMbr,
 
 \item{Param}{[numeric] vector of model parameters (number of parameters depends on the used hydrological model, from 4 parameters in \emph{RunModel_GR4J} up to 10 parameters in \emph{RunModel_CemaNeigeGR6J})}
   
-\item{IsState}{[logical] flag to enable/disable the perturbation of state variables defined in \emph{IndState}:
-  \tabular{ll}{                                                                      
-    if IsState = TRUE  \tab perturbation of state variables      \cr
-    if IsState = FALSE \tab no perturbation of state variables  \cr
-  }}
+\item{StatePert}{[character] vector of the names of state variables to be perturbed via EnKF or PF:
+  \tabular{ll}{                                                        
+    Prod \tab level of the production store [mm] \cr      
+    Rout \tab level of the routing store [mm]    \cr      
+    UH1  \tab unit hydrograph 1 levels [mm] (not defined in GR5J model)     \cr    
+    UH2  \tab unit hydrograph 2 levels [mm]
+  }} 
   
 \item{Qobs}{(optional) [numeric] time series of observed discharges [mm/d]}
 
@@ -77,9 +79,9 @@ Discharge observations are sequentially assimilated at each time step (if \emph{
 \cr
 When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble discharge simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPerturb}} for details).
 \cr
-While all model states are jointly updated via PF, it is possible to enable/disable the update of specific state variables via EnKF, by defining their names in \emph{IndState}.
+It is possible to enable/disable the update of specific state variables via EnKF by defining their names in \emph{StateEnKF}. Please note that \emph{StateEnKF} is therefore required only when using the EnKF.
 \cr
-Both the PF and EnKF can account for uncertainty in model states. If \emph{IsState} = 'TRUE', the state variables specified in \emph{IndState} are perturbed after Salamon and Feyen (2009). If the state uncertainty is taken into account, the initial states at the prediction time step \emph{t + 1} are the perturbed analysis states resulting from the assimilation and perturbation procedures at time step \emph{t}.
+Both the PF and EnKF can account for uncertainty in model states by perturbing the state variables specified in \emph{StatePert} (Salamon and Feyen, 2009). It is noteworthy that, when using the EnKF, the perturbation is allowed only for the state variables included in \emph{StateEnKF}. If the state uncertainty is taken into account, the initial states at the prediction time step \emph{t + 1} are the perturbed analysis states resulting from the assimilation and perturbation procedures at time step \emph{t}.
 \cr
 In order to ensure reproducible results, \emph{Seed} can be set to fix the randomness in the generation of perturbations. 
 \cr
@@ -110,10 +112,10 @@ InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Dat
                                   NbMbr = 100)               
 
 ## simulation with DA via EnKF
-result <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, IndState = c("Prod", "Rout"), NbMbr = 100,
+result <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, StateEnKF = c("Prod", "Rout"), NbMbr = 100,
                       FUN_MOD = RunModel_GR5J,
                       InputsModel = InputsModel, InputsPert = InputsPert, Param = Param,
-                      IsState = TRUE, Qobs = BasinObs$Qmm)
+                      StatePert = c("Prod", "Rout"), Qobs = BasinObs$Qmm)
 
 ## results preview
 rangeQsimEns <- apply(result$QsimEns, MARGIN = 2, FUN = range)
