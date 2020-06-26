@@ -3,14 +3,6 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
                     PertState = NULL, StateEnKF = NULL, 
                     Param, VarThr, NbMbr, StateNames) {
   
-  # ------ Checks
-  StateEnKF <- match.arg(StateEnKF, choices = StateNames, several.ok = TRUE)
-  
-  if (any(!PertState %in% StateEnKF)){
-    stop('Perturbation is allowed only for the state variables updated via EnKF. 
-         Please check the consistency between PertState and StateEnKF')
-  }
-  
   # ------ Settings
   
   NbState  <- nrow(EnsState)
