@@ -19,6 +19,12 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
                  paste(c(FUN_MODList, FUN_MODSnowList), collapse = ", ")))
   }
   
+  if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
+    StateNames <- c("Prod", "Rout", "UH2")
+  } else {
+    StateNames <- c("Prod", "Rout", "UH1", "UH2")
+  }
+  
   # DaMethod
   DaMethod <- match.arg(DaMethod)
   
