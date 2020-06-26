@@ -1,6 +1,6 @@
 
 RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = NULL, NbMbr, FUN_MOD, InputsModel, InputsPert = NULL, Param, 
-                        PertState = NULL, Qobs = NULL, Seed = NULL) {
+                        StatePert = NULL, Qobs = NULL, Seed = NULL) {
   
   # ------ Checks
   
@@ -31,9 +31,9 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
   # Seed
   Seed0 <- as.numeric(Seed)
   
-  # StateEnKF & PertState
-  if (DaMethod == "none" && (!is.null(StateEnKF) | !is.null(PertState))) {
-    warning("'StateEnKF' and/or 'PertState' not taken into account when 'DaMethod' is \"none\"")
+  # StateEnKF & StatePert
+  if (DaMethod == "none" && (!is.null(StateEnKF) | !is.null(StatePert))) {
+    warning("'StateEnKF' and/or 'StatePert' not taken into account when 'DaMethod' is \"none\"")
   }
   if (DaMethod == "PF" && !is.null(StateEnKF)) {
     warning("'StateEnKF' not taken into account when 'DaMethod' is \"PF\"")
@@ -45,16 +45,16 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
     if (!is.null(StateEnKF)) {
       StateEnKF <- match.arg(StateEnKF, choices = StateNames, several.ok = TRUE)
     }
-    if (!is.null(PertState)) {
-      PertState <- match.arg(PertState, choices = StateNames, several.ok = TRUE)
+    if (!is.null(StatePert)) {
+      StatePert <- match.arg(StatePert, choices = StateNames, several.ok = TRUE)
     }
   }
-  if (DaMethod == "EnKF" && any(!PertState %in% StateEnKF)) {
-    stop(sprintf("Perturbation is allowed only for the state variables updated via EnKF (%s). Please check the consistency between 'PertState' and 'StateEnKF'",
+  if (DaMethod == "EnKF" && any(!StatePert %in% StateEnKF)) {
+    stop(sprintf("Perturbation is allowed only for the state variables updated via EnKF (%s). Please check the consistency between 'StatePert' and 'StateEnKF'",
                  sQuote(paste(StateEnKF, collapse = ", "))))
   }
-  if (DaMethod != "none" && any(!PertState %in% StateNames)) {
-    warning(PertState[!PertState %in% StateNames])
+  if (DaMethod != "none" && any(!StatePert %in% StateNames)) {
+    warning(StatePert[!StatePert %in% StateNames])
   } 
   
   # InputsModel
@@ -267,7 +267,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
       
       if (DaMethod == "EnKF") {
         ans <- DA_EnKF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], EnsState = EnsStateBkg[, , iTime],
-                       PertState = PertState,
+                       StatePert = StatePert,
                        StateEnKF = StateEnKF,
                        Param = Param, VarThr = VarThr, NbMbr = NbMbr, StateNames = StateNames)
         
@@ -285,7 +285,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
           names(IniStatesEnsNt)[iTime+1] <- sprintf("Time_%s",iTime+1)
         }
         
-        if (!is.null(PertState)) {
+        if (!is.null(StatePert)) {
           for (iMbr in seq_len(NbMbr)) {
             IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStatePert["Prod", iMbr]
             IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStatePert["Rout", iMbr]
@@ -299,7 +299,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
         EnsStateA[, , iTime] <- ans$EnsStateEnkf
         
         if (iTime < Nt) {
-          if (!is.null(PertState)) {
+          if (!is.null(StatePert)) {
             EnsStateBkg[, , iTime+1] <- ans$EnsStatePert
           } else {
             EnsStateBkg[, , iTime+1] <- ans$EnsStateEnkf
@@ -309,10 +309,10 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
         
       } else if (DaMethod == "PF") {
         ans <- DA_PF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], States = IniStatesEns, 
-                     PertState = PertState, Param = Param, 
+                     StatePert = StatePert, Param = Param, 
                      VarThr = VarThr, NbMbr = NbMbr, StateNames = StateNames)
         
-        if (!is.null(PertState)) {
+        if (!is.null(StatePert)) {
           IniStatesEns <- ans$EnsStatePert
         } else {
           IniStatesEns <- ans$EnsStatePf

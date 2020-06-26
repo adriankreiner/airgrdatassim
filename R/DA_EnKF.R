@@ -1,6 +1,6 @@
 
 DA_EnKF <- function(Obs, Qsim, EnsState,
-                    PertState = NULL, StateEnKF = NULL, 
+                    StatePert = NULL, StateEnKF = NULL, 
                     Param, VarThr, NbMbr, StateNames) {
   
   # ------ Settings
@@ -83,8 +83,8 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   #***************************************************************************************************************
   # States perturbation
   
-  if (!is.null(PertState)) {
-    IndPert <- as.numeric(StateNames %in% PertState)
+  if (!is.null(StatePert)) {
+    IndPert <- as.numeric(StateNames %in% StatePert)
     Sd0 <- apply(EnsStateEnkf, 1, sd)
     SdState <- pmin(3, pmax(1.2, Sd0))
     names(SdState) <- StateNames
@@ -115,7 +115,7 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   # Outputs
   
   ans <- list(EnsStateEnkf = EnsStateEnkf, ObsPert = ObsPert)
-  if (!is.null(PertState)) {
+  if (!is.null(StatePert)) {
     ans$EnsStatePert <- EnsStatePert
   }
   return(ans)

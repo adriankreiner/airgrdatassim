@@ -1,5 +1,5 @@
 
-DA_PF <- function(Obs, Qsim, States, PertState = NULL, Param, VarThr, NbMbr, StateNames) {
+DA_PF <- function(Obs, Qsim, States, StatePert = NULL, Param, VarThr, NbMbr, StateNames) {
   
   # ------ Settings
   
@@ -74,7 +74,7 @@ DA_PF <- function(Obs, Qsim, States, PertState = NULL, Param, VarThr, NbMbr, Sta
   #***************************************************************************************************************
   # STATE PERTURBATION
   
-  if (!is.null(PertState)) {
+  if (!is.null(StatePert)) {
     EnsState <- matrix(data = NA, nrow = NbState, ncol = NbMbr,
                        dimnames = list(StateNames,
                                        MbrNames))
@@ -109,8 +109,8 @@ DA_PF <- function(Obs, Qsim, States, PertState = NULL, Param, VarThr, NbMbr, Sta
     TempState        <- rep(States[IndexParticle], times = RepParticle)
     names(TempState) <- sprintf("Rep%s_Part%s", seq_len(RepParticle), IndexParticle)
     
-    if (!is.null(PertState)) { # state perturbation
-      IndPert <- as.numeric(StateNames %in% PertState)
+    if (!is.null(StatePert)) { # state perturbation
+      IndPert <- as.numeric(StateNames %in% StatePert)
       TempStatePert <- TempState  # if the selected particle is NOT replicated --> it is not perturbed
       
       if (RepParticle > 1) {      # if the selected particle is replicated --> its replications are perturbed
@@ -164,7 +164,7 @@ DA_PF <- function(Obs, Qsim, States, PertState = NULL, Param, VarThr, NbMbr, Sta
   
   EnsStatePf <- CurrentState
   
-  if (!is.null(PertState)) {
+  if (!is.null(StatePert)) {
     EnsStatePert <- CurrentStatePert
   }
   
@@ -172,7 +172,7 @@ DA_PF <- function(Obs, Qsim, States, PertState = NULL, Param, VarThr, NbMbr, Sta
   # OUTPUT
   
   ans <- list(EnsStatePf = EnsStatePf)
-  if (!is.null(PertState)) {
+  if (!is.null(StatePert)) {
     ans$EnsStatePert <- EnsStatePert
   }
   return(ans)
