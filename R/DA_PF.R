@@ -1,11 +1,5 @@
 
-DA_PF <- function(Obs, Qsim, States, IsState, IndState, Param, VarThr, NbMbr, StateNames) {
-  
-  # ------ Checks
-  
-  IndState <- match.arg(IndState, choices = StateNames, several.ok = TRUE)
-  IndState <- as.numeric(StateNames %in% IndState)
-  
+DA_PF <- function(Obs, Qsim, States, StatePert = NULL, Param, VarThr, NbMbr, StateNames) {
   
   # ------ Settings
   
@@ -80,7 +74,7 @@ DA_PF <- function(Obs, Qsim, States, IsState, IndState, Param, VarThr, NbMbr, St
   #***************************************************************************************************************
   # STATE PERTURBATION
   
-  if (IsState) {
+  if (!is.null(StatePert)) {
     EnsState <- matrix(data = NA, nrow = NbState, ncol = NbMbr,
                        dimnames = list(StateNames,
                                        MbrNames))
@@ -101,7 +95,7 @@ DA_PF <- function(Obs, Qsim, States, IsState, IndState, Param, VarThr, NbMbr, St
                           apply(EnsState[, as.numeric(as.character(Repeats$Indices)), drop = FALSE], MARGIN = 1, sd, na.rm = TRUE),
                           na.rm = TRUE))
     names(SdState) <- StateNames
-  }   # END IF(IsState)
+  }   # END IF
   
   #***************************************************************************************************************
   # RESAMPLING  
@@ -115,8 +109,8 @@ DA_PF <- function(Obs, Qsim, States, IsState, IndState, Param, VarThr, NbMbr, St
     TempState        <- rep(States[IndexParticle], times = RepParticle)
     names(TempState) <- sprintf("Rep%s_Part%s", seq_len(RepParticle), IndexParticle)
     
-    if (IsState) { # state perturbation
-      
+    if (!is.null(StatePert)) { # state perturbation
+      IndPert <- as.numeric(StateNames %in% StatePert)
       TempStatePert <- TempState  # if the selected particle is NOT replicated --> it is not perturbed
       
       if (RepParticle > 1) {      # if the selected particle is replicated --> its replications are perturbed
@@ -138,7 +132,7 @@ DA_PF <- function(Obs, Qsim, States, IsState, IndState, Param, VarThr, NbMbr, St
                              dimnames = list(StateNames,
                                              sprintf("Rep_%s", seq_len(RepParticle))))
         
-        NoiseState[IndState == 0, ] <- 0      # null noise for the i-th variable if its uncertainty is not considered
+        NoiseState[IndPert == 0, ] <- 0      # null noise for the i-th variable if its uncertainty is not considered
         StateRepPert <- StateRep + NoiseState
         
         # perturbation constraints
@@ -156,10 +150,13 @@ DA_PF <- function(Obs, Qsim, States, IsState, IndState, Param, VarThr, NbMbr, St
       
       CurrentStatePert <- c(CurrentStatePert, TempStatePert)
       
-    } # END IF IsState
+    } # END IF 
     CurrentState <- c(CurrentState, TempState)
     
-    rm(TempState, TempStatePert)
+    rm(TempState)
+    if (exists("TempStatePert")) {
+      rm(TempStatePert)
+    }
     
   } # END FOR repeats
   
@@ -167,7 +164,7 @@ DA_PF <- function(Obs, Qsim, States, IsState, IndState, Param, VarThr, NbMbr, St
   
   EnsStatePf <- CurrentState
   
-  if (IsState) {
+  if (!is.null(StatePert)) {
     EnsStatePert <- CurrentStatePert
   }
   
@@ -175,7 +172,7 @@ DA_PF <- function(Obs, Qsim, States, IsState, IndState, Param, VarThr, NbMbr, St
   # OUTPUT
   
   ans <- list(EnsStatePf = EnsStatePf)
-  if (IsState) {
+  if (!is.null(StatePert)) {
     ans$EnsStatePert <- EnsStatePert
   }
   return(ans)

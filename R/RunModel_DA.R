@@ -1,6 +1,6 @@
 
-RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, NbMbr, FUN_MOD, InputsModel, InputsPert = NULL, Param, 
-                        IsState, Qobs = NULL, Seed = NULL) {
+RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = NULL, NbMbr, FUN_MOD, InputsModel, InputsPert = NULL, Param, 
+                        StatePert = NULL, Qobs = NULL, Seed = NULL) {
   
   # ------ Checks
   
@@ -19,14 +19,43 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
                  paste(c(FUN_MODList, FUN_MODSnowList), collapse = ", ")))
   }
   
+  if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
+    StateNames <- c("Prod", "Rout", "UH2")
+  } else {
+    StateNames <- c("Prod", "Rout", "UH1", "UH2")
+  }
+  
   # DaMethod
   DaMethod <- match.arg(DaMethod)
   
   # Seed
   Seed0 <- as.numeric(Seed)
   
-  # IndState
-  IndState <- match.arg(IndState, choices = c("Prod", "Rout", "UH"), several.ok = TRUE)
+  # StateEnKF & StatePert
+  if (DaMethod == "none" && (!is.null(StateEnKF) | !is.null(StatePert))) {
+    warning("'StateEnKF' and/or 'StatePert' not taken into account when 'DaMethod' is \"none\"")
+  }
+  if (DaMethod == "PF" && !is.null(StateEnKF)) {
+    warning("'StateEnKF' not taken into account when 'DaMethod' is \"PF\"")
+  }
+  if (DaMethod == "EnKF" && is.null(StateEnKF)) {
+    stop("'StateEnKF' must be defined when 'DaMethod' is \"EnKF\"")
+  }  
+  if (DaMethod != "none") {
+    if (!is.null(StateEnKF)) {
+      StateEnKF <- match.arg(StateEnKF, choices = StateNames, several.ok = TRUE)
+    }
+    if (!is.null(StatePert)) {
+      StatePert <- match.arg(StatePert, choices = StateNames, several.ok = TRUE)
+    }
+  }
+  if (DaMethod == "EnKF" && any(!StatePert %in% StateEnKF)) {
+    stop(sprintf("Perturbation is allowed only for the state variables updated via EnKF (%s). Please check the consistency between 'StatePert' and 'StateEnKF'",
+                 sQuote(paste(StateEnKF, collapse = ", "))))
+  }
+  if (DaMethod != "none" && any(!StatePert %in% StateNames)) {
+    warning(StatePert[!StatePert %in% StateNames])
+  } 
   
   # InputsModel
   if (!inherits(InputsModel, "InputsModel")) {
@@ -100,12 +129,6 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
   IsDa <- DaMethod != "none"
   
   Nt <- length(IndRun)
-  
-  if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
-    StateNames <- c("Prod", "Rout", "UH2")
-  } else {
-    StateNames <- c("Prod", "Rout", "UH1", "UH2")
-  }
   
   NbState <- length(StateNames)
   
@@ -244,8 +267,8 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
       
       if (DaMethod == "EnKF") {
         ans <- DA_EnKF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], EnsState = EnsStateBkg[, , iTime],
-                       IsState = IsState,
-                       IndState = IndState,
+                       StatePert = StatePert,
+                       StateEnKF = StateEnKF,
                        Param = Param, VarThr = VarThr, NbMbr = NbMbr, StateNames = StateNames)
         
         for (iMbr in seq_len(NbMbr)) { # olivier : it is possible to write the following 3 loops without loops?
@@ -262,7 +285,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
           names(IniStatesEnsNt)[iTime+1] <- sprintf("Time_%s",iTime+1)
         }
         
-        if (IsState) {
+        if (!is.null(StatePert)) {
           for (iMbr in seq_len(NbMbr)) {
             IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStatePert["Prod", iMbr]
             IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStatePert["Rout", iMbr]
@@ -276,7 +299,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
         EnsStateA[, , iTime] <- ans$EnsStateEnkf
         
         if (iTime < Nt) {
-          if (IsState) {
+          if (!is.null(StatePert)) {
             EnsStateBkg[, , iTime+1] <- ans$EnsStatePert
           } else {
             EnsStateBkg[, , iTime+1] <- ans$EnsStateEnkf
@@ -286,10 +309,10 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, IndState, Nb
         
       } else if (DaMethod == "PF") {
         ans <- DA_PF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], States = IniStatesEns, 
-                     IsState = IsState, IndState = IndState, Param = Param, 
+                     StatePert = StatePert, Param = Param, 
                      VarThr = VarThr, NbMbr = NbMbr, StateNames = StateNames)
         
-        if (IsState) {
+        if (!is.null(StatePert)) {
           IniStatesEns <- ans$EnsStatePert
         } else {
           IniStatesEns <- ans$EnsStatePf
