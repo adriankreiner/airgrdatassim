@@ -25,8 +25,31 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
   # Seed
   Seed0 <- as.numeric(Seed)
   
-  # StateEnKF
-  StateEnKF <- match.arg(StateEnKF, choices = c("Prod", "Rout", "UH1", "UH2"), several.ok = TRUE)
+  # StateEnKF & PertState
+  if (DaMethod == "none" && (!is.null(StateEnKF) | !is.null(PertState))) {
+    warning("'StateEnKF' and/or 'PertState' not taken into account when 'DaMethod' is \"none\"")
+  }
+  if (DaMethod == "PF" && !is.null(StateEnKF)) {
+    warning("'StateEnKF' not taken into account when 'DaMethod' is \"PF\"")
+  }
+  if (DaMethod == "EnKF" && is.null(StateEnKF)) {
+    stop("'StateEnKF' must be defined when 'DaMethod' is \"EnKF\"")
+  }  
+  if (DaMethod != "none") {
+    if (!is.null(StateEnKF)) {
+      StateEnKF <- match.arg(StateEnKF, choices = StateNames, several.ok = TRUE)
+    }
+    if (!is.null(PertState)) {
+      PertState <- match.arg(PertState, choices = StateNames, several.ok = TRUE)
+    }
+  }
+  if (DaMethod == "EnKF" && any(!PertState %in% StateEnKF)) {
+    stop(sprintf("Perturbation is allowed only for the state variables updated via EnKF (%s). Please check the consistency between 'PertState' and 'StateEnKF'",
+                 sQuote(paste(StateEnKF, collapse = ", "))))
+  }
+  if (DaMethod != "none" && any(!PertState %in% StateNames)) {
+    warning(PertState[!PertState %in% StateNames])
+  } 
   
   # InputsModel
   if (!inherits(InputsModel, "InputsModel")) {
@@ -100,12 +123,6 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
   IsDa <- DaMethod != "none"
   
   Nt <- length(IndRun)
-  
-  if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
-    StateNames <- c("Prod", "Rout", "UH2")
-  } else {
-    StateNames <- c("Prod", "Rout", "UH1", "UH2")
-  }
   
   NbState <- length(StateNames)
   
