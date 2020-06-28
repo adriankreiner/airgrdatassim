@@ -81,9 +81,9 @@ DA_PF <- function(Obs, Qsim, States, StatePert = NULL, Param, VarThr, NbMbr, Sta
     
     EnsState["Prod", ] <- sapply(seq_along(States), function(x) States[[x]]$Store$Prod)
     EnsState["Rout", ] <- sapply(seq_along(States), function(x) States[[x]]$Store$Rout)
-    EnsState["UH2"  , ] <- sapply(seq_along(States), function(x) States[[x]]$UH$UH2[1])
-    if ("UH1" %in% StateNames){
-      EnsState["UH1"  , ] <- sapply(seq_along(States), function(x) States[[x]]$UH$UH1[1])  
+    EnsState["UH2" , ] <- sapply(seq_along(States), function(x) States[[x]]$UH$UH2[1L])
+    if ("UH1" %in% StateNames) {
+      EnsState["UH1" , ] <- sapply(seq_along(States), function(x) States[[x]]$UH$UH1[1L])  
     }
    
     MuState <- rep(0, times = NbState)
@@ -121,9 +121,9 @@ DA_PF <- function(Obs, Qsim, States, StatePert = NULL, Param, VarThr, NbMbr, Sta
         
         StateRep["Prod", ] <- rep(States[[IndexParticle]]$Store$Prod, RepParticle)
         StateRep["Rout", ] <- rep(States[[IndexParticle]]$Store$Rout, RepParticle)
-        StateRep["UH2", ]   <- rep(States[[IndexParticle]]$UH$UH2[1],  RepParticle)
-        if ("UH1" %in% StateNames){
-          StateRep["UH1", ]   <- rep(States[[IndexParticle]]$UH$UH1[1],  RepParticle)  
+        StateRep["UH2" , ] <- rep(States[[IndexParticle]]$UH$UH2[1L], RepParticle)
+        if ("UH1" %in% StateNames) {
+          StateRep["UH1", ] <- rep(States[[IndexParticle]]$UH$UH1[1L], RepParticle)  
         }
         
         # noise generation
@@ -141,9 +141,9 @@ DA_PF <- function(Obs, Qsim, States, StatePert = NULL, Param, VarThr, NbMbr, Sta
         for (iRep in seq_len(RepParticle)) {
           TempStatePert[[iRep]]$Store$Prod <- StateRepPert["Prod", iRep]
           TempStatePert[[iRep]]$Store$Rout <- StateRepPert["Rout", iRep]
-          TempStatePert[[iRep]]$UH$UH2[1]  <- StateRepPert["UH2",   iRep]
-          if ("UH1" %in% StateNames){
-            TempStatePert[[iRep]]$UH$UH1[1]  <- StateRepPert["UH1",   iRep]  
+          TempStatePert[[iRep]]$UH$UH2[1L] <- StateRepPert["UH2" , iRep]
+          if ("UH1" %in% StateNames) {
+            TempStatePert[[iRep]]$UH$UH1[1L] <- StateRepPert["UH1", iRep]  
           }
         }
       } # END IF RepParticle 

@@ -72,9 +72,9 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   
   EnsStateEnkf["Prod", EnsStateEnkf["Prod", ] < 0.05*Param[1]] <- 0.05 * Param[1]
   EnsStateEnkf["Rout", EnsStateEnkf["Rout", ] <= 0] <- 1e-3
-  EnsStateEnkf["UH2"  , EnsStateEnkf["UH2"  , ] <  0] <- 1e-3
-  if ("UH1" %in% StateNames){
-    EnsStateEnkf["UH1"  , EnsStateEnkf["UH1"  , ] <  0] <- 1e-3  
+  EnsStateEnkf["UH2" , EnsStateEnkf["UH2" , ] <  0] <- 1e-3
+  if ("UH1" %in% StateNames) {
+    EnsStateEnkf["UH1" , EnsStateEnkf["UH1" , ] <  0] <- 1e-3  
   }
   
   EnsStateEnkf["Prod", EnsStateEnkf["Prod", ] > Param[1]] <- Param[1] # if Prod > X1 -> Prod = X1
@@ -102,9 +102,9 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
     # Positive state variables
     EnsStatePert["Prod", EnsStatePert["Prod", ] < 0.05*Param[1]] <- 0.05 * Param[1]
     EnsStatePert["Rout", EnsStatePert["Rout", ] <= 0] <- 1e-3
-    EnsStatePert["UH2"  , EnsStatePert["UH2"  , ] <  0] <- 1e-3
-    if ("UH1" %in% StateNames){
-      EnsStatePert["UH1"  , EnsStatePert["UH1"  , ] <  0] <- 1e-3  
+    EnsStatePert["UH2" , EnsStatePert["UH2" , ] <  0] <- 1e-3
+    if ("UH1" %in% StateNames) {
+      EnsStatePert["UH1"  , EnsStatePert["UH1" , ] <  0] <- 1e-3  
     }
     
     EnsStatePert["Prod", EnsStatePert["Prod", ] > Param[1]] <- Param[1] # if Prod > X1 -> Prod = X1
