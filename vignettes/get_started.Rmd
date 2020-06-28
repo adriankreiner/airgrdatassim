@@ -66,7 +66,7 @@ The DA methodology can be chosen between EnKF and PF by defining `DaMethod`. To 
 
 If `DaMethod = "PF"`, the PF performs the joint update of all the state variables.
 
-If `DaMethod = "EnKF"`, the EnKF performs the update of the state variables specified in `IndState`. 
+If `DaMethod = "EnKF"`, the EnKF performs the update of the state variables specified in `StateEnKF`. 
 
 If `DaMethod = "none"`, discharge assimilation is not performed (i.e., open-loop simulation)
 
@@ -77,9 +77,9 @@ Among the model states, the update of the routing store level ensures the most b
 
 Both the uncetainties in meteorological forcings and state variables can be taken into account in the assimilation scheme. 
 
-For both DA techniques, when accounting for the state uncertainty (`IsState = TRUE`), the state variables defined in `IndState` are perturbed.
+For both DA techniques, the state variables defined in `StatePert` are perturbed.
 
-The perturbation of model states (if `IsState = TRUE`) is performed through a normally-distributed null-mean noise. The noise variance is assumed equal to the variance of the state variables resulting from the analysis procedure and it is restricted between upper and lower limits (@Salamon_2009).
+The perturbation of model states is performed through a normally-distributed null-mean noise. The noise variance is assumed equal to the variance of the state variables resulting from the analysis procedure and it is restricted between upper and lower limits (@Salamon_2009).
 
 When considering the uncertainty in the forcings, the `CreateInputsPerturb()` function generates an ensemble for precipitation or/and potential evapotranspiration, provided as function argument/s.
 It is noteworthy that a significant reduction in the ensemble spread may occur especially in no-rain periods, when accounting only for meteorological uncertainty.
@@ -89,15 +89,15 @@ Even though a more comprehensive representation of the state uncertainty can pre
 
 ## Definition of DA settings
 
-The example below considers EnKF-based discharge simulations relying on a 100-member ensemble, when accounting for the uncertainty in model state variables (see `IsState`). More specifically, only the levels of the production (`"Prod"`) and the routing (`"Rout"`) stores are updated and perturbed (see `IndState`).
+The example below considers EnKF-based discharge simulations relying on a 100-member ensemble, when accounting for the uncertainty in model state variables (see `StatePert`). More specifically, only the levels of the production (`"Prod"`) and the routing (`"Rout"`) stores are updated and perturbed (see `StatePert`).
 
-It is of key importance to consider that `IndState` allows to select the state variables to be updated and perturbed in the EnKF scheme. Conversely, in the PF scheme `IndState` identifies the state variables of interest only within the perturbation procedure, as this DA technique jointly updates all the model states.
+It is of key importance to consider that `StateEnKF` allows to select the state variables to be updated and `StatePert` identifies the state variables to be perturbed in the EnKF scheme. Conversely, in the PF scheme `StatePert` identifies the state variables of interest only within the perturbation procedure, as this DA technique jointly updates all the model states.
 
 ```{r, warning=FALSE}
-NbMbr    <- 100                     # ensemble size     
-DaMethod <- "EnKF"                  # EnKF ; PF ; none
-IndState <- c("Prod", "Rout", "UH") # Production store level; Routing store level; Unit hydrograph
-IsState  <- "TRUE"
+NbMbr     <- 100               # ensemble size     
+DaMethod  <- "EnKF"            # "EnKF" ; "PF" ; "none"
+StateEnKF <- c("Prod", "Rout") # "Prod": production store level; Rout": routing store level; "UH": unit hydrograph
+StatePert <- c("Prod", "Rout")
 ```
 
 
@@ -141,7 +141,6 @@ By default, the measurement noise is generated from a normal distribution with a
 ```{r, warning=FALSE}
 ## discharge observations to be assimilated
 Qobs <- BasinObs$Qmm[IndRun]
-
 ```
 
 
@@ -152,7 +151,7 @@ We assume that the GR5J model has been previously calibrated by using the `Calib
 
 The `RunModel_DA()` function supplies the ensemble discharge simulations resulting from the sequential assimilation of daily discharge observations via EnKF or PF. Because of the recursive approach, the analysis states resulting from the assimilation procedure at time step `t` are used as initial states at the following prediction time step `t + 1`.
 
-If the state uncertainty is taken into account (`IsState = TRUE`), the initial state at the prediction time step `t + 1` is the perturbed analysis state resulting from the assimilation and perturbation procedures at time step `t`.
+If the state uncertainty is taken into account (`StatePert`), the initial state at the prediction time step `t + 1` is the perturbed analysis state resulting from the assimilation and perturbation procedures at time step `t`.
 
 The function provides three outputs:
 
@@ -169,14 +168,14 @@ The following example supplies probabilistic discharge simulations relying on th
 
 ```{r, warning=FALSE}
 Param <- c(X1 = 194.243, X2 = -0.088, X3 = 117.740, X4 = 1.680, X5 = 0.000)
-result_EnKF <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, IndState = IndState,
+result_EnKF <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, StateEnKF = StateEnKF,
                            NbMbr = NbMbr, FUN_MOD = RunModel_GR5J,
                            InputsModel = InputsModel, InputsPert = InputsPert, 
-                           Param = Param, IsState = TRUE, Qobs = BasinObs$Qmm)
+                           Param = Param, StatePert = StatePert, Qobs = BasinObs$Qmm)
 
 ```
 
-As defined in `IndState`, in this example the EnKF scheme updates only the levels of the production (`"Prod"`) and the routing (`"Rout"`) stores through the assimilation of discharge observations. Along with the uncertainty in meterological forcings (`InputsPert` is supplied), also the uncertainty in model states (`IsState = TRUE`) is taken into account. Therefore, the selected state variables (i.e. the store levels) are consistently perturbed after their update.  
+As defined in `StateEnKF`, in this example the EnKF scheme updates only the levels of the production (`"Prod"`) and the routing (`"Rout"`) stores through the assimilation of discharge observations. Along with the uncertainty in meterological forcings (`InputsPert` is supplied), also the uncertainty in model states (`StatePert`) is taken into account. Therefore, the selected state variables (i.e. the store levels) are consistently perturbed after their update.  
 
 The EnKF scheme relies on mass-constraints to guarantee the non-negativity of state variables by ensuring minimum state values. It is noteworthy that the level of production store cannot drop below the 5 percent of its capacity.
 A further constraint prevents the levels of both the production and the routing stores from exceeding their maximum capacities. 
@@ -190,15 +189,15 @@ The PF scheme relies on the Sequential Importance Resampling (SIR) technique (@G
 If the ensemble is too squeezed to properly evaluate the importance weights, all particles are assigned equal weights.
 
 ```{r, warning=FALSE}
-result_PF <- RunModel_DA(DaMethod = "PF", IndRun = IndRun, IndState = c("Rout"),
+result_PF <- RunModel_DA(DaMethod = "PF", IndRun = IndRun,
                          NbMbr = NbMbr, FUN_MOD = RunModel_GR5J,
                          InputsModel = InputsModel, InputsPert = InputsPert, 
-                         Param = Param, IsState = TRUE, Qobs = BasinObs$Qmm)
+                         Param = Param, StatePert = "Rout", Qobs = BasinObs$Qmm)
 ```
 
-Unlike the previous example, here only the uncertainty in the level of the routing store (see `IndState`) is taken into account. Therefore, the routing store level is the only state variable to be perturbed after the updating procedure.
+Unlike the previous example, here only the uncertainty in the level of the routing store (see `StatePert`) is taken into account. Therefore, the routing store level is the only state variable to be perturbed after the updating procedure.
 
-After the state perturbation (`IsState = TRUE`), a mass-constraint prevents the levels of both the production and the routing stores from exceeding their maximum capacities. 
+After the state perturbation, a mass-constraint prevents the levels of both the production and the routing stores from exceeding their maximum capacities. 
 
 
 # Comparative performance assessment
