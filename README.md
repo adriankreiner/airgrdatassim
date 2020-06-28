@@ -27,14 +27,14 @@ With the aim of providing an user-friendly package, airGRdatassim relies on two 
 
 - `CreateInputsPerturb()` generates the probabilistic model inputs to perform the ensemble-based DA when accounting for the uncertainty in meteorological forcings. The function requires three arguments : `FUN_MOD`, `DatesR`, `NbMbr`. Optional arguments are `Seed` and the meteorological variable/s to be perturbed, namely `Precip` and/or `PotEvap`. Please refer to the help page `CreateInputsPerturb()` for further details and examples;
 
-- `RunModel_DA()` performs streamflow ensemble simulations with the assimilation of observed discharges through the EnKF or the PF scheme. The function requires eight arguments: `DaMethod`, `IndRun`, `IndState`, `NbMbr`, `FUN_MOD`, `InputsModel`, `Param` and `IsState`. Optional arguments are: `InputsPert` (if the uncertainty in meteorological forcings is taken into account), `Qobs` and `Seed`. Please refer to the help page `RunModel_DA()` for further details and examples. 
+- `RunModel_DA()` performs streamflow ensemble simulations with the assimilation of observed discharges through the EnKF or the PF scheme. The function requires eight arguments: `DaMethod`, `IndRun`, `StateEnKF`, `NbMbr`, `FUN_MOD`, `InputsModel`, `Param` and `StatePert`. Optional arguments are: `InputsPert` (if the uncertainty in meteorological forcings is taken into account), `Qobs` and `Seed`. Please refer to the help page `RunModel_DA()` for further details and examples. 
 
 Consistently with the airGR package, both structure and class of function arguments are specifically defined to prevent the risk of mis-use and ensure the flexibility of functions. Advanced users wishing to apply the package to their own models will need to comply with these imposed structures and refer to the package source codes to get all the specification requirements.
 
 
 ## Hydrological model
 
-DA schemes are designed to be coupled with GR dailyhydrological model, which is implemented in the airGR package. This model can be called within the airGRdatassim package using the following function: 
+DA schemes are designed to be coupled with GR daily hydrological model, which is implemented in the airGR package. This model can be called within the airGRdatassim package using the following function: 
 
   - `RunModel_GR4J()`: four-parameter daily lumped hydrological model (Perrin et al., 2003)
   - `RunModel_GR5J()`: five-parameter daily lumped hydrological model (Le Moine, 2008)

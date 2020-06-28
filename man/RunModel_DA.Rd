@@ -16,19 +16,19 @@ RunModel_DA(DaMethod, IndRun, StateEnKF = NULL, NbMbr,
 
 \item{DaMethod}{[character] name of the data assimilation technique:
   \tabular{ll}{                                                                      
-    if DaMethod = 'EnKF'   \tab discharge assimilation via Ensemble Kalman filter                   \cr
-    if DaMethod = 'PF'     \tab discharge assimilation via Particle filter                          \cr
-    if DaMethod = 'none'   \tab discharge assimilation is not performed (i.e. open-loop simulation) \cr
+    "EnKF"   \tab discharge assimilation via Ensemble Kalman filter                   \cr
+    "PF"     \tab discharge assimilation via Particle filter                          \cr
+    "none"   \tab discharge assimilation is not performed (i.e. open-loop simulation) \cr
   }} 
   
 \item{IndRun}{[numeric] index of period to be used for the model run [-]}
 
 \item{StateEnKF}{[character] vector of the names of state variables to be updated via EnKF:
   \tabular{ll}{                                                        
-    Prod \tab level of the production store [mm] \cr      
-    Rout \tab level of the routing store [mm]    \cr      
-    UH1  \tab unit hydrograph 1 levels [mm] (not defined in GR5J model)     \cr    
-    UH2  \tab unit hydrograph 2 levels [mm]
+    "Prod" \tab level of the production store [mm]                        \cr      
+    "Rout" \tab level of the routing store [mm]                           \cr      
+    "UH1"  \tab unit hydrograph 1 levels [mm] (not defined in GR5J model) \cr    
+    "UH2"  \tab unit hydrograph 2 levels [mm]
   }}  
   
 \item{NbMbr}{[numeric] number of ensemble members}
@@ -43,10 +43,10 @@ RunModel_DA(DaMethod, IndRun, StateEnKF = NULL, NbMbr,
   
 \item{StatePert}{[character] vector of the names of state variables to be perturbed via EnKF or PF:
   \tabular{ll}{                                                        
-    Prod \tab level of the production store [mm] \cr      
-    Rout \tab level of the routing store [mm]    \cr      
-    UH1  \tab unit hydrograph 1 levels [mm] (not defined in GR5J model)     \cr    
-    UH2  \tab unit hydrograph 2 levels [mm]
+    "Prod" \tab level of the production store [mm]                       \cr      
+    "Rout" \tab level of the routing store [mm]                          \cr      
+    "UH1  \tab unit hydrograph 1 levels [mm] (not defined in GR5J model) \cr    
+    "UH2"  \tab unit hydrograph 2 levels [mm]
   }} 
   
 \item{Qobs}{(optional) [numeric] time series of observed discharges [mm/d]}
@@ -75,7 +75,7 @@ Function which performs discharge ensemble simulations with the assimilation of 
 }
 
 \details{
-Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != 'none' ) via EnKF or PF scheme. Because of the recursive approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.  
+Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != "none") via EnKF or PF scheme. Because of the recursive approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.  
 \cr
 When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble discharge simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPerturb}} for details).
 \cr
@@ -112,8 +112,8 @@ InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Dat
                                   NbMbr = 100)               
 
 ## simulation with DA via EnKF
-result <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, StateEnKF = c("Prod", "Rout"), NbMbr = 100,
-                      FUN_MOD = RunModel_GR5J,
+result <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, StateEnKF = c("Prod", "Rout"),
+                      NbMbr = 100, FUN_MOD = RunModel_GR5J,
                       InputsModel = InputsModel, InputsPert = InputsPert, Param = Param,
                       StatePert = c("Prod", "Rout"), Qobs = BasinObs$Qmm)
 
