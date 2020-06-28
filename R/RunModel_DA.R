@@ -349,6 +349,9 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
     
   }   # END FOR time
   
-  return(list(QsimEns = QsimEns, EnsStateBkg = EnsStateBkg, EnsStateA = EnsStateA))
+  return(list(DatesR = InputsModel$DatesR,
+              QsimEns = QsimEns,
+              EnsStateBkg = EnsStateBkg,
+              EnsStateA = EnsStateA))
   
 }

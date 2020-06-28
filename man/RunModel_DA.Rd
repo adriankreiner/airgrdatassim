@@ -58,7 +58,10 @@ RunModel_DA(DaMethod, IndRun, StateEnKF = NULL, NbMbr,
 \value{
 [list] runModel_DA function provides a list containing the outputs organised as follows:
 
-  \tabular{ll}{                                                                                         
+  \tabular{ll}{  
+    \emph{DatesR  } \tab [POSIXlt] series of dates (length of IndRun)
+            \cr
+            \cr  
     \emph{QsimEns  } \tab [matrix, dim(NbMbr, Nt)] ensemble discharge simulations (with Nt the length of IndRun)
             \cr
             \cr
@@ -119,16 +122,16 @@ result <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, StateEnKF = c("Prod", 
 
 ## results preview
 rangeQsimEns <- apply(result$QsimEns, MARGIN = 2, FUN = range)
-plot(x = InputsPert$DatesR[IndRun], y = colMeans(result$QsimEns),
+plot(x = result$DatesR, y = colMeans(result$QsimEns),
      ylim = range(rangeQsimEns),
      type = "l", col = "red", lwd = 2,
      main = "EnKF-based discharge simulations",
      xlab = "Time [day]", ylab = "Discharge [mm/day]",
-     panel.first = polygon(x = c(as.numeric(InputsPert$DatesR[IndRun]),
-                                 rev(as.numeric(InputsPert$DatesR[IndRun]))),
+     panel.first = polygon(x = c(as.numeric(result$DatesR),
+                                 rev(as.numeric(result$DatesR))),
                            y = c(rangeQsimEns[1, ], rev(rangeQsimEns[2, ])),
                            col = "pale turquoise", border = NA),
-     panel.last = lines(x = InputsPert$DatesR[IndRun],
+     panel.last = lines(x = result$DatesR,
                         y = BasinObs$Qmm[IndRun],
                         type = "l", col = "black", lwd = 2))
 legend("topright", legend = c("DA-based", "obs"), lty = 1, col = c("red", "black"))
