@@ -19,7 +19,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
                  paste(c(FUN_MODList, FUN_MODSnowList), collapse = ", ")))
   }
   
-  if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)){
+  if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)) {
     StateNames <- c("Prod", "Rout", "UH2")
   } else {
     StateNames <- c("Prod", "Rout", "UH1", "UH2")
@@ -249,7 +249,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
       EnsStateBkg["Prod", iMbr, iTime] <- OutputsModel$Prod
       EnsStateBkg["Rout", iMbr, iTime] <- OutputsModel$Rout
       EnsStateBkg["UH2"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH2[1]
-      if ("UH1" %in% StateNames){
+      if ("UH1" %in% StateNames) {
         EnsStateBkg["UH1"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH1[1]
       }
       
@@ -275,7 +275,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
           IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStateEnkf["Prod", iMbr]
           IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStateEnkf["Rout", iMbr]
           IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStateEnkf["UH2" , iMbr]
-          if ("UH1" %in% StateNames){
+          if ("UH1" %in% StateNames) {
             IniStatesEns[[iMbr]]$UH$UH1[1]  <- ans$EnsStateEnkf["UH1", iMbr]  
           }
         }   
@@ -290,7 +290,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
             IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStatePert["Prod", iMbr]
             IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStatePert["Rout", iMbr]
             IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStatePert["UH2" , iMbr]
-            if ("UH1" %in% StateNames){
+            if ("UH1" %in% StateNames) {
               IniStatesEns[[iMbr]]$UH$UH1[1]  <- ans$EnsStatePert["UH1", iMbr]  
             }
           } 
@@ -321,7 +321,7 @@ RunModel_DA <- function(DaMethod = c("EnKF", "PF", "none"), IndRun, StateEnKF = 
         EnsStateA["Prod", , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$Store$Prod)
         EnsStateA["Rout", , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$Store$Rout)
         EnsStateA["UH2" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH2[1])
-        if ("UH1" %in% StateNames){
+        if ("UH1" %in% StateNames) {
           EnsStateA["UH1" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH1[1])  
         }
         
