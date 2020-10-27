@@ -9,10 +9,10 @@ bibentry(bibtype="Article",
          title = "Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertinties and to updated variables of a conceptual hydrological model",
          author = personList(as.person("G. Piazzi"), as.person("G. Thirel"), as.person("C. Perrin"), as.person("O. Delaigue")),
          journal = "Water Resources Research",
-         year = "under review",
+         year = "in review",
          textVersion = 
            paste("Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O.",
-                 "(under review).", 
+                 "(in review).", 
                  "Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertinties and to updated variables of a conceptual hydrological model.",
                  "Water Resources Research.",
                  sep = " ")
