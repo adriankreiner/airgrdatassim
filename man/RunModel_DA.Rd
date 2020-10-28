@@ -107,16 +107,20 @@ IndRun <- seq(which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-01
 ## preparation of the InputsModel object
 InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$DatesR, 
                                  Precip = BasinObs$P, PotEvap = BasinObs$E)
-                         
+
+## number of ensemble members
+## minimum of 20 recommanded for the EnKF scheme
+## minimum of 30 recommanded for the PF scheme
+NbMbr <- 20
 
 ## preparation of perturbed meteorological ensemble            
 InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$DatesR,
                                   Precip = BasinObs$P, PotEvap = BasinObs$E, 
-                                  NbMbr = 100)               
+                                  NbMbr = NbMbr)               
 
 ## simulation with DA via EnKF
 result <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, StateEnKF = c("Prod", "Rout"),
-                      NbMbr = 100, FUN_MOD = RunModel_GR5J,
+                      NbMbr = NbMbr, FUN_MOD = RunModel_GR5J,
                       InputsModel = InputsModel, InputsPert = InputsPert, Param = Param,
                       StatePert = c("Prod", "Rout"), Qobs = BasinObs$Qmm)
 
