@@ -105,10 +105,18 @@ The example below considers EnKF-based discharge simulations relying on a 100-me
 It is of key importance to consider that `StateEnKF` allows to select the state variables to be updated and `StatePert` identifies the state variables to be perturbed in the EnKF scheme. Conversely, in the PF scheme `StatePert` identifies the state variables of interest only within the perturbation procedure, as this DA technique jointly updates all the model states.
 
 ```{r, warning=FALSE}
-NbMbr     <- 100               # ensemble size     
-DaMethod  <- "EnKF"            # "EnKF" ; "PF" ; "none"
-StateEnKF <- c("Prod", "Rout") # "Prod": production store level; Rout": routing store level; "UH": unit hydrograph
-StatePert <- c("Prod", "Rout")
+# ensemble size 
+NbMbr <- 100
+
+# "EnKF" ; "PF" ; "none"
+DaMethod <- "EnKF"
+
+# "Prod": production store level
+# "Rout": routing store level;
+# "UH1": unit hydrograph 1 levels (not defined in GR5J model)
+# "UH2": unit hydrograph 2 levels
+StateEnKF <- c("Prod", "Rout")
+StatePert <- c("Prod", "Rout") 
 ```
 
 
