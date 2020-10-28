@@ -16,9 +16,9 @@ RunModel_DA(DaMethod, IndRun, StateEnKF = NULL, NbMbr,
 
 \item{DaMethod}{[character] name of the data assimilation technique:
   \tabular{ll}{                                                                      
-    "EnKF"   \tab discharge assimilation via Ensemble Kalman filter                   \cr
-    "PF"     \tab discharge assimilation via Particle filter                          \cr
-    "none"   \tab discharge assimilation is not performed (i.e. open-loop simulation) \cr
+    "EnKF" \tab discharge assimilation via Ensemble Kalman filter                   \cr
+    "PF"   \tab discharge assimilation via Particle filter                          \cr
+    "none" \tab discharge assimilation is not performed (i.e. open-loop simulation) \cr
   }} 
   
 \item{IndRun}{[numeric] index of period to be used for the model run [-]}
@@ -33,19 +33,19 @@ RunModel_DA(DaMethod, IndRun, StateEnKF = NULL, NbMbr,
   
 \item{NbMbr}{[numeric] number of ensemble members}
 
-\item{FUN_MOD}{[function] daily hydrological model functions (GR4J, GR5J or GR6J; e.g. \code{\link{RunModel_GR5J}}, \code{\link{RunModel_CemaNeigeGR5J}})}
+\item{FUN_MOD}{[function] daily hydrological model functions (GR4J, GR5J or GR6J; e.g. \code{\link[airGR]{RunModel_GR5J}}, \code{\link[airGR]{RunModel_CemaNeigeGR5J}})}
 
-\item{InputsModel}{[list] object of class \emph{InputsModel} containing the data required to run the model  (see \code{\link{CreateInputsModel}} for details)}
+\item{InputsModel}{[list] object of class \emph{InputsModel} containing the data required to run the model  (see \code{\link[airGR]{CreateInputsModel}} for details)}
 
 \item{InputsPert}{(optional) [list] object of class \emph{InputsModel} containing the ensembles of perturbed data required to evaluate the model probabilistic outputs, if the uncertainty in meteorological forcings is taken into account. The variables data proposed in \emph{InputsPert} will erase the variables data given in \emph{InputsModel}}
 
-\item{Param}{[numeric] vector of model parameters (number of parameters depends on the used hydrological model, from 4 parameters in \emph{RunModel_GR4J} up to 10 parameters in \emph{RunModel_CemaNeigeGR6J})}
+\item{Param}{[numeric] vector of model parameters (number of parameters depends on the used hydrological model, from 4 parameters in GR4J up to 10 parameters in GR6J with CemaNeige)}
   
 \item{StatePert}{[character] vector of the names of state variables to be perturbed via EnKF or PF:
   \tabular{ll}{                                                        
-    "Prod" \tab level of the production store [mm]                       \cr      
-    "Rout" \tab level of the routing store [mm]                          \cr      
-    "UH1  \tab unit hydrograph 1 levels [mm] (not defined in GR5J model) \cr    
+    "Prod" \tab level of the production store [mm]                        \cr      
+    "Rout" \tab level of the routing store [mm]                           \cr      
+    "UH1   \tab unit hydrograph 1 levels [mm] (not defined in GR5J model) \cr    
     "UH2"  \tab unit hydrograph 2 levels [mm]
   }} 
   
@@ -59,13 +59,13 @@ RunModel_DA(DaMethod, IndRun, StateEnKF = NULL, NbMbr,
 [list] runModel_DA function provides a list containing the outputs organised as follows:
 
   \tabular{ll}{  
-    \emph{DatesR  } \tab [POSIXlt] series of dates (length of IndRun)
+    \emph{DatesR     } \tab [POSIXlt] series of dates (length of IndRun)
             \cr
             \cr  
-    \emph{QsimEns  } \tab [matrix, dim(NbMbr, Nt)] ensemble discharge simulations (with Nt the length of IndRun)
+    \emph{QsimEns    } \tab [matrix, dim(NbMbr, Nt)] ensemble discharge simulations (with Nt the length of IndRun)
             \cr
             \cr
-    \emph{EnsStateBkg  } \tab [array, dim(Nstate, NbMbr, Nt)] (with Nstate the number of model states) ensemble values of background model states (before the filter update)                      
+    \emph{EnsStateBkg} \tab [array, dim(Nstate, NbMbr, Nt)] (with Nstate the number of model states) ensemble values of background model states (before the filter update)                      
             \cr
             \cr
     \emph{EnsStateA  } \tab [array, dim(Nstate, NbMbr, Nt)] ensemble values of analysis model states (after the filter update)                               
@@ -79,18 +79,18 @@ Function which performs discharge ensemble simulations with the assimilation of 
 
 \details{
 Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != "none") via EnKF or PF scheme. Because of the recursive approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.  
-\cr
+\cr\cr
 When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble discharge simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPerturb}} for details).
-\cr
+\cr\cr
 It is possible to enable/disable the update of specific state variables via EnKF by defining their names in \emph{StateEnKF}. Please note that \emph{StateEnKF} is therefore required only when using the EnKF.
-\cr
+\cr\cr
 Both the PF and EnKF can account for uncertainty in model states by perturbing the state variables specified in \emph{StatePert} (Salamon and Feyen, 2009). It is noteworthy that, when using the EnKF, the perturbation is allowed only for the state variables included in \emph{StateEnKF}. If the state uncertainty is taken into account, the initial states at the prediction time step \emph{t + 1} are the perturbed analysis states resulting from the assimilation and perturbation procedures at time step \emph{t}.
-\cr
+\cr\cr
 In order to ensure reproducible results, \emph{Seed} can be set to fix the randomness in the generation of perturbations. 
-\cr
+\cr\cr
 For further details and guidelines on the choice of the DA technique, see the references section.
-\cr
-Nota: The function can be applied when using GR4J, GR5J and GR6J models (i.e. daily model time step), with or withouth the CemaNeige module (see \emph{airGR} package).
+\cr\cr
+Nota: The function can be applied when using GR4J, GR5J and GR6J models (i.e. daily model time step), with or withouth the CemaNeige module (see \code{\link[airGR]{airGR}} package).
 }
 
 \examples{
@@ -146,11 +146,11 @@ Gaia Piazzi, Olivier Delaigue
 }
 
 \references{
-Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324.
+- Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324, doi: \href{https://www.doi.org/10.1016/j.advwatres.2008.06.005}{10.1016/j.advwatres.2008.06.005}
 \cr
-Piazzi, G., Thirel, G.,  Perrin, C. and Delaigue, O. (2020). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research. (submitted).
-\cr  
-Salamon, P., and Feyen, L. (2009). Assessing parameter, precipitation, and predictive uncertainty in a distributed hydrological model using sequential data assimilation with the particle filter. Journal of Hydrology, 376(3-4), 428-442.
+- Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (in review). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research.
+\cr
+- Salamon, P. and Feyen, L. (2009). Assessing parameter, precipitation, and predictive uncertainty in a distributed hydrological model using sequential data assimilation with the particle filter. Journal of Hydrology, 376(3-4), 428-442, doi: \href{https://www.doi.org/10.1016/j.jhydrol.2009.07.051}{10.1016/j.jhydrol.2009.07.051}
 }
 
 
