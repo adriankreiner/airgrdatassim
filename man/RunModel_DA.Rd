@@ -7,9 +7,12 @@
 \title{Run discharge simulations with ensemble-based data assimilation}
 
 \usage{
-RunModel_DA(DaMethod, IndRun, StateEnKF = NULL, NbMbr,
-            FUN_MOD, InputsModel, InputsPert = NULL, Param,
-            StatePert = NULL, Qobs = NULL, Seed = NULL)
+RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
+            IndRun,
+            FUN_MOD, Param,
+            DaMethod = c("EnKF", "PF", "none"), NbMbr,
+            StateEnKF = NULL, StatePert = NULL, 
+            Seed = NULL)
 }
 
 \arguments{
