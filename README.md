@@ -3,7 +3,7 @@
 
 ## Overview
 
-airGRdatassim is a package based on the airGR hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/) of the HYCAR Research Unit, France). 
+airGRdatassim is a package based on the airGR hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/home/) of the HYCAR Research Unit, France). 
 
 
 ## Installation
@@ -48,13 +48,13 @@ DA schemes are designed to be coupled with GR daily hydrological model, which is
 
 Because airGRdatassim is an airGR-based package, specific airGR functions should be jointly used to ensure the proper use of the airGRdatassim tools. Indeed, before performing the DA-based streamflow simulations, the hydrological model needs to be calibrated through the airGR calibration function. Therefore, the following steps are recommended:    
 
-  1. refer to the help for `Calibration_Michel()` in the airGR package, run the provided example and then refer to the help for `CreateCalibOptions()` to understand how a model calibration is prepared/made.
+  1. refer to the help for `Calibration_Michel()` in the airGR package, run the provided example and then refer to the help for `CreateCalibOptions()` to understand how a model calibration is prepared/made;
   2. refer to the help for `CreateInputsPerturb()` to understand how the probabilistic model inputs are generated, if the uncertainty in meteorological forcings is taken into account;
-  3. refer to the help for `RunModel_DA()` to understand how to perform the DA-based streamflow simulations
+  3. refer to the help for `RunModel_DA()` to understand how to perform the DA-based streamflow simulations;
   4. refer to the help for `ErrorCrit_NSE()` and `CreateInputsCrit()` in the airGR package to understand how the computation of an error criterion is prepared/made.
 
 
-For more information and to get started with the package, you can refer to the vignette (`vignette("get_started")`).
+For more information and to get started with the package, you can refer to the vignette (`vignette("get_started", package = "airGRdatassim")`).
 
 
 ## References

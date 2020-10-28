@@ -79,7 +79,7 @@ If `DaMethod = "PF"`, the PF performs the joint update of all the state variable
 
 If `DaMethod = "EnKF"`, the EnKF performs the update of the state variables specified in `StateEnKF`. 
 
-If `DaMethod = "none"`, discharge assimilation is not performed (i.e., open-loop simulation)
+If `DaMethod = "none"`, discharge assimilation is not performed (i.e., open-loop simulation).
 
 Among the model states, the update of the routing store level ensures the most benefit from the assimilation of observed discharges. Conversely, the update of the unit hydrograph only has a slight impact on the accuracy of the DA-based discharge simulations [@piazzi_sequential_2020].
 
