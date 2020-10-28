@@ -68,7 +68,7 @@ This section introduces and explains the main settings of the DA scheme that the
 The ensemble size can be defined by assigning `NbMbr` with the number of ensemble members.
 
 It is noteworthy that the PF technique is more sensitive to the ensemble size than the EnKF scheme. Indeed, compared to the EnKF scheme, the PF generally needs a larger ensemble size to efficiently perform the weighting and resampling of particles.
-It is recommended to generate and use an ensemble of at least 10 or 25 members, when using the EnKF or the PF scheme, respectively.
+It is recommended to generate and use an ensemble of at least 20 or 30 members, when using the EnKF or the PF scheme, respectively.
 
 
 ## Enable/disable the assimilation via EnKF or PF
@@ -144,7 +144,7 @@ InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Date
 ## generation of probabilistic model inputs
 InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$DatesR,
                                   Precip = BasinObs$P, PotEvap = BasinObs$E, 
-                                  NbMbr = 100)
+                                  NbMbr = NbMbr)
 ```
 
 Please note that if the uncertainty in meteorological forcings is not taken into account, the same deterministic `InputsModel` object is used to force each ensemble member.
