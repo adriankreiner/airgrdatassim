@@ -1,5 +1,8 @@
 
-DA_PF <- function(Obs, Qsim, States, StatePert = NULL, Param, VarThr, NbMbr, StateNames) {
+DA_PF <- function(Obs, Qsim, States,
+                  Param, StateNames,
+                  NbMbr,
+                  StatePert = NULL, VarThr) {
   
   # ------ Settings
   

@@ -271,9 +271,10 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
       
       if (DaMethod == "EnKF") {
         ans <- DA_EnKF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], EnsState = EnsStateBkg[, , iTime],
+                       Param = Param, StateNames = StateNames,
                        StatePert = StatePert,
-                       StateEnKF = StateEnKF,
-                       Param = Param, VarThr = VarThr, NbMbr = NbMbr, StateNames = StateNames)
+                       NbMbr = NbMbr,
+                       StateEnKF = StateEnKF, VarThr = VarThr)
         
         for (iMbr in seq_len(NbMbr)) { # olivier : it is possible to write the following 3 loops without loops?
           IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStateEnkf["Prod", iMbr]
@@ -313,8 +314,9 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
         
       } else if (DaMethod == "PF") {
         ans <- DA_PF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], States = IniStatesEns, 
-                     StatePert = StatePert, Param = Param, 
-                     VarThr = VarThr, NbMbr = NbMbr, StateNames = StateNames)
+                     Param = Param, StateNames = StateNames,
+                     NbMbr = NbMbr,
+                     StatePert = StatePert, VarThr = VarThr)
         
         if (!is.null(StatePert)) {
           IniStatesEns <- ans$EnsStatePert

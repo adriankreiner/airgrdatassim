@@ -1,7 +1,8 @@
 
 DA_EnKF <- function(Obs, Qsim, EnsState,
-                    StatePert = NULL, StateEnKF = NULL, 
-                    Param, VarThr, NbMbr, StateNames) {
+                   Param, StateNames,
+                   NbMbr, StateEnKF = NULL, 
+                   StatePert = NULL, VarThr) {
   
   # ------ Settings
   
