@@ -117,15 +117,19 @@ InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Date
 NbMbr <- 20
 
 ## preparation of perturbed meteorological ensemble            
-InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$DatesR,
+InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J,
+                                  DatesR = BasinObs$DatesR,
                                   Precip = BasinObs$P, PotEvap = BasinObs$E, 
                                   NbMbr = NbMbr)               
 
 ## simulation with DA via EnKF
-result <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, StateEnKF = c("Prod", "Rout"),
-                      NbMbr = NbMbr, FUN_MOD = RunModel_GR5J,
-                      InputsModel = InputsModel, InputsPert = InputsPert, Param = Param,
-                      StatePert = c("Prod", "Rout"), Qobs = BasinObs$Qmm)
+result <- RunModel_DA(InputsModel = InputsModel, InputsPert = InputsPert,
+                      Qobs = BasinObs$Qmm,
+                      IndRun = IndRun,
+                      FUN_MOD = RunModel_GR5J, Param = Param,
+                      DaMethod = "EnKF", NbMbr = NbMbr,
+                      StateEnKF = c("Prod", "Rout"),
+                      StatePert = c("Prod", "Rout"))
 
 ## results preview
 rangeQsimEns <- apply(result$QsimEns, MARGIN = 2, FUN = range)
@@ -141,7 +145,8 @@ plot(x = result$DatesR, y = colMeans(result$QsimEns),
      panel.last = lines(x = result$DatesR,
                         y = BasinObs$Qmm[IndRun],
                         type = "l", col = "black", lwd = 2))
-legend("topright", legend = c("DA-based", "obs"), lty = 1, col = c("red", "black"))
+legend("topright", legend = c("DA-based", "obs"),
+       lty = 1, col = c("red", "black"))
 }
 
 \author{

@@ -142,7 +142,8 @@ InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Date
                                  Precip = BasinObs$P, PotEvap = BasinObs$E)
 
 ## generation of probabilistic model inputs
-InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$DatesR,
+InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J,
+                                  DatesR = BasinObs$DatesR,
                                   Precip = BasinObs$P, PotEvap = BasinObs$E, 
                                   NbMbr = NbMbr)
 ```
@@ -187,10 +188,10 @@ The following example supplies probabilistic discharge simulations relying on th
 
 ```{r, warning=FALSE}
 Param <- c(X1 = 194.243, X2 = -0.088, X3 = 117.740, X4 = 1.680, X5 = 0.000)
-result_EnKF <- RunModel_DA(DaMethod = "EnKF", IndRun = IndRun, StateEnKF = StateEnKF,
-                           NbMbr = NbMbr, FUN_MOD = RunModel_GR5J,
-                           InputsModel = InputsModel, InputsPert = InputsPert, 
-                           Param = Param, StatePert = StatePert, Qobs = BasinObs$Qmm)
+result_EnKF <- RunModel_DA(InputsModel = InputsModel, InputsPert = InputsPert, Qobs = BasinObs$Qmm,
+                           IndRun = IndRun, FUN_MOD = RunModel_GR5J, Param = Param,
+                           DaMethod = "EnKF", NbMbr = NbMbr,
+                           StateEnKF = StateEnKF, StatePert = StatePert)
 
 ```
 
@@ -208,10 +209,10 @@ The PF scheme relies on the Sequential Importance Resampling (SIR) technique [@g
 If the ensemble is too squeezed to properly evaluate the importance weights, all particles are assigned equal weights.
 
 ```{r, warning=FALSE}
-result_PF <- RunModel_DA(DaMethod = "PF", IndRun = IndRun,
-                         NbMbr = NbMbr, FUN_MOD = RunModel_GR5J,
-                         InputsModel = InputsModel, InputsPert = InputsPert, 
-                         Param = Param, StatePert = "Rout", Qobs = BasinObs$Qmm)
+result_PF <- RunModel_DA(InputsModel = InputsModel, InputsPert = InputsPert, Qobs = BasinObs$Qmm,
+                         IndRun = IndRun, FUN_MOD = RunModel_GR5J, Param = Param, 
+                         DaMethod = "PF", NbMbr = NbMbr,
+                         StatePert = "Rout")
 ```
 
 Unlike the previous example, here only the uncertainty in the level of the routing store (see `StatePert`) is taken into account. Therefore, the routing store level is the only state variable to be perturbed after the updating procedure.

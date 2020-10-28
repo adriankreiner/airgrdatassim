@@ -40,7 +40,8 @@ Because airGRdatassim is an airGR-based package, specific airGR functions should
   3. refer to the help for \code{\link{RunModel_DA}} to understand how to perform the DA-based streamflow simulations; \cr
   4. refer to the help for \code{\link[airGR]{ErrorCrit_NSE}} and \code{\link[airGR]{CreateInputsCrit}} in the airGR package to understand how the computation of an error criterion is prepared/made. \cr
 
-For more information and to get started with the package, you can refer to the vignette (\code{vignette("get_started", package = "airGRdatassim")}). \cr\cr
+For more information and to get started with the package, you can refer to the vignette: \cr
+\code{vignette("get_started", package = "airGRdatassim")}. \cr\cr
 
 
 ## --- References

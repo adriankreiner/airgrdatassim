@@ -8,8 +8,10 @@
 \title{Generation of ensemble model inputs for data assimilation}
 
 \usage{
-CreateInputsPerturb(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = NULL, 
-                    ZInputs = NULL, HypsoData = NULL, NLayers = 5, NbMbr, Seed = NULL)
+CreateInputsPerturb(FUN_MOD, DatesR, Precip = NULL,
+                    PotEvap = NULL, TempMean = NULL, 
+                    ZInputs = NULL, HypsoData = NULL, NLayers = 5,
+                    NbMbr, Seed = NULL)
 
 }
 
@@ -82,7 +84,8 @@ IndRun <- seq(which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-01
               which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-31"))
 
 ## preparation of perturbed meteorological ensemble            
-InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$DatesR[IndRun],
+InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J,
+                                  DatesR = BasinObs$DatesR[IndRun],
                                   Precip = BasinObs$P[IndRun],
                                   NbMbr = 100)               
 
@@ -93,7 +96,8 @@ plot(x = InputsPert$DatesR, y = rowMeans(InputsPert$Precip),
      type = "l", col = "red", lwd = 2,
      main = "Precipitation ensemble",
      xlab = "Time [day]", ylab = "Total precipitation [mm/day]",
-     panel.first = polygon(x = c(as.numeric(InputsPert$DatesR), rev(as.numeric(InputsPert$DatesR))),
+     panel.first = polygon(x = c(as.numeric(InputsPert$DatesR),
+                                 rev(as.numeric(InputsPert$DatesR))),
                            y = c(rangePrecip[1, ], rev(rangePrecip[2, ])),
                            col = "pale turquoise", border = NA))
 }
