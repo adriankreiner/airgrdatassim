@@ -2,27 +2,27 @@
 \alias{airGRdatassim}
 \docType{package}
 \encoding{UTF-8}
-\title{Suite of tools to perform ensemble-based discharge assimilation in GR Hydrological Models}
+\title{Suite of tools to perform ensemble-based discharge assimilation with GR Hydrological Models}
 \description{
-airGRdatassim is a package based on the airGR hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony (\href{https://webgr.inrae.fr/en/home/}{Catchment Hydrology research group} of the HYCAR Research Unit, France). \cr\cr
+airGRdatassim is a package based on the airGR hydrological modelling package. It provides the tools to assimilate observed discharges in the GR daily hydrological models (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony (\href{https://webgr.inrae.fr/en/}{Catchment Hydrology research group} of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (2020). \cr\cr
 
 
 ## --- Functions and objects
 
-The airGRdatassim package allows users of GR Hydrological models to assimilate discharge observations with the aim of improving streamflow simulations.
-The data assimilation (DA) scheme has been designed to allow the choice between two sequential ensemble-based DA techniques, namely the Ensemble Kalman filter (EnKF) and the Particle filter (PF). \cr
+The airGRdatassim package allows users of GR hydrological models to assimilate discharge observations with the aim of improving streamflow simulations.
+The package has been designed to allow the choice between two sequential ensemble-based data assimilation (DA) techniques, namely the Ensemble Kalman filter (EnKF) and the Particle filter (PF). \cr
 The functions are coded in R and both their names and arguments are consistent with the airGR package. \cr
 
-With the aim of providing an user-friendly package, airGRdatassim relies on two main functions : \cr
-- \code{\link{CreateInputsPerturb}} generates the probabilistic model inputs to perform the ensemble-based DA when accounting for the uncertainty in meteorological forcings; \cr
-- \code{\link{RunModel_DA}} performs streamflow ensemble simulations with the assimilation of observed discharges through the EnKF or the PF scheme. \cr \cr
+With the aim of providing a user-friendly package, airGRdatassim relies on two main functions: \cr
+- \code{\link{CreateInputsPerturb}} generates the probabilistic model inputs to perform ensemble-based DA when accounting for the uncertainty in meteorological forcings; \cr
+- \code{\link{RunModel_DA}} performs streamflow ensemble simulations with the assimilation of observed discharges through the EnKF or the PF schemes. \cr \cr
 
-Consistently with the airGR package, both structure and class of function arguments are specifically defined to prevent the risk of mis-use and ensure the flexibility of functions. Advanced users wishing to apply the package to their own models will need to comply with these imposed structures and refer to the package source codes to get all the specification requirements. \cr\cr
+Consistently with the airGR package, both structure and class of function arguments are specifically defined to prevent from mis-use and to ensure the flexibility of functions. Advanced users wishing to apply the package to their own models will need to comply with these imposed structures and refer to the package source codes to get all the specification requirements. \cr\cr
 
 
 ## --- Models
 
-DA schemes are designed to be coupled with GR daily hydrological model, which is implemented in the airGR package. This model can be called within the airGRdatassim package using the following airGR functions: \cr 
+DA schemes are designed to be coupled with GR daily hydrological models, which are implemented in the airGR package. These models can be called within the airGRdatassim package using the following airGR functions: \cr 
   - \code{\link[airGR]{RunModel_GR4J}}: four-parameter daily lumped hydrological model (Perrin et al., 2003) \cr
   - \code{\link[airGR]{RunModel_GR5J}}: five-parameter daily lumped hydrological model (Le Moine, 2008) \cr
   - \code{\link[airGR]{RunModel_GR6J}}: six-parameter daily lumped hydrological model (Pushpalatha et al., 2011) \cr
