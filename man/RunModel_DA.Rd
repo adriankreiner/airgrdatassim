@@ -30,7 +30,7 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
   \tabular{ll}{                                                        
     "Prod" \tab level of the production store [mm]                        \cr      
     "Rout" \tab level of the routing store [mm]                           \cr      
-    "UH1"  \tab unit hydrograph 1 levels [mm] (not defined in GR5J model) \cr    
+    "UH1"  \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr    
     "UH2"  \tab unit hydrograph 2 levels [mm]
   }}  
   
@@ -48,7 +48,7 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
   \tabular{ll}{                                                        
     "Prod" \tab level of the production store [mm]                        \cr      
     "Rout" \tab level of the routing store [mm]                           \cr      
-    "UH1   \tab unit hydrograph 1 levels [mm] (not defined in GR5J model) \cr    
+    "UH1   \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr    
     "UH2"  \tab unit hydrograph 2 levels [mm]
   }} 
   
@@ -77,15 +77,15 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 }
 
 \description{
-Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes.
+Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes. More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (2020). 
 }
 
 \details{
-Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != "none") via EnKF or PF scheme. Because of the recursive approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.  
+Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != "none") via the EnKF or PF schemes. Because of the sequential approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.  
 \cr\cr
 When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble discharge simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPerturb}} for details).
 \cr\cr
-It is possible to enable/disable the update of specific state variables via EnKF by defining their names in \emph{StateEnKF}. Please note that \emph{StateEnKF} is therefore required only when using the EnKF.
+It is possible to enable/disable the update of specific state variables via EnKF by defining/not defining their names in \emph{StateEnKF}. Please note that \emph{StateEnKF} is therefore required only when using the EnKF.
 \cr\cr
 Both the PF and EnKF can account for uncertainty in model states by perturbing the state variables specified in \emph{StatePert} (Salamon and Feyen, 2009). It is noteworthy that, when using the EnKF, the perturbation is allowed only for the state variables included in \emph{StateEnKF}. If the state uncertainty is taken into account, the initial states at the prediction time step \emph{t + 1} are the perturbed analysis states resulting from the assimilation and perturbation procedures at time step \emph{t}.
 \cr\cr
