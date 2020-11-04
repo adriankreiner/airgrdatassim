@@ -28,8 +28,8 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 
 \item{StateEnKF}{[character] vector of the names of state variables to be updated via EnKF:
   \tabular{ll}{                                                        
-    "Prod" \tab level of the production store [mm]                        \cr      
-    "Rout" \tab level of the routing store [mm]                           \cr      
+    "Prod" \tab level of the production store [mm]                             \cr    
+    "Rout" \tab level of the routing store [mm]                                \cr    
     "UH1"  \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr    
     "UH2"  \tab unit hydrograph 2 levels [mm]
   }}  
@@ -46,8 +46,8 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
   
 \item{StatePert}{[character] vector of the names of state variables to be perturbed via EnKF or PF:
   \tabular{ll}{                                                        
-    "Prod" \tab level of the production store [mm]                        \cr      
-    "Rout" \tab level of the routing store [mm]                           \cr      
+    "Prod" \tab level of the production store [mm]                             \cr      
+    "Rout" \tab level of the routing store [mm]                                \cr      
     "UH1   \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr    
     "UH2"  \tab unit hydrograph 2 levels [mm]
   }} 
@@ -77,7 +77,7 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 }
 
 \description{
-Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes. More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (2020). 
+Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes. More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (in review). 
 }
 
 \details{
