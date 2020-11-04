@@ -21,7 +21,7 @@ DA_PF <- function(Obs, Qsim, States,
   
 
   
-  # ------  Particles weighting 
+  # ------ Particles weighting 
   
   VarObs <- max(VarThr^2, (0.1*Obs)^2)
   
@@ -42,7 +42,7 @@ DA_PF <- function(Obs, Qsim, States,
   
   
   
-  # ------  Particles resampling 
+  # ------ Particles resampling 
   
   # evaluation of the cumulative density function of weights
   CdfW <- cumsum(Weights)
@@ -175,7 +175,7 @@ DA_PF <- function(Obs, Qsim, States,
   
   
   
-  # ------  Outputs
+  # ------ Outputs
   
   ans <- list(EnsStatePf = EnsStatePf)
   if (!is.null(StatePert)) {
