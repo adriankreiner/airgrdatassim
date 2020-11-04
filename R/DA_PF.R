@@ -19,8 +19,9 @@ DA_PF <- function(Obs, Qsim, States,
   CurrentState     <- list()
   CurrentStatePert <- list() 
   
-  #***************************************************************************************************************
-  # PARTICLES WEIGHTING 
+
+  
+  # ------  Particles weighting 
   
   VarObs <- max(VarThr^2, (0.1*Obs)^2)
   
@@ -39,8 +40,9 @@ DA_PF <- function(Obs, Qsim, States,
     Weights <- rep(1/NbMbr, times = NbMbr)
   } 
   
-  #***************************************************************************************************************
-  # PARTICLES RESAMPLING 
+  
+  
+  # ------  Particles resampling 
   
   # evaluation of the cumulative density function of weights
   CdfW <- cumsum(Weights)
@@ -74,8 +76,9 @@ DA_PF <- function(Obs, Qsim, States,
   
   Repeats <- as.data.frame(table(Indices)) # it indicates how many time each selected particle must be replicated 
   
-  #***************************************************************************************************************
-  # STATE PERTURBATION
+
+  
+  # ------ State perturbation
   
   if (!is.null(StatePert)) {
     EnsState <- matrix(data = NA, nrow = NbState, ncol = NbMbr,
@@ -100,8 +103,9 @@ DA_PF <- function(Obs, Qsim, States,
     names(SdState) <- StateNames
   }   # END IF
   
-  #***************************************************************************************************************
-  # RESAMPLING  
+  
+  
+  # ------ Resampling  
   
   for (iPart in seq_len(nrow(Repeats))) {
     
@@ -163,16 +167,15 @@ DA_PF <- function(Obs, Qsim, States,
     
   } # END FOR repeats
   
-  #***************************************************************************************************************
-  
   EnsStatePf <- CurrentState
   
   if (!is.null(StatePert)) {
     EnsStatePert <- CurrentStatePert
   }
   
-  #***************************************************************************************************************
-  # OUTPUT
+  
+  
+  # ------  Outputs
   
   ans <- list(EnsStatePf = EnsStatePf)
   if (!is.null(StatePert)) {

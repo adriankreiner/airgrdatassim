@@ -154,8 +154,9 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   # Qobs
   Qobs <- Qobs[IndRun]
   
-  #***************************************************************************************************************
-  # ENSEMBLE INITIALIZATIONS
+  
+  
+  # ------ Ensemble initializations
   
   ObsPert <- matrix(data = NA,
                     nrow = NbMbr, ncol = Nt,
@@ -194,8 +195,9 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                                             IniStates = NULL, 
                                             warning = FALSE, verbose = FALSE)
   
-  #***************************************************************************************************************
-  # RUN
+  
+  
+  # ------ Run
   
   if (IsMeteo) {
     if (is.null(InputsPert$Precip)) {
@@ -262,8 +264,8 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
     } # END FOR particles
     
     
-    #***********************************************************************************************
-    # Assimilation [if an observation is available]
+    
+    # ------ Assimilation [if an observation is available]
     
     if (IsDa & is.finite(Qobs[iTime])) {
       
@@ -276,7 +278,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                        NbMbr = NbMbr,
                        StateEnKF = StateEnKF, VarThr = VarThr)
         
-        for (iMbr in seq_len(NbMbr)) { # olivier : it is possible to write the following 3 loops without loops?
+        for (iMbr in seq_len(NbMbr)) { # olivier, it is possible to write the following 3 loops without loops?
           IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStateEnkf["Prod", iMbr]
           IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStateEnkf["Rout", iMbr]
           IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStateEnkf["UH2" , iMbr]
@@ -354,6 +356,10 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
     } # END IF assimilation
     
   }   # END FOR time
+  
+  
+  
+  # ------ Outputs
   
   return(list(DatesR = InputsModel$DatesR,
               QsimEns = QsimEns,

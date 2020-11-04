@@ -25,9 +25,8 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
   Seed0 <- as.numeric(Seed)
   
   
-  #***************************************************************************************************************
   
-  # Settings
+  # ------ Settings
   
   # variables to perturbate
   MeteoNames <- c("Precip", "PotEvap")
@@ -71,9 +70,10 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
   
   # number of variable to perturbate
   NbMeteo <- length(MeteoNames)
+
   
-  #***************************************************************************************************************
-  # Generation of the InputsModel object
+    
+  # ------ Generation of the InputsModel object
   
   if (any(sapply(c(FUN_MODList), function(x) identical(FUN_MOD, match.fun(x)))))  {
     InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
@@ -97,7 +97,7 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
   
   
   # error time evolution
-  S <- array(data = rep(NaN, times = NbMeteo*NbMbr*Nt), #olivier : is it necessary to initialize s, u, fi?
+  S <- array(data = rep(NaN, times = NbMeteo*NbMbr*Nt),
              dim = c(NbMeteo, NbMbr, Nt),
              dimnames = list(MeteoNames, MbrNames, TimeNames))
   # uniform random numbers
@@ -111,8 +111,8 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
               dimnames = list(MeteoNames, MbrNames, TimeNames))
   
   
-  #***************************************************************************************************************
-  # Initialisation of meteorological ensembles
+  
+  # ------ Initialisation of meteorological ensembles
   
   MeteoEns <- sapply(MeteoNames, function(iMeteo) {
     matrix(data = rep(InputsPert[[iMeteo]], each = NbMbr), 
@@ -124,10 +124,10 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
   MeteoEns <- aperm(MeteoEns, perm = 3:1)
   
   
-  #***************************************************************************************************************
-  # Perturbation of the time series of model forcings (i.e., precipitation and potential evapotranspiration)
   
-  for (iTime in seq_len(Nt)) { # olivier : can we do apply here?
+  # ------ Perturbation of the time series of model forcings (i.e., precipitation and potential evapotranspiration)
+  
+  for (iTime in seq_len(Nt)) { # olivier, can we do apply here?
     
     # white noise
     if (!is.null(Seed)) {
@@ -162,7 +162,7 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
     MeteoEns[, , iTime] <- MeteoEns[, , iTime]  * Fi[, , iTime]
     
     
-  } # FOR time
+  } # END FOR time
   
   # split MeteoEns array into a list of matrix
   MeteoEns <- asplit(MeteoEns, MARGIN = 1)
@@ -176,7 +176,8 @@ CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, 
     }
   }
   
-  # class
+  # ------ Class
+  
   class(InputsPert) <- c(class(InputsPert), "InputsPert")
   
   return(InputsPert)

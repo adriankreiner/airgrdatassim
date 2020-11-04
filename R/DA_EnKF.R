@@ -16,8 +16,7 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   
 
   
-  #***************************************************************************************************************
-  # Observation error covariance matrix 
+  # ------ Observation error covariance matrix 
   
   VarObs <- max(VarThr^2, (0.1*Obs)^2)
   
@@ -28,14 +27,16 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   
   ObsErr <- var(Pert)
   
-  #***************************************************************************************************************
-  # Innovations
+  
+  
+  # ------ Innovations
   
   Innov <- ObsPert - Qsim  
   names(Innov) <- MbrNames
   
-  #***************************************************************************************************************
-  # Kalman Gain
+
+  
+  # ------ Kalman Gain
   
   EnsMeanBkg <- rowMeans(StateBkg) 
   EnsMeanQ <- mean(Qsim) 
@@ -60,16 +61,18 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   
   K <- Bht %*% ((Hbht+ObsErr)^(-1))
   
-  #***************************************************************************************************************
-  # Analysis 
+  
+  
+  # ------ Analysis 
   
   StateA <- StateBkg + K %*% Innov
   
   EnsStateEnkf          <- EnsState
   EnsStateEnkf[IndDa, ] <- StateA
   
-  #***************************************************************************************************************
-  # Constraints on analysis states
+  
+  
+  # ------ Constraints on analysis states
   
   EnsStateEnkf["Prod", EnsStateEnkf["Prod", ] < 0.05*Param[1]] <- 0.05 * Param[1]
   EnsStateEnkf["Rout", EnsStateEnkf["Rout", ] <= 0] <- 1e-3
@@ -81,8 +84,9 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
   EnsStateEnkf["Prod", EnsStateEnkf["Prod", ] > Param[1]] <- Param[1] # if Prod > X1 -> Prod = X1
   EnsStateEnkf["Rout", EnsStateEnkf["Rout", ] > Param[3]] <- Param[3] # if Rout > X3 -> Rout = X3
   
-  #***************************************************************************************************************
-  # States perturbation
+  
+  
+  # ------ States perturbation
   
   if (!is.null(StatePert)) {
     IndPert <- as.numeric(StateNames %in% StatePert)
@@ -112,8 +116,9 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
     EnsStatePert["Rout", EnsStatePert["Rout", ] > Param[3]] <- Param[3] # if Rout > X3 -> Rout = X3
   }
   
-  #***************************************************************************************************************
-  # Outputs
+  
+  
+  # ------ Outputs
   
   ans <- list(EnsStateEnkf = EnsStateEnkf, ObsPert = ObsPert)
   if (!is.null(StatePert)) {
