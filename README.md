@@ -34,11 +34,11 @@ Consistently with the airGR package, both structure and class of function argume
 
 ## Hydrological model
 
-DA schemes are designed to be coupled with GR daily hydrological model, which is implemented in the airGR package. This model can be called within the airGRdatassim package using the following airGR functions: 
+DA schemes are designed to be coupled with GR daily hydrological model, which is implemented in the airGR package. This model can be called within the airGRdatassim package using the following airGR functions (see the [airGR manual](https://cran.r-project.org/web/packages/airGR/airGR.pdf#page.4) to get the references of the GR models): 
 
-  - `RunModel_GR4J()`: four-parameter daily lumped hydrological model (Perrin et al., 2003)
-  - `RunModel_GR5J()`: five-parameter daily lumped hydrological model (Le Moine, 2008)
-  - `RunModel_GR6J()`: six-parameter daily lumped hydrological model (Pushpalatha et al., 2011)
+  - `RunModel_GR4J()`: four-parameter daily lumped hydrological model
+  - `RunModel_GR5J()`: five-parameter daily lumped hydrological model
+  - `RunModel_GR6J()`: six-parameter daily lumped hydrological model
   - `RunModel_CemaNeigeGR4J()`: combined use of GR4J and CemaNeige
   - `RunModel_CemaNeigeGR5J()`: combined use of GR5J and CemaNeige
   - `RunModel_CemaNeigeGR6J()`: combined use of GR6J and CemaNeige
