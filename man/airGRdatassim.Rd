@@ -46,9 +46,7 @@ For more information and to get started with the package, you can refer to the v
 
 ## --- References
 
-- Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324, doi: \href{https://www.doi.org/10.1016/j.advwatres.2008.06.005}{10.1016/j.advwatres.2008.06.005} \cr
 - Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (in review). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research. \cr
-- Salamon, P. and Feyen, L. (2009). Assessing parameter, precipitation, and predictive uncertainty in a distributed hydrological model using sequential data assimilation with the particle filter. Journal of Hydrology, 376(3-4), 428-442, doi: \href{https://www.doi.org/10.1016/j.jhydrol.2009.07.051}{10.1016/j.jhydrol.2009.07.051}
 
 }
 
