@@ -83,7 +83,7 @@ Function which performs discharge ensemble simulations with the assimilation of 
 \details{
 Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != "none") via the EnKF or PF schemes. Because of the sequential approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.  
 \cr\cr
-When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble discharge simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPerturb}} for details).
+When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble discharge simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPert}} for details).
 \cr\cr
 It is possible to enable/disable the update of specific state variables via EnKF by defining/not defining their names in \emph{StateEnKF}. Please note that \emph{StateEnKF} is therefore required only when using the EnKF.
 \cr\cr
@@ -117,10 +117,10 @@ InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Date
 NbMbr <- 20
 
 ## preparation of perturbed meteorological ensemble            
-InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J,
-                                  DatesR = BasinObs$DatesR,
-                                  Precip = BasinObs$P, PotEvap = BasinObs$E, 
-                                  NbMbr = NbMbr)               
+InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
+                               DatesR = BasinObs$DatesR,
+                               Precip = BasinObs$P, PotEvap = BasinObs$E, 
+                               NbMbr = NbMbr)               
 
 ## simulation with DA via EnKF
 result <- RunModel_DA(InputsModel = InputsModel, InputsPert = InputsPert,
@@ -163,5 +163,5 @@ Gaia Piazzi, Olivier Delaigue
 
 
 \seealso{
-\code{\link{CreateInputsPerturb}}
+\code{\link{CreateInputsPert}}
 }

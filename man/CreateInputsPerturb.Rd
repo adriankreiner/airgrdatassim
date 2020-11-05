@@ -1,17 +1,17 @@
 \encoding{UTF-8}
 
 
-\name{CreateInputsPerturb}
-\alias{CreateInputsPerturb}
+\name{CreateInputsPert}
+\alias{CreateInputsPert}
 
 
 \title{Generation of ensemble model inputs for data assimilation}
 
 \usage{
-CreateInputsPerturb(FUN_MOD, DatesR, Precip = NULL,
-                    PotEvap = NULL, TempMean = NULL, 
-                    ZInputs = NULL, HypsoData = NULL, NLayers = 5,
-                    NbMbr, Seed = NULL)
+CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
+                 PotEvap = NULL, TempMean = NULL, 
+                 ZInputs = NULL, HypsoData = NULL, NLayers = 5,
+                 NbMbr, Seed = NULL)
 
 }
 
@@ -84,10 +84,10 @@ IndRun <- seq(which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-01
               which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-31"))
 
 ## preparation of perturbed meteorological ensemble            
-InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J,
-                                  DatesR = BasinObs$DatesR[IndRun],
-                                  Precip = BasinObs$P[IndRun],
-                                  NbMbr = 100)               
+InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
+                               DatesR = BasinObs$DatesR[IndRun],
+                               Precip = BasinObs$P[IndRun],
+                               NbMbr = 100)               
 
 ## results preview
 rangePrecip <- apply(InputsPert$Precip, MARGIN = 1, FUN = range) 
