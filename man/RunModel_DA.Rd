@@ -134,7 +134,7 @@ result <- RunModel_DA(InputsModel = InputsModel, InputsPert = InputsPert,
 ## results preview
 rangeQsimEns <- apply(result$QsimEns, MARGIN = 2, FUN = range)
 plot(x = result$DatesR, y = colMeans(result$QsimEns),
-     ylim = range(rangeQsimEns),
+     ylim = range(rangeQsimEns, BasinObs$Qmm, na.rm = TRUE),
      type = "l", col = "red", lwd = 2,
      main = "EnKF-based discharge simulations",
      xlab = "Time [day]", ylab = "Discharge [mm/day]",
