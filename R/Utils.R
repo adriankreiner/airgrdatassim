@@ -25,15 +25,3 @@
   }
   '[.Inputs.default'(Inputs, IndRun)
 }
-
-
-'[.InputPert' <- function(Inputs, IndRun) {
-  if (!inherits(Inputs, "InputPert")) {
-    stop("'Inputs' must be of class 'InputPert'")
-  }
-  '[.Inputs.default'(Inputs, IndRun)
-}
-
-
-
-
