@@ -114,7 +114,7 @@ InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Date
 ## number of ensemble members
 ## minimum of 20 recommanded for the EnKF scheme
 ## minimum of 30 recommanded for the PF scheme
-NbMbr <- 20
+NbMbr <- 20L
 
 ## preparation of perturbed meteorological ensemble            
 InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,

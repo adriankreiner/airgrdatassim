@@ -106,7 +106,7 @@ It is of key importance to consider that `StateEnKF` allows to select the state 
 
 ```{r, warning=FALSE}
 # ensemble size 
-NbMbr <- 100
+NbMbr <- 100L
 
 # "EnKF" ; "PF" ; "none"
 DaMethod <- "EnKF"

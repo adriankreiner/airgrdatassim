@@ -87,7 +87,7 @@ IndRun <- seq(which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-01
 InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
                                DatesR = BasinObs$DatesR[IndRun],
                                Precip = BasinObs$P[IndRun],
-                               NbMbr = 100)               
+                               NbMbr = 100L)               
 
 ## results preview
 rangePrecip <- apply(InputsPert$Precip, MARGIN = 1, FUN = range) 
