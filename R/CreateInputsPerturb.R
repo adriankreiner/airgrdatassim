@@ -1,7 +1,7 @@
 
-CreateInputsPerturb <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = NULL, 
-                                ZInputs = NULL, HypsoData = NULL, NLayers = 5, NbMbr, Seed = NULL) {
-    
+CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = NULL, 
+                             ZInputs = NULL, HypsoData = NULL, NLayers = 5, NbMbr, Seed = NULL) {
+  
   # ------ Checks
   
   FUN_MODList <- c("RunModel_GR4J",

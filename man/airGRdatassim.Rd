@@ -14,7 +14,7 @@ The package has been designed to allow the choice between two sequential ensembl
 The functions are coded in R and both their names and arguments are consistent with the airGR package. \cr
 
 With the aim of providing a user-friendly package, airGRdatassim relies on two main functions: \cr
-- \code{\link{CreateInputsPerturb}} generates the probabilistic model inputs to perform ensemble-based DA when accounting for the uncertainty in meteorological forcings; \cr
+- \code{\link{CreateInputsPert}} generates the probabilistic model inputs to perform ensemble-based DA when accounting for the uncertainty in meteorological forcings; \cr
 - \code{\link{RunModel_DA}} performs streamflow ensemble simulations with the assimilation of observed discharges through the EnKF or the PF schemes. \cr \cr
 
 Consistently with the airGR package, both structure and class of function arguments are specifically defined to prevent from mis-use and to ensure the flexibility of functions. Advanced users wishing to apply the package to their own models will need to comply with these imposed structures and refer to the package source codes to get all the specification requirements. \cr\cr
@@ -36,7 +36,7 @@ DA schemes are designed to be coupled with GR daily hydrological models, which a
 Because airGRdatassim is an airGR-based package, specific airGR functions should be jointly used to ensure the proper use of the airGRdatassim tools. Indeed, before performing the DA-based streamflow simulations, the hydrological model needs to be calibrated through the airGR calibration function. Therefore, the following steps are recommended: \cr  
 
   1. refer to the help for \code{\link[airGR]{Calibration_Michel}} in the airGR package, run the provided example and then refer to the help for \code{\link{CreateCalibOptions}} to understand how a model calibration is prepared/made; \cr
-  2. refer to the help for \code{\link{CreateInputsPerturb}} to understand how the probabilistic model inputs are generated, if the uncertainty in meteorological forcings is taken into account; \cr
+  2. refer to the help for \code{\link{CreateInputsPert}} to understand how the probabilistic model inputs are generated, if the uncertainty in meteorological forcings is taken into account; \cr
   3. refer to the help for \code{\link{RunModel_DA}} to understand how to perform the DA-based streamflow simulations; \cr
   4. refer to the help for \code{\link[airGR]{ErrorCrit_NSE}} and \code{\link[airGR]{CreateInputsCrit}} in the airGR package to understand how the computation of an error criterion is prepared/made. \cr
 

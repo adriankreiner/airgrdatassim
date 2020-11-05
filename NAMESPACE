@@ -9,7 +9,7 @@ S3method("[", "InputsModel")
 ##               Export            ##
 #####################################
 export(RunModel_DA)
-export(CreateInputsPerturb)
+export(CreateInputsPert)
 
 
 

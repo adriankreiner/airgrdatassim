@@ -92,7 +92,7 @@ For both DA techniques, the state variables defined in `StatePert` are perturbed
 
 The perturbation of model states is performed through a normally-distributed null-mean noise. The noise variance is assumed equal to the variance of the state variables resulting from the analysis procedure and it is restricted between upper and lower limits [@salamon_assessing_2009].
 
-When considering the uncertainty in the forcings, the `CreateInputsPerturb()` function generates an ensemble for precipitation or/and potential evapotranspiration, provided as function argument/s.
+When considering the uncertainty in the forcings, the `CreateInputsPert()` function generates an ensemble for precipitation or/and potential evapotranspiration, provided as function argument/s.
 It is noteworthy that a significant reduction in the ensemble spread may occur especially in no-rain periods, when accounting only for meteorological uncertainty.
 
 Even though a more comprehensive representation of the state uncertainty can prevent the ensemble shrinkage, it has a different impact on the performance of the PF and the EnKF schemes [@piazzi_sequential_2020]. Indeed, while a higher model error covariance can lead to an overweighting of observations in the EnKF-based analysis procedure, a larger spread of the ensemble simulations allows for a more straightforward weighting and thus a more efficient resampling of particles in the PF scheme. 
@@ -123,7 +123,7 @@ StatePert <- c("Prod", "Rout")
 
 # Ensemble meteorological forcings
 
-When accounting for the uncertainty in meteorological forcings, the `CreateInputsPerturb()` function generates an ensemble for precipitation or/and potential evapotranspiration, provided as function argument/s.
+When accounting for the uncertainty in meteorological forcings, the `CreateInputsPert()` function generates an ensemble for precipitation or/and potential evapotranspiration, provided as function argument/s.
 
 Probabilistic model inputs result from the perturbation of the meteorological data through a multiplicative stochastic noise, according to the methodology proposed by @clark_hydrological_2008 
 The random perturbations are provided through a first-order autoregressive model in order to guarantee a physical consistency and a temporal correlation of the time-variant forcings. For the generation of perturbations of both the meteorological variables, the fractional error parameter is set equal to 0.65 and the temporal decorrelation length is defined as 1 day for rainfall and 2 days for potential evapotranspiration, by default.
@@ -142,10 +142,10 @@ InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Date
                                  Precip = BasinObs$P, PotEvap = BasinObs$E)
 
 ## generation of probabilistic model inputs
-InputsPert <- CreateInputsPerturb(FUN_MOD = RunModel_GR5J,
-                                  DatesR = BasinObs$DatesR,
-                                  Precip = BasinObs$P, PotEvap = BasinObs$E, 
-                                  NbMbr = NbMbr)
+InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
+                               DatesR = BasinObs$DatesR,
+                               Precip = BasinObs$P, PotEvap = BasinObs$E, 
+                               NbMbr = NbMbr)
 ```
 
 Please note that if the uncertainty in meteorological forcings is not taken into account, the same deterministic `InputsModel` object is used to force each ensemble member.
