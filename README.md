@@ -34,11 +34,11 @@ Consistently with the airGR package, both structure and class of function argume
 
 ## Hydrological model
 
-DA schemes are designed to be coupled with GR daily hydrological model, which is implemented in the airGR package. This model can be called within the airGRdatassim package using the following airGR functions: 
+DA schemes are designed to be coupled with GR daily hydrological model, which is implemented in the airGR package. This model can be called within the airGRdatassim package using the following airGR functions (see the [airGR manual](https://cran.r-project.org/web/packages/airGR/airGR.pdf#page.4) to get the references of the GR models): 
 
-  - `RunModel_GR4J()`: four-parameter daily lumped hydrological model (Perrin et al., 2003)
-  - `RunModel_GR5J()`: five-parameter daily lumped hydrological model (Le Moine, 2008)
-  - `RunModel_GR6J()`: six-parameter daily lumped hydrological model (Pushpalatha et al., 2011)
+  - `RunModel_GR4J()`: four-parameter daily lumped hydrological model
+  - `RunModel_GR5J()`: five-parameter daily lumped hydrological model
+  - `RunModel_GR6J()`: six-parameter daily lumped hydrological model
   - `RunModel_CemaNeigeGR4J()`: combined use of GR4J and CemaNeige
   - `RunModel_CemaNeigeGR5J()`: combined use of GR5J and CemaNeige
   - `RunModel_CemaNeigeGR6J()`: combined use of GR6J and CemaNeige
@@ -59,9 +59,4 @@ For more information and to get started with the package, you can refer to the v
 
 ## References
 
-- Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324, doi: [10.1016/j.advwatres.2008.06.005](https://www.doi.org/10.1016/j.advwatres.2008.06.005)
-- Le Moine, N. (2008). Le bassin versant de surface vu par le souterrain : une voie d'amélioration des performances et du réalisme des modèles pluie-débit ?, PhD thesis (in French), UPMC - Cemagref Antony, Paris, France, 324 pp.
-- Perrin, C., Michel, C. and Andréassian, V. (2003). Improvement of a parsimonious model for streamflow simulation, Journal of Hydrology, 279(1-4), 275-289, doi: [10.1016/S0022-1694(03)00225-7](https://www.doi.org/10.1016/S0022-1694(03)00225-7)
 - Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (in review). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research.
-- Pushpalatha, R., Perrin, C., Le Moine, N., Mathevet, T. and Andréassian, V. (2011). A downward structural sensitivity analysis of hydrological models to improve low-flow simulation, Journal of Hydrology, 411(1-2), 66-76, doi: [10.1016/j.jhydrol.2011.09.034](https://www.doi.org/10.1016/j.jhydrol.2011.09.034)
-- Salamon, P. and Feyen, L. (2009). Assessing parameter, precipitation, and predictive uncertainty in a distributed hydrological model using sequential data assimilation with the particle filter. Journal of Hydrology, 376(3-4), 428-442, doi: [10.1016/j.jhydrol.2009.07.051](https://www.doi.org/10.1016/j.jhydrol.2009.07.051)

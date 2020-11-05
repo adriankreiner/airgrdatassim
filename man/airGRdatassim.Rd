@@ -22,13 +22,13 @@ Consistently with the airGR package, both structure and class of function argume
 
 ## --- Models
 
-DA schemes are designed to be coupled with GR daily hydrological models, which are implemented in the airGR package. These models can be called within the airGRdatassim package using the following airGR functions: \cr 
-  - \code{\link[airGR]{RunModel_GR4J}}: four-parameter daily lumped hydrological model (Perrin et al., 2003) \cr
-  - \code{\link[airGR]{RunModel_GR5J}}: five-parameter daily lumped hydrological model (Le Moine, 2008) \cr
-  - \code{\link[airGR]{RunModel_GR6J}}: six-parameter daily lumped hydrological model (Pushpalatha et al., 2011) \cr
-  - \code{\link[airGR]{RunModel_CemaNeigeGR4J}}: combined use of GR4J and CemaNeige \cr
-  - \code{\link[airGR]{RunModel_CemaNeigeGR5J}}: combined use of GR5J and CemaNeige \cr
-  - \code{\link[airGR]{RunModel_CemaNeigeGR6J}}: combined use of GR6J and CemaNeige \cr\cr
+DA schemes are designed to be coupled with GR daily hydrological models, which are implemented in the airGR package. These models can be called within the airGRdatassim package using the following airGR functions (see the \code{\link[airGR]{airGR}} manual to get the references of the GR models): \cr 
+  - \code{\link[airGR]{RunModel_GR4J}}: four-parameter daily lumped hydrological model \cr
+  - \code{\link[airGR]{RunModel_GR5J}}: five-parameter daily lumped hydrological model \cr
+  - \code{\link[airGR]{RunModel_GR6J}}: six-parameter daily lumped hydrological model  \cr
+  - \code{\link[airGR]{RunModel_CemaNeigeGR4J}}: combined use of GR4J and CemaNeige    \cr
+  - \code{\link[airGR]{RunModel_CemaNeigeGR5J}}: combined use of GR5J and CemaNeige    \cr
+  - \code{\link[airGR]{RunModel_CemaNeigeGR6J}}: combined use of GR6J and CemaNeige    \cr\cr
 
 
 ## --- How to get started
@@ -46,12 +46,7 @@ For more information and to get started with the package, you can refer to the v
 
 ## --- References
 
-- Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324, doi: \href{https://www.doi.org/10.1016/j.advwatres.2008.06.005}{10.1016/j.advwatres.2008.06.005} \cr
-- Le Moine, N. (2008). Le bassin versant de surface vu par le souterrain : une voie d'amélioration des performances et du réalisme des modèles pluie-débit ?, PhD thesis (in French), UPMC - Cemagref Antony, Paris, France, 324 pp. \cr
-- Perrin, C., Michel, C. and Andréassian, V. (2003). Improvement of a parsimonious model for streamflow simulation, Journal of Hydrology, 279(1-4), 275-289, doi: \href{https://www.doi.org/10.1016/S0022-1694(03)00225-7}{10.1016/S0022-1694(03)00225-7}
 - Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (in review). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research. \cr
-- Pushpalatha, R., Perrin, C., Le Moine, N., Mathevet, T. and Andréassian, V. (2011). A downward structural sensitivity analysis of hydrological models to improve low-flow simulation, Journal of Hydrology, 411(1-2), 66-76, doi: \href{https://www.doi.org/10.1016/j.jhydrol.2011.09.034}{10.1016/j.jhydrol.2011.09.034} \cr
-- Salamon, P. and Feyen, L. (2009). Assessing parameter, precipitation, and predictive uncertainty in a distributed hydrological model using sequential data assimilation with the particle filter. Journal of Hydrology, 376(3-4), 428-442, doi: \href{https://www.doi.org/10.1016/j.jhydrol.2009.07.051}{10.1016/j.jhydrol.2009.07.051}
 
 }
 
