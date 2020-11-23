@@ -1,8 +1,8 @@
 Package: airGRdatassim
 Type: Package
 Title: Suite of Tools to Perform Ensemble-Based Data Assimilation with GR Hydrological Models
-Version: 0.0.1.9
-Date: 2020-11-05
+Version: 0.0.1.10
+Date: 2020-11-23
 Authors@R: c(
   person("Gaia", "Piazzi", role = c("aut"), comment = c(ORCID = "0000-0002-4167-0794")),
   person("Olivier", "Delaigue", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-7668-8468"), email = "airGR@inrae.fr"),

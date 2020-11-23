@@ -1,4 +1,4 @@
-'[.Inputs.default' <- function(Inputs, IndRun) {
+.ExtractInputsModel <- function(Inputs, IndRun) {
   res <- lapply(Inputs, function(x) {
     if (is.matrix(x)) {
       res0 <- x[IndRun, ]
@@ -7,7 +7,7 @@
       res0 <- x[IndRun]
     }
     if (is.list(x) & !inherits(x, "POSIXt")) {
-      res0 <- '[.Inputs.default'(Inputs = x, IndRun = IndRun)
+      res0 <- .ExtractInputsModel(Inputs = x, IndRun = IndRun)
     }
     return(res0)
   })
@@ -23,5 +23,5 @@
   if (!inherits(Inputs, "InputsModel")) {
     stop("'Inputs' must be of class 'InputsModel'")
   }
-  '[.Inputs.default'(Inputs, IndRun)
+  .ExtractInputsModel(Inputs, IndRun)
 }
