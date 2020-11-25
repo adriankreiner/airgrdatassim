@@ -16,11 +16,7 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
 
   ## ---------- graphical variables
   
-  TimeUnit <- c("day", "hour")
-  TimeUnit <- match.arg(class(x), TimeUnit, several.ok = TRUE)
-  DaMethod <- c("EnKF", "PF", "none")
-  DaMethod <- match.arg(class(x), DaMethod, several.ok = TRUE)
-  DaMethod <- gsub(pattern = "none", replacement = "OpenLoop", x = DaMethod)
+  RangeQsimEns <- apply(x$QsimEns, MARGIN = 2, FUN = range)
   
   if (!is.null(Qobs)) {
     ColObs <- par("fg")
@@ -30,11 +26,18 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
     ColObs <- NULL
     LegObs <- NULL
   }
-  RangeQsimEns <- apply(x$QsimEns, MARGIN = 2, FUN = range)
+  
   ColSim <- "orangered"
   ColSimInt <- adjustcolor(ColSim, alpha.f = 0.25)
   Pal <- c(ColObs, ColSim)
+  
   Leg <- c(LegObs, sprintf("sim (%s)", DaMethod))
+  TimeUnit <- c("day", "hour")
+  TimeUnit <- match.arg(class(x), TimeUnit, several.ok = TRUE)
+  DaMethod <- c("EnKF", "PF", "none")
+  DaMethod <- match.arg(class(x), DaMethod, several.ok = TRUE)
+  DaMethod <- gsub(pattern = "none", replacement = "OpenLoop", x = DaMethod)
+  
   
   ## ---------- plot
   
