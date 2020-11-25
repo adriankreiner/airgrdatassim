@@ -1,4 +1,4 @@
-plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
+plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL, ...) {
   
   ## ---------- check arguments
   
@@ -31,12 +31,16 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
   ColSimInt <- adjustcolor(ColSim, alpha.f = 0.25)
   Pal <- c(ColObs, ColSim)
   
-  Leg <- c(LegObs, sprintf("sim (%s)", DaMethod))
   TimeUnit <- c("day", "hour")
   TimeUnit <- match.arg(class(x), TimeUnit, several.ok = TRUE)
   DaMethod <- c("EnKF", "PF", "none")
   DaMethod <- match.arg(class(x), DaMethod, several.ok = TRUE)
   DaMethod <- gsub(pattern = "none", replacement = "OpenLoop", x = DaMethod)
+  
+  Main <- ifelse(test = is.null(main),
+                 yes = sprintf("%s-based discharge simulations", DaMethod),
+                 no = main)
+  Leg <- c(LegObs, sprintf("sim (%s)", DaMethod))
   
   
   ## ---------- plot
@@ -44,10 +48,9 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
   plot(x = x$DatesR, y = colMeans(x$QsimEns),
        ylim = range(RangeQsimEns, Qobs, na.rm = TRUE),
        type = "l", col = ColSim, lwd = 2,
-       main = sprintf("%s-based discharge simulations", DaMethod),
+       main = Main,
        xlab = sprintf("Time [%s]", TimeUnit), ylab = sprintf("Discharge [mm/%s]", TimeUnit),
-       panel.first = polygon(x = c(as.numeric(x$DatesR),
-                                   rev(as.numeric(x$DatesR))),
+       panel.first = polygon(x = c(as.numeric(x$DatesR), rev(as.numeric(x$DatesR))),
                              y = c(RangeQsimEns[1L, ], rev(RangeQsimEns[2L, ])),
                              col = ColSimInt, border = NA),
        panel.last = lines(x = x$DatesR,
