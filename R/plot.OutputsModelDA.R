@@ -30,8 +30,11 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL,
   ColSimInt <- adjustcolor(ColSim, alpha.f = 0.25)
   Pal <- c(ColObs, ColSim)
   
-  TimeUnit <- c("day", "hour")
+  TimeUnit <- c("daily", "hourly")
   TimeUnit <- match.arg(class(x), TimeUnit, several.ok = TRUE)
+  TimeUnit <- switch(TimeUnit,
+                     daily  = "day",
+                     hourly = "hour")
   DaMethod <- c("EnKF", "PF", "none")
   DaMethod <- match.arg(class(x), DaMethod, several.ok = TRUE)
   DaMethod <- gsub(pattern = "none", replacement = "OpenLoop", x = DaMethod)
