@@ -1,4 +1,4 @@
-plot.InputsPert <- function(x, main = NULL, which = "all",
+plot.InputsPert <- function(x, which = "all", main = NULL,
                             ColPrecip = "royalblue", ColPotEvap = "green3", ...) {
   
   
