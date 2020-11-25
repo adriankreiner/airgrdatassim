@@ -133,7 +133,7 @@ OutputsModelDA <- RunModel_DA(InputsModel = InputsModel,
                               StatePert = c("Prod", "Rout"))
 
 ## results preview
-plot(x = result, Qobs = BasinObs$Qmm[IndRun])
+plot(OutputsModelDA, Qobs = BasinObs$Qmm[IndRun])
 }
 
 \author{
