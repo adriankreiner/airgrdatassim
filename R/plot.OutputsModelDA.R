@@ -14,7 +14,7 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL,
     warning("'Qobs' is not a numeric of the same length as Qsim. Time series of observed flow not drawn")
   }
   
-
+  
   ## ---------- graphical variables
   
   RangeQsimEns <- apply(x$QsimEns, MARGIN = 2, FUN = range)
@@ -36,7 +36,7 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL,
                      daily  = "day",
                      hourly = "hour")
   DaMethod <- c("EnKF", "PF", "none")
-  DaMethod <- match.arg(class(x), DaMethod, several.ok = TRUE)
+  DaMethod <- match.arg(arg = class(x), choices = DaMethod, several.ok = TRUE)
   DaMethod <- gsub(pattern = "none", replacement = "OpenLoop", x = DaMethod)
   
   Main <- ifelse(test = is.null(main),
