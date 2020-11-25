@@ -123,30 +123,17 @@ InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
                                NbMbr = NbMbr)               
 
 ## simulation with DA via EnKF
-result <- RunModel_DA(InputsModel = InputsModel, InputsPert = InputsPert,
-                      Qobs = BasinObs$Qmm,
-                      IndRun = IndRun,
-                      FUN_MOD = RunModel_GR5J, Param = Param,
-                      DaMethod = "EnKF", NbMbr = NbMbr,
-                      StateEnKF = c("Prod", "Rout"),
-                      StatePert = c("Prod", "Rout"))
+OutputsModelDA <- RunModel_DA(InputsModel = InputsModel,
+                              InputsPert = InputsPert,
+                              Qobs = BasinObs$Qmm,
+                              IndRun = IndRun,
+                              FUN_MOD = RunModel_GR5J, Param = Param,
+                              DaMethod = "EnKF", NbMbr = NbMbr,
+                              StateEnKF = c("Prod", "Rout"),
+                              StatePert = c("Prod", "Rout"))
 
 ## results preview
-rangeQsimEns <- apply(result$QsimEns, MARGIN = 2, FUN = range)
-plot(x = result$DatesR, y = colMeans(result$QsimEns),
-     ylim = range(rangeQsimEns, BasinObs$Qmm, na.rm = TRUE),
-     type = "l", col = "red", lwd = 2,
-     main = "EnKF-based discharge simulations",
-     xlab = "Time [day]", ylab = "Discharge [mm/day]",
-     panel.first = polygon(x = c(as.numeric(result$DatesR),
-                                 rev(as.numeric(result$DatesR))),
-                           y = c(rangeQsimEns[1, ], rev(rangeQsimEns[2, ])),
-                           col = "pale turquoise", border = NA),
-     panel.last = lines(x = result$DatesR,
-                        y = BasinObs$Qmm[IndRun],
-                        type = "l", col = "black", lwd = 2))
-legend("topright", legend = c("DA-based", "obs"),
-       lty = 1, col = c("red", "black"))
+plot(x = result, Qobs = BasinObs$Qmm[IndRun])
 }
 
 \author{
