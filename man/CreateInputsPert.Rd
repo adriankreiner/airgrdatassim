@@ -90,16 +90,7 @@ InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
                                NbMbr = 100L)               
 
 ## results preview
-rangePrecip <- apply(InputsPert$Precip, MARGIN = 1, FUN = range) 
-plot(x = InputsPert$DatesR, y = rowMeans(InputsPert$Precip),
-     ylim = range(rangePrecip),
-     type = "l", col = "red", lwd = 2,
-     main = "Precipitation ensemble",
-     xlab = "Time [day]", ylab = "Total precipitation [mm/day]",
-     panel.first = polygon(x = c(as.numeric(InputsPert$DatesR),
-                                 rev(as.numeric(InputsPert$DatesR))),
-                           y = c(rangePrecip[1, ], rev(rangePrecip[2, ])),
-                           col = "pale turquoise", border = NA))
+plot(InputsPert)
 }
 
 \author{
