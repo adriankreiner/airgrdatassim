@@ -18,6 +18,10 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
   
   timeUnit <- c("day", "hour")
   timeUnit <- match.arg(class(x), timeUnit, several.ok = TRUE)
+  DaMethod <- c("EnKF", "PF", "none")
+  DaMethod <- match.arg(class(x), DaMethod, several.ok = TRUE)
+  DaMethod <- gsub(pattern = "none", replacement = "OpenLoop", x = DaMethod)
+  
   if (!is.null(Qobs)) {
     colObs <- par("fg")
     legObs <- "obs"
@@ -30,14 +34,14 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
   colSim <- "orangered"
   colSimInt <- adjustcolor(colSim, alpha.f = 0.25)
   pal <- c(colObs, colSim)
-  leg <- c(legObs, "DA-based")
+  leg <- c(legObs, sprintf("sim (%s)", DaMethod))
   
   ## ---------- plot
   
   plot(x = x$DatesR, y = colMeans(x$QsimEns),
        ylim = range(rangeQsimEns, Qobs, na.rm = TRUE),
        type = "l", col = colSim, lwd = 2,
-       main = "EnKF-based discharge simulations",
+       main = sprintf("%s-based discharge simulations", DaMethod),
        xlab = sprintf("Time [%s]", timeUnit), ylab = sprintf("Discharge [mm/%s]", timeUnit),
        panel.first = polygon(x = c(as.numeric(x$DatesR),
                                    rev(as.numeric(x$DatesR))),
