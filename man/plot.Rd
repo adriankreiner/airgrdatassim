@@ -7,16 +7,16 @@
 \alias{plot}
 
 
-\title{Default preview of DA model outputs}
+\title{Default preview of perturbed inputs and DA model outputs}
 
 
 \description{
-Function which creates a plot of time series of DA model outputs.
+Function which creates time series plots for perturbed inputs and DA model outputs.
 }
 
 
 \usage{
-\method{plot}{InputsPert}(x, main = NULL, which = "all",
+\method{plot}{InputsPert}(x, which = "all", main = NULL,
      ColPrecip = "royalblue", ColPotEvap = "green3", ...)
 \method{plot}{OutputsModelDA}(x, Qobs = NULL, main = NULL,
      ColSim = "orangered", ColObs = par("fg"), ...)
@@ -28,9 +28,9 @@ Function which creates a plot of time series of DA model outputs.
 
 \item{Qobs}{(optional) [numeric] time series of observed flow (for the same time steps than simulated) [mm/time step]}
 
-\item{main}{(optional) [character] an overall title for the plot (see \code{\link[graphics]{title}})}
+\item{which}{(optional) [character] choice of plots (e.g. \code{"Precip"} or \code{"PotEvap"}, default = \code{"all"})}
 
-\item{which}{(optional) [character] an overall title for the plot (see \code{\link[graphics]{title}})}
+\item{main}{(optional) [character] an overall title for the plot (see \code{\link[graphics]{title}})}
 
 \item{ColPrecip}{(optional) [character] color to be used for perturbed precipitation (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
 
@@ -50,5 +50,5 @@ Olivier Delaigue, Gaia Piazzi
 
 
 \seealso{
-\code{\link{RunModel_DA}}
+\code{\link{CreateInputsPert}}, \code{\link{RunModel_DA}}
 }
