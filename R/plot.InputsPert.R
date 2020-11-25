@@ -11,12 +11,18 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
   
   ## which
   NamesInputsPert <- c("Precip", "PotEvap")
+  which <- unique(which)
   which <- match.arg(arg = which, choices = c("all", NamesInputsPert), several.ok = TRUE)
-  if (which == "all") {
+  print(which)
+  print(names(x))
+  if (any(which %in% "all")) {
     which <- NamesInputsPert
   }
-  NamesInputsPert <- match.arg(names(InputsPert), NamesInputsPert, several.ok = TRUE)
-  NamesInputsPert <- NamesInputsPert
+  NamesInputsPert <- intersect(names(x), which)
+  if (length(NamesInputsPert) < 1L) {
+    stop(sprintf("'%s' element not available in x", which))
+  }
+  print(NamesInputsPert)
   
   
   ## ---------- graphical variables
