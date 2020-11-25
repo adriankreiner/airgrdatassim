@@ -361,9 +361,11 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   
   # ------ Outputs
   
-  return(list(DatesR = InputsModel$DatesR,
+  res <- list(DatesR = InputsModel$DatesR,
               QsimEns = QsimEns,
               EnsStateBkg = EnsStateBkg,
-              EnsStateA = EnsStateA))
+              EnsStateA = EnsStateA)
+  class(res) <- "OutputsModelDA"
+  return(res)
   
 }
