@@ -1,6 +1,7 @@
 plot.InputsPert <- function(x, which = "all", main = NULL,
                             ColPrecip = "royalblue", ColPotEvap = "green3", ...) {
   
+  
   ## ---------- check arguments
   
   ## class
@@ -29,11 +30,11 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
   
   for (i in seq_along(NamesInputsPert)) {
     
-    iNames <- NamesInputsPert[i]
-    IsPrecip <- iNames == "Precip"
-    Main <- ifelse(test = IsPrecip, yes = "Precipitation", no = "Potential evapotranspiration")
+    iName <- NamesInputsPert[i]
+    IsPrecip <- iName == "Precip"
+    Col  <- ifelse(test = IsPrecip, yes = ColPrecip,       no = ColPotEvap)    
     YLab <- ifelse(test = IsPrecip, yes = "total precip",  no = "pot. evap.")
-    Col  <- ifelse(test = IsPrecip, yes = ColPrecip,       no = ColPotEvap)
+    Main <- ifelse(test = IsPrecip, yes = "Precipitation", no = "Potential evapotranspiration")    
     Main <- ifelse(test = is.null(main),
                    yes = sprintf("%s ensemble", Main),
                    no = main[i])
@@ -41,14 +42,14 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
     
     ## ---------- plot
     
-    iRangeInputsPert <- apply(x[[iNames]], MARGIN = 1, FUN = range) 
-    plot(x = x$DatesR, y = rowMeans(x[[iNames]]),
-         ylim = range(iRangeInputsPert),
+    RangeInputsPert <- apply(x[[iName]], MARGIN = 1, FUN = range) 
+    plot(x = x$DatesR, y = rowMeans(x[[iName]]),
+         ylim = range(RangeInputsPert),
          type = "l", col = Col, lwd = 2,
          main = Main,
          xlab = sprintf("time [%s]", TimeUnit), ylab = sprintf("%s [mm/%s]", YLab, TimeUnit),
          panel.first = polygon(x = c(as.numeric(x$DatesR), rev(as.numeric(x$DatesR))),
-                               y = c(iRangeInputsPert[1L, ], rev(iRangeInputsPert[2L, ])),
+                               y = c(RangeInputsPert[1L, ], rev(RangeInputsPert[2L, ])),
                                col = adjustcolor(Col, alpha.f = 0.25), border = NA))
   }
   
