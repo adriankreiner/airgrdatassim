@@ -16,41 +16,41 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
 
   ## ---------- graphical variables
   
-  timeUnit <- c("day", "hour")
-  timeUnit <- match.arg(class(x), timeUnit, several.ok = TRUE)
+  TimeUnit <- c("day", "hour")
+  TimeUnit <- match.arg(class(x), TimeUnit, several.ok = TRUE)
   DaMethod <- c("EnKF", "PF", "none")
   DaMethod <- match.arg(class(x), DaMethod, several.ok = TRUE)
   DaMethod <- gsub(pattern = "none", replacement = "OpenLoop", x = DaMethod)
   
   if (!is.null(Qobs)) {
-    colObs <- par("fg")
-    legObs <- "obs"
+    ColObs <- par("fg")
+    LegObs <- "obs"
   } else {
     Qobs <- rep(NA, length(x$DatesR))
-    colObs <- NULL
-    legObs <- NULL
+    ColObs <- NULL
+    LegObs <- NULL
   }
-  rangeQsimEns <- apply(x$QsimEns, MARGIN = 2, FUN = range)
-  colSim <- "orangered"
-  colSimInt <- adjustcolor(colSim, alpha.f = 0.25)
-  pal <- c(colObs, colSim)
-  leg <- c(legObs, sprintf("sim (%s)", DaMethod))
+  RangeQsimEns <- apply(x$QsimEns, MARGIN = 2, FUN = range)
+  ColSim <- "orangered"
+  ColSimInt <- adjustcolor(ColSim, alpha.f = 0.25)
+  Pal <- c(ColObs, ColSim)
+  Leg <- c(LegObs, sprintf("sim (%s)", DaMethod))
   
   ## ---------- plot
   
   plot(x = x$DatesR, y = colMeans(x$QsimEns),
-       ylim = range(rangeQsimEns, Qobs, na.rm = TRUE),
-       type = "l", col = colSim, lwd = 2,
+       ylim = range(RangeQsimEns, Qobs, na.rm = TRUE),
+       type = "l", col = ColSim, lwd = 2,
        main = sprintf("%s-based discharge simulations", DaMethod),
-       xlab = sprintf("Time [%s]", timeUnit), ylab = sprintf("Discharge [mm/%s]", timeUnit),
+       xlab = sprintf("Time [%s]", TimeUnit), ylab = sprintf("Discharge [mm/%s]", TimeUnit),
        panel.first = polygon(x = c(as.numeric(x$DatesR),
                                    rev(as.numeric(x$DatesR))),
-                             y = c(rangeQsimEns[1L, ], rev(rangeQsimEns[2L, ])),
-                             col = colSimInt, border = NA),
+                             y = c(RangeQsimEns[1L, ], rev(RangeQsimEns[2L, ])),
+                             col = ColSimInt, border = NA),
        panel.last = lines(x = x$DatesR,
                           y = Qobs,
-                          type = "l", col = colObs, lwd = 2))
-  legend("topright", legend = leg,
-         lty = 1, col = pal)
+                          type = "l", col = ColObs, lwd = 2))
+  legend("topright", legend = Leg,
+         lty = 1, col = Pal)
   
 }
