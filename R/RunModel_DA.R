@@ -365,7 +365,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
               QsimEns = QsimEns,
               EnsStateBkg = EnsStateBkg,
               EnsStateA = EnsStateA)
-  class(res) <- "OutputsModelDA"
+  class(res) <- c("OutputsModelDA", "day")
   return(res)
   
 }

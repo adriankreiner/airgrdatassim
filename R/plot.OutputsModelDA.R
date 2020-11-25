@@ -16,6 +16,8 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
 
   ## ---------- graphical variables
   
+  timeUnit <- c("day", "hour")
+  timeUnit <- match.arg(class(x), timeUnit, several.ok = TRUE)
   if (!is.null(Qobs)) {
     colObs <- par("fg")
     legObs <- "obs"
@@ -36,7 +38,7 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
        ylim = range(rangeQsimEns, Qobs, na.rm = TRUE),
        type = "l", col = colSim, lwd = 2,
        main = "EnKF-based discharge simulations",
-       xlab = "Time [day]", ylab = "Discharge [mm/day]",
+       xlab = sprintf("Time [%s]", timeUnit), ylab = sprintf("Discharge [mm/%s]", timeUnit),
        panel.first = polygon(x = c(as.numeric(x$DatesR),
                                    rev(as.numeric(x$DatesR))),
                              y = c(rangeQsimEns[1L, ], rev(rangeQsimEns[2L, ])),
