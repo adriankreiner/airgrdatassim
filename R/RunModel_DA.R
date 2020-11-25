@@ -9,6 +9,8 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   # ------ Checks
   
   # FUN_MOD
+  TimeUnit <- "daily"
+  
   FUN_MODList <- c("RunModel_GR4J",
                    "RunModel_GR5J",
                    "RunModel_GR6J")
@@ -361,9 +363,11 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   
   # ------ Outputs
   
-  return(list(DatesR = InputsModel$DatesR,
+  res <- list(DatesR = InputsModel$DatesR,
               QsimEns = QsimEns,
               EnsStateBkg = EnsStateBkg,
-              EnsStateA = EnsStateA))
+              EnsStateA = EnsStateA)
+  class(res) <- c("OutputsModelDA", DaMethod, TimeUnit)
+  return(res)
   
 }
