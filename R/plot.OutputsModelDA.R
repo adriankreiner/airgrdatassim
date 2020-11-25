@@ -1,4 +1,5 @@
-plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL, ...) {
+plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL,
+                                ColSim = "orangered", ColObs = par("fg"), ...) {
   
   ## ---------- check arguments
   
@@ -19,7 +20,6 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL, ...) {
   RangeQsimEns <- apply(x$QsimEns, MARGIN = 2, FUN = range)
   
   if (!is.null(Qobs)) {
-    ColObs <- par("fg")
     LegObs <- "obs"
   } else {
     Qobs <- rep(NA, length(x$DatesR))
@@ -27,7 +27,6 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL, ...) {
     LegObs <- NULL
   }
   
-  ColSim <- "orangered"
   ColSimInt <- adjustcolor(ColSim, alpha.f = 0.25)
   Pal <- c(ColObs, ColSim)
   
