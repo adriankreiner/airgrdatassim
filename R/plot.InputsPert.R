@@ -1,4 +1,4 @@
-plot.InputsPert <- function(x, which = "all", main = NULL,
+plot.InputsPert <- function(x, main = NULL, which = "all",
                             ColPrecip = "royalblue", ColPotEvap = "green3", ...) {
   
   
@@ -13,8 +13,6 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
   NamesInputsPert <- c("Precip", "PotEvap")
   which <- unique(which)
   which <- match.arg(arg = which, choices = c("all", NamesInputsPert), several.ok = TRUE)
-  print(which)
-  print(names(x))
   if (any(which %in% "all")) {
     which <- NamesInputsPert
   }
@@ -22,7 +20,6 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
   if (length(NamesInputsPert) < 1L) {
     stop(sprintf("'%s' element not available in x", which))
   }
-  print(NamesInputsPert)
   
   
   ## ---------- graphical variables
@@ -39,7 +36,7 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
     iName <- NamesInputsPert[i]
     IsPrecip <- iName == "Precip"
     Col  <- ifelse(test = IsPrecip, yes = ColPrecip,       no = ColPotEvap)    
-    YLab <- ifelse(test = IsPrecip, yes = "total precip",  no = "pot. evap.")
+    YLab <- ifelse(test = IsPrecip, yes = "total precip.",  no = "pot. evap.")
     Main <- ifelse(test = IsPrecip, yes = "Precipitation", no = "Potential evapotranspiration")    
     Main <- ifelse(test = is.null(main),
                    yes = sprintf("%s ensemble", Main),
