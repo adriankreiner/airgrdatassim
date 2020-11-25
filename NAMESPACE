@@ -12,6 +12,7 @@ S3method("plot", "OutputsModelDA")
 #####################################
 export(RunModel_DA)
 export(CreateInputsPert)
+export(plot.InputsPert)
 export(plot.OutputsModelDA)
 
 
