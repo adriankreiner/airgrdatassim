@@ -2,14 +2,19 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, ...) {
   
   ## ---------- check arguments
   
+  ## class
   if (!inherits(x, "OutputsModelDA")) {
     stop("'x' must be of class OutputsModelDA")
   }
   
-
-  ## ---------- graphical variables
+  ## Qobs
+  if (!is.numeric(Qobs) || length(Qobs) != length(x$DatesR)) {
+    Qobs <- NULL
+    warning("'Qobs' is not a numeric of the same length as Qsim. Time series of observed flow not drawn")
+  }
   
 
+  ## ---------- graphical variables
   
   if (!is.null(Qobs)) {
     colObs <- par("fg")
