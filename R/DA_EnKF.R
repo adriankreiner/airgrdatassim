@@ -109,7 +109,7 @@ DA_EnKF <- function(Obs, Qsim, EnsState,
     EnsStatePert["Rout", EnsStatePert["Rout", ] <= 0] <- 1e-3
     EnsStatePert["UH2" , EnsStatePert["UH2" , ] <  0] <- 1e-3
     if ("UH1" %in% StateNames) {
-      EnsStatePert["UH1"  , EnsStatePert["UH1" , ] <  0] <- 1e-3  
+      EnsStatePert["UH1", EnsStatePert["UH1" , ] <  0] <- 1e-3  
     }
     
     EnsStatePert["Prod", EnsStatePert["Prod", ] > Param[1]] <- Param[1] # if Prod > X1 -> Prod = X1

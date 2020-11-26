@@ -2,7 +2,7 @@
 RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                         IndRun,
                         FUN_MOD, Param,
-                        DaMethod = c("EnKF", "PF", "none"), NbMbr,
+                        DaMethod = c("EnKF", "PF", "none"), NbMbr = NULL,
                         StateEnKF = NULL, StatePert = NULL, 
                         Seed = NULL) {
   
@@ -71,6 +71,10 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   # InputsPert
   if (is.null(InputsPert)) {
     IsMeteo <- FALSE
+    if (is.null(NbMbr)) {
+      NbMbr <- 50
+      message("'InputsPert' and 'NbMbr' not defined: number of ensemble members automatically set to 50")
+    }
   } else {
     if (!inherits(InputsPert, "InputsPert")) {
       stop("'InputsPert' must of class 'InputsPert' or NULL")
@@ -96,6 +100,10 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
     }
     
     # NbMbr
+    if (is.null(NbMbr)) {
+      message(sprintf("'NbMbr' not defined: number of ensemble members automatically set to 'InputsPert$NbMbr' (%i)", InputsPert$NbMbr))
+      NbMbr <- InputsPert$NbMbr
+    }
     if (!(is.atomic(NbMbr) && is.numeric(NbMbr) && length(NbMbr) == 1 && NbMbr >= 2)) {
       stop("'NbMbr' should be a single vector of a numeric value >= 2")
     } else {
@@ -361,7 +369,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   
   
   
-  # ------ Outputs
+  # ------ Outputs and class
   
   res <- list(DatesR = InputsModel$DatesR,
               QsimEns = QsimEns,
