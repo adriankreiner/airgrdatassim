@@ -33,7 +33,7 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
 
 \item{NLayers}{(optional) [numeric] integer giving the number of elevation layers requested [-], required to create CemaNeige module inputs, default=5}
 
-\item{NbMbr}{[numeric] number of ensemble members}
+\item{NbMbr}{[numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme)}
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
 }
@@ -48,7 +48,7 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
      \emph{$Precip } \tab [matrix, dim(Nt, NbMbr)] ensemblist time series of perturbed total precipitation [mm/d] (with Nt the length of the period; generated only if the precipitation time series is provided as a function argument).  
                           \cr\cr
      \emph{$PotEvap} \tab [matrix, dim(Nt, NbMbr)] ensemblist time series of perturbed potential evapotranspiration [mm/d] (generated only if the time series of potential evapotranspiration is provided as a function argument).                        
-         }                                                                                      
+  }                                                                                      
 }
 
 \description{

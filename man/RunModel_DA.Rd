@@ -34,7 +34,7 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
     "UH2"  \tab unit hydrograph 2 levels [mm]
   }}  
   
-\item{NbMbr}{[numeric] number of ensemble members}
+\item{NbMbr}{[numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme)}
 
 \item{FUN_MOD}{[function] daily hydrological model functions (GR4J, GR5J or GR6J; e.g. \code{\link[airGR]{RunModel_GR5J}}, \code{\link[airGR]{RunModel_CemaNeigeGR5J}})}
 
