@@ -14,8 +14,9 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
   
   FUN_MOD <- match.fun(FUN_MOD)
   
-  if (!any(sapply(c(FUN_MODList,FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
-    stop(sprintf("incorrect 'FUN_MOD' for use in 'CreateInputsPerturb'. Only %s can be used", paste(c(FUN_MODList,FUN_MODSnowList), collapse = ", ")))
+  if (!any(sapply(c(FUN_MODList, FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
+    stop(sprintf("incorrect 'FUN_MOD' for use in 'CreateInputsPerturb'. Only %s can be used",
+                 paste(c(FUN_MODList, FUN_MODSnowList), collapse = ", ")))
   }
   
   if (!(is.atomic(NbMbr) && is.numeric(NbMbr) && length(NbMbr) == 1 && NbMbr >= 2)) {
@@ -177,9 +178,10 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
   }
   InputsPert$NbMbr <- NbMbr
   
+  
+  
   # ------ Class
   
   class(InputsPert) <- c(class(InputsPert), "InputsPert")
-  
   return(InputsPert)
 }
