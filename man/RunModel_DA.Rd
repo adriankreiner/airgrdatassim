@@ -17,6 +17,20 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 
 \arguments{
 
+
+\item{InputsModel}{[list] object of class \emph{InputsModel} containing the data required to run the model  (see \code{\link[airGR]{CreateInputsModel}} for details)}
+
+\item{InputsPert}{(optional) [list] object of class \emph{InputsModel} containing the ensembles of perturbed data required to evaluate the model probabilistic outputs, if the uncertainty in meteorological forcings is taken into account. The variables data proposed in \emph{InputsPert} will erase the variables data given in \emph{InputsModel}}
+
+\item{Qobs}{(optional) [numeric] time series of observed discharges [mm/d]}
+
+\item{IndRun}{[numeric] index of period to be used for the model run [-]}
+
+
+\item{FUN_MOD}{[function] daily hydrological model functions (GR4J, GR5J or GR6J; e.g. \code{\link[airGR]{RunModel_GR5J}}, \code{\link[airGR]{RunModel_CemaNeigeGR5J}})}
+
+\item{Param}{[numeric] vector of model parameters (number of parameters depends on the used hydrological model, from 4 parameters in GR4J up to 10 parameters in GR6J with CemaNeige)}
+
 \item{DaMethod}{[character] name of the data assimilation technique:
   \tabular{ll}{                                                                      
     "EnKF" \tab discharge assimilation via Ensemble Kalman filter                   \cr
@@ -24,7 +38,7 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
     "none" \tab discharge assimilation is not performed (i.e. open-loop simulation) \cr
   }} 
   
-\item{IndRun}{[numeric] index of period to be used for the model run [-]}
+\item{NbMbr}{(optional) [numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme; by default=\code{NULL}: 50 if \emph{InputsPert} is not set or \emph{InputsPert$NbMbr} otherwise)}
 
 \item{StateEnKF}{[character] vector of the names of state variables to be updated via EnKF:
   \tabular{ll}{                                                        
@@ -33,17 +47,7 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
     "UH1"  \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr    
     "UH2"  \tab unit hydrograph 2 levels [mm]
   }}  
-  
-\item{NbMbr}{(optional) [numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme; by default=\code{NULL}: 50 if \emph{InputsPert} is not set or \emph{InputsPert$NbMbr} otherwise)}
 
-\item{FUN_MOD}{[function] daily hydrological model functions (GR4J, GR5J or GR6J; e.g. \code{\link[airGR]{RunModel_GR5J}}, \code{\link[airGR]{RunModel_CemaNeigeGR5J}})}
-
-\item{InputsModel}{[list] object of class \emph{InputsModel} containing the data required to run the model  (see \code{\link[airGR]{CreateInputsModel}} for details)}
-
-\item{InputsPert}{(optional) [list] object of class \emph{InputsModel} containing the ensembles of perturbed data required to evaluate the model probabilistic outputs, if the uncertainty in meteorological forcings is taken into account. The variables data proposed in \emph{InputsPert} will erase the variables data given in \emph{InputsModel}}
-
-\item{Param}{[numeric] vector of model parameters (number of parameters depends on the used hydrological model, from 4 parameters in GR4J up to 10 parameters in GR6J with CemaNeige)}
-  
 \item{StatePert}{[character] vector of the names of state variables to be perturbed via EnKF or PF:
   \tabular{ll}{                                                        
     "Prod" \tab level of the production store [mm]                             \cr      
@@ -52,8 +56,6 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
     "UH2"  \tab unit hydrograph 2 levels [mm]
   }} 
   
-\item{Qobs}{(optional) [numeric] time series of observed discharges [mm/d]}
-
 \item{Seed}{(optional) [numeric] seed of random number generator}
 
 }
@@ -142,9 +144,9 @@ Gaia Piazzi, Olivier Delaigue
 
 \references{
 - Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324, doi: \href{https://www.doi.org/10.1016/j.advwatres.2008.06.005}{10.1016/j.advwatres.2008.06.005}
-\cr
+\cr\cr
 - Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (in review). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research.
-\cr
+\cr\cr
 - Salamon, P. and Feyen, L. (2009). Assessing parameter, precipitation, and predictive uncertainty in a distributed hydrological model using sequential data assimilation with the particle filter. Journal of Hydrology, 376(3-4), 428-442, doi: \href{https://www.doi.org/10.1016/j.jhydrol.2009.07.051}{10.1016/j.jhydrol.2009.07.051}
 }
 
