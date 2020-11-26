@@ -21,11 +21,11 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
 
 \item{DatesR}{[POSIXct] vector of dates}
 
-\item{Precip}{(optional) [numeric] time series of total precipitation [mm/d]}
+\item{Precip}{(optional) [numeric] time series of total precipitation to perturb [mm/d]}
 
-\item{PotEvap}{(optional) [numeric] time series of potential evapotranspiration [mm/d]}
+\item{PotEvap}{(optional) [numeric] time series of potential evapotranspiration to perturb [mm/d]}
 
-\item{TempMean}{(optional) [numeric] time series of mean air temperature [°C], required to create the CemaNeige module inputs}
+\item{TempMean}{(optional) [numeric] time series of mean air temperature [°C] (not perturbed), required to create the CemaNeige module inputs}
 
 \item{ZInputs}{(optional) [numeric] real giving the mean elevation of the Precip and Temp series (before extrapolation) [m], possibly used to create the CemaNeige module inputs}
 
@@ -45,11 +45,11 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
   \tabular{ll}{                                                                                         
      \emph{$DatesR } \tab [POSIXlt] vector of dates
                           \cr\cr
-     \emph{$Precip } \tab [matrix, dim(Nt, NbMbr)] ensemblist time series of perturbed total precipitation [mm/d] (with Nt the length of the period; generated only if the precipitation time series is provided as a function argument)
+     \emph{$Precip } \tab [numeric] matrix (dim(Nt, NbMbr)) of ensemblist time series of perturbed total precipitation [mm/d] (with Nt the length of the period; generated only if the precipitation time series is provided as a function argument)
                           \cr\cr
-     \emph{$PotEvap} \tab [matrix, dim(Nt, NbMbr)] ensemblist time series of perturbed potential evapotranspiration [mm/d] (generated only if the time series of potential evapotranspiration is provided as a function argument)
+     \emph{$PotEvap} \tab [numeric] matrix (dim(Nt, NbMbr)) of ensemblist time series of perturbed potential evapotranspiration [mm/d] (generated only if the time series of potential evapotranspiration is provided as a function argument)
                           \cr\cr
-     \emph{NbMbr} \tab [numeric] atomic vector of number of ensemble members used
+     \emph{$NbMbr  } \tab [integer] atomic vector of number of ensemble members
   }                                                                                      
 }
 
