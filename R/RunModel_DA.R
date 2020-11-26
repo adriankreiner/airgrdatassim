@@ -374,7 +374,10 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   res <- list(DatesR = InputsModel$DatesR,
               QsimEns = QsimEns,
               EnsStateBkg = EnsStateBkg,
-              EnsStateA = EnsStateA)
+              EnsStateA = EnsStateA,
+              NbMbr = NbMbr,
+              Nt = Nt,
+              NbState = NbState)
   class(res) <- c("OutputsModelDA", DaMethod, TimeUnit)
   return(res)
   
