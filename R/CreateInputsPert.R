@@ -175,6 +175,7 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
       InputsPert[[iName]] <- NULL
     }
   }
+  InputsPert$NbMbr <- NbMbr
   
   # ------ Class
   

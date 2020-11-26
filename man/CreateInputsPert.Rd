@@ -45,9 +45,11 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
   \tabular{ll}{                                                                                         
      \emph{$DatesR } \tab [POSIXlt] vector of dates
                           \cr\cr
-     \emph{$Precip } \tab [matrix, dim(Nt, NbMbr)] ensemblist time series of perturbed total precipitation [mm/d] (with Nt the length of the period; generated only if the precipitation time series is provided as a function argument).  
+     \emph{$Precip } \tab [matrix, dim(Nt, NbMbr)] ensemblist time series of perturbed total precipitation [mm/d] (with Nt the length of the period; generated only if the precipitation time series is provided as a function argument)
                           \cr\cr
-     \emph{$PotEvap} \tab [matrix, dim(Nt, NbMbr)] ensemblist time series of perturbed potential evapotranspiration [mm/d] (generated only if the time series of potential evapotranspiration is provided as a function argument).                        
+     \emph{$PotEvap} \tab [matrix, dim(Nt, NbMbr)] ensemblist time series of perturbed potential evapotranspiration [mm/d] (generated only if the time series of potential evapotranspiration is provided as a function argument)
+                          \cr\cr
+     \emph{NbMbr} \tab [numeric] atomic vector of number of ensemble members used
   }                                                                                      
 }
 
