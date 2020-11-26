@@ -1,6 +1,6 @@
 
 CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = NULL, 
-                             ZInputs = NULL, HypsoData = NULL, NLayers = 5, NbMbr, Seed = NULL) {
+                             ZInputs = NULL, HypsoData = NULL, NLayers = 5, NbMbr = 50, Seed = NULL) {
   
   # ------ Checks
   

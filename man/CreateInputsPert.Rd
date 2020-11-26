@@ -11,7 +11,7 @@
 CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
                  PotEvap = NULL, TempMean = NULL, 
                  ZInputs = NULL, HypsoData = NULL, NLayers = 5,
-                 NbMbr, Seed = NULL)
+                 NbMbr = 50, Seed = NULL)
 
 }
 
@@ -33,7 +33,7 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
 
 \item{NLayers}{(optional) [numeric] integer giving the number of elevation layers requested [-], required to create CemaNeige module inputs, default=5}
 
-\item{NbMbr}{[numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme)}
+\item{NbMbr}{(optional) [numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme)}
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
 }

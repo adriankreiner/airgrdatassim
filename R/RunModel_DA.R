@@ -2,7 +2,7 @@
 RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                         IndRun,
                         FUN_MOD, Param,
-                        DaMethod = c("EnKF", "PF", "none"), NbMbr,
+                        DaMethod = c("EnKF", "PF", "none"), NbMbr = 50,
                         StateEnKF = NULL, StatePert = NULL, 
                         Seed = NULL) {
   
