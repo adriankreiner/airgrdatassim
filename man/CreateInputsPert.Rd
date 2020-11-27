@@ -87,12 +87,15 @@ IndRun <- seq(which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-01
 
 ## preparation of perturbed meteorological ensemble            
 InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
-                               DatesR = BasinObs$DatesR[IndRun],
-                               Precip = BasinObs$P[IndRun],
-                               NbMbr = 100L)               
+                               DatesR = BasinObs$DatesR,
+                               Precip = BasinObs$P,
+                               PotEvap = BasinObs$E,
+                               NbMbr = 100L)
+str(InputsPert)
 
-## results preview
-plot(InputsPert)
+## results preview on a subset
+par(mfrow = c(2, 1))
+plot(InputsPert[IndRun])
 }
 
 \author{
