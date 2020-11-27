@@ -12,7 +12,6 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
                  PotEvap = NULL, TempMean = NULL, 
                  ZInputs = NULL, HypsoData = NULL, NLayers = 5,
                  NbMbr = 50, Seed = NULL)
-
 }
 
 \arguments{
