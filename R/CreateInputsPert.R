@@ -147,7 +147,7 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
                    nrow = NbMeteo, ncol = NbMbr,
                    dimnames = list(MeteoNames, MbrNames)) 
       
-      S[, , iTime] <- Alfa*S0+sqrt(1-Alfa^2) * W    
+      S[, , iTime] <- Alfa * S0 + sqrt(1-Alfa^2) * W    
       
     } else {
       # error time evolution
