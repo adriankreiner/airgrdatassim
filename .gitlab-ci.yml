@@ -28,3 +28,26 @@ default:
   artifacts:
     untracked: true
     expire_in: 1 week
+
+build_patched:
+  variables:
+    R_VERSION: "patched"
+  extends: .build
+
+build_devel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "devel"
+  extends: .build
+
+build_oldrel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "oldrel"
+  extends: .build
