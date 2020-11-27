@@ -188,11 +188,13 @@ The following example supplies probabilistic discharge simulations relying on th
 
 ```{r, warning=FALSE}
 Param <- c(X1 = 194.243, X2 = -0.088, X3 = 117.740, X4 = 1.680, X5 = 0.000)
-result_EnKF <- RunModel_DA(InputsModel = InputsModel, InputsPert = InputsPert, Qobs = BasinObs$Qmm,
-                           IndRun = IndRun, FUN_MOD = RunModel_GR5J, Param = Param,
+result_EnKF <- RunModel_DA(InputsModel = InputsModel,
+                           InputsPert = InputsPert,
+                           Qobs = BasinObs$Qmm,
+                           IndRun = IndRun,
+                           FUN_MOD = RunModel_GR5J, Param = Param,
                            DaMethod = "EnKF", NbMbr = NbMbr,
                            StateEnKF = StateEnKF, StatePert = StatePert)
-
 ```
 
 As defined in `StateEnKF`, in this example the EnKF scheme updates only the levels of the production (`"Prod"`) and the routing (`"Rout"`) stores through the assimilation of discharge observations. Along with the uncertainty in meterological forcings (`InputsPert` is supplied), also the uncertainty in model states (`StatePert`) is taken into account. Therefore, the selected state variables (i.e. the store levels) are consistently perturbed after their update.  
@@ -209,8 +211,11 @@ The PF scheme relies on the Sequential Importance Resampling (SIR) technique [@g
 If the ensemble is too squeezed to properly evaluate the importance weights, all particles are assigned equal weights.
 
 ```{r, warning=FALSE}
-result_PF <- RunModel_DA(InputsModel = InputsModel, InputsPert = InputsPert, Qobs = BasinObs$Qmm,
-                         IndRun = IndRun, FUN_MOD = RunModel_GR5J, Param = Param, 
+result_PF <- RunModel_DA(InputsModel = InputsModel,
+                         InputsPert = InputsPert,
+                         Qobs = BasinObs$Qmm,
+                         IndRun = IndRun,
+                         FUN_MOD = RunModel_GR5J, Param = Param, 
                          DaMethod = "PF", NbMbr = NbMbr,
                          StatePert = "Rout")
 ```
