@@ -1,6 +1,7 @@
 stages:
   - update_packages
   - build
+  - tests
 
 default:
   before_script:
@@ -29,6 +30,11 @@ default:
     untracked: true
     expire_in: 1 week
 
+.check_as_cran:
+  stage: tests
+  script:
+    - R CMD check --as-cran airGR_*.tar.gz
+
 build_patched:
   variables:
     R_VERSION: "patched"
@@ -51,3 +57,27 @@ build_oldrel:
   variables:
     R_VERSION: "oldrel"
   extends: .build
+
+check_as_cran_patched:
+  variables:
+    R_VERSION: "patched"
+  extends: .check_as_cran
+
+check_as_cran_devel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "devel"
+  extends: .check_as_cran
+
+check_as_cran_oldrel:
+  only:
+    refs:
+      - tags
+      - schedules
+  variables:
+    R_VERSION: "oldrel"
+  extends: .check_as_cran
+
