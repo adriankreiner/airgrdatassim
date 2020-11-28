@@ -33,7 +33,7 @@ default:
 .check_as_cran:
   stage: tests
   script:
-    - R CMD check --as-cran airGR_*.tar.gz
+    - R CMD check --as-cran airGRdatassim_*.tar.gz
 
 build_patched:
   variables:
