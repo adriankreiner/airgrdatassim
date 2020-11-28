@@ -2,4 +2,4 @@
 ^\.Rproj\.user$
 ^\.Rprofile$
 ^packrat/
-^\.gitlab-ci.yml
+^\.gitlab-ci.yml$
