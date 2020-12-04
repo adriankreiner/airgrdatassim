@@ -1,83 +1,38 @@
 stages:
-  - update_packages
-  - build
-  - tests
+    - update_packages
+    - build
+    - checks
 
 default:
-  before_script:
-    - echo "setwd(\"$(pwd)\")" > .Rprofile
-    - PATH=~/R/sources/R-${R_VERSION}/bin:$PATH
-    - rename "s/${R_VERSION}.airGRdatassim/airGRdatassim/" *.tar.gz
+  tags: [docker]
 
-.update_packages:
+image: r-base:latest
+
+cache:
+  paths:
+    - R_LIBS/
+
+before_script:
+  - echo "R_LIBS='$(pwd)/R_LIBS'" > .Renviron
+
+update_packages:
   stage: update_packages
-  only:
-    refs:
-      - tags
-      - schedules
   script:
-    - Rscript -e "update.packages(ask=FALSE, repos=\"http://cran.r-project.org\")"
+    - mkdir -p R_LIBS
+    - Rscript -e 'if(!dir.exists("R_LIBS/remotes")) install.packages("remotes", lib = "R_LIBS")'
+    - apt-get update && apt-get -y install libxml2-dev
+    - Rscript -e 'remotes::install_gitlab("HYCAR-Hydro/airgr@dev", host = "gitlab.irstea.fr", lib = "R_LIBS")'
 
-.build:
+build:
   stage: build
   script:
-    - cd ..
-    - echo "setwd(\"$(pwd)\")" > .Rprofile
-    - R CMD build airgrdatassim
-    - rename "s/airGRdatassim/${R_VERSION}.airGRdatassim/" airGRdatassim_*.tar.gz
-    - mv *.tar.gz airgrdatassim/
+    - apt-get update && apt-get -y install libxml2-dev
+    - R CMD build ../airGRdatassim
   artifacts:
-    untracked: true
-    expire_in: 1 week
+    paths:
+      - airGRdatassim_*.tar.gz
 
-.check_as_cran:
-  stage: tests
+check_as_cran:
+  stage: checks
   script:
-    - R CMD check --as-cran airGRdatassim_*.tar.gz
-
-build_patched:
-  variables:
-    R_VERSION: "patched"
-  extends: .build
-
-build_devel:
-  only:
-    refs:
-      - tags
-      - schedules
-  variables:
-    R_VERSION: "devel"
-  extends: .build
-
-build_oldrel:
-  only:
-    refs:
-      - tags
-      - schedules
-  variables:
-    R_VERSION: "oldrel"
-  extends: .build
-
-check_as_cran_patched:
-  variables:
-    R_VERSION: "patched"
-  extends: .check_as_cran
-
-check_as_cran_devel:
-  only:
-    refs:
-      - tags
-      - schedules
-  variables:
-    R_VERSION: "devel"
-  extends: .check_as_cran
-
-check_as_cran_oldrel:
-  only:
-    refs:
-      - tags
-      - schedules
-  variables:
-    R_VERSION: "oldrel"
-  extends: .check_as_cran
-
+    - R CMD check --as-cran --no-manual airGRdatassim_*.tar.gz
