@@ -27,7 +27,7 @@ build:
   stage: build
   script:
     - apt-get update && apt-get -y install libxml2-dev
-    - R CMD build ../airGRdatassim
+    - R CMD build ../airgrdatassim
   artifacts:
     paths:
       - airGRdatassim_*.tar.gz
