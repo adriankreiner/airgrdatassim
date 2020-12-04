@@ -1,9 +1,9 @@
 #####################################
 ##            S3 methods           ##
 #####################################
-S3method("[", "InputsModel")
-S3method("plot", "InputsPert")
-S3method("plot", "OutputsModelDA")
+S3method('[', InputsModel)
+S3method(plot, InputsPert)
+S3method(plot, OutputsModelDA)
 
 
 
@@ -12,8 +12,6 @@ S3method("plot", "OutputsModelDA")
 #####################################
 export(RunModel_DA)
 export(CreateInputsPert)
-export(plot.InputsPert)
-export(plot.OutputsModelDA)
 
 
 
