@@ -24,7 +24,7 @@ Function which creates time series plots for perturbed inputs and DA model outpu
 
 
 \arguments{
-\item{x}{[object of class \emph{OutputsModelDA}] list of model outputs (see \code{\link{RunModel_DA}})}
+\item{x}{[InputsPert] or [OutputsModelDA] containing the vector of dates (\emph{POSIXt}) and the time series of numeric values list perturbed inputs and DA model outputs (see \code{\link{CreateInputsPert}} and \code{\link{RunModel_DA}})}
 
 \item{Qobs}{(optional) [numeric] time series of observed flow (for the same time steps than simulated) [mm/time step]}
 
