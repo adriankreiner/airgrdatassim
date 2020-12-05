@@ -1,14 +1,14 @@
 plot.InputsPert <- function(x, which = "all", main = NULL,
                             ColPrecip = "royalblue", ColPotEvap = "green3", ...) {
-  
-  
+
+
   ## ---------- check arguments
-  
+
   ## class
   if (!inherits(x, "InputsPert")) {
     stop("'x' must be of class InputsPert")
   }
-  
+
   ## which
   NamesInputsPert <- c("Precip", "PotEvap")
   which <- unique(which)
@@ -20,32 +20,32 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
   if (length(NamesInputsPert) < 1L) {
     stop(sprintf("'%s' element not available in x", which))
   }
-  
-  
+
+
   ## ---------- graphical variables
-  
+
   TimeUnit <- c("daily", "hourly")
   TimeUnit <- match.arg(class(x), TimeUnit, several.ok = TRUE)
   TimeUnit <- switch(TimeUnit,
                      daily  = "day",
                      hourly = "hour")
-  
-  
+
+
   for (i in seq_along(NamesInputsPert)) {
-    
+
     iName <- NamesInputsPert[i]
     IsPrecip <- iName == "Precip"
-    Col  <- ifelse(test = IsPrecip, yes = ColPrecip,       no = ColPotEvap)    
+    Col  <- ifelse(test = IsPrecip, yes = ColPrecip,       no = ColPotEvap)
     YLab <- ifelse(test = IsPrecip, yes = "total precip.",  no = "pot. evap.")
-    Main <- ifelse(test = IsPrecip, yes = "Precipitation", no = "Potential evapotranspiration")    
+    Main <- ifelse(test = IsPrecip, yes = "Precipitation", no = "Potential evapotranspiration")
     Main <- ifelse(test = is.null(main),
                    yes = sprintf("%s ensemble", Main),
                    no = main[i])
-    
-    
+
+
     ## ---------- plot
-    
-    RangeInputsPert <- apply(x[[iName]], MARGIN = 1, FUN = range) 
+
+    RangeInputsPert <- apply(x[[iName]], MARGIN = 1, FUN = range)
     plot(x = x$DatesR, y = rowMeans(x[[iName]]),
          ylim = range(RangeInputsPert),
          type = "l", col = Col, lwd = 2,
@@ -55,6 +55,6 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
                                y = c(RangeInputsPert[1L, ], rev(RangeInputsPert[2L, ])),
                                col = adjustcolor(Col, alpha.f = 0.25), border = NA))
   }
-  
-  
+
+
 }

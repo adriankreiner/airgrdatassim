@@ -3,40 +3,40 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                         IndRun,
                         FUN_MOD, Param,
                         DaMethod = c("EnKF", "PF", "none"), NbMbr = NULL,
-                        StateEnKF = NULL, StatePert = NULL, 
+                        StateEnKF = NULL, StatePert = NULL,
                         Seed = NULL) {
-  
+
   # ------ Checks
-  
+
   # FUN_MOD
   TimeUnit <- "daily"
-  
+
   FUN_MODList <- c("RunModel_GR4J",
                    "RunModel_GR5J",
                    "RunModel_GR6J")
-  
+
   FUN_MODSnowList <- c("RunModel_CemaNeigeGR4J",
                        "RunModel_CemaNeigeGR5J",
                        "RunModel_CemaNeigeGR6J")
-  
+
   FUN_MOD <- match.fun(FUN_MOD)
   if (!any(sapply(c(FUN_MODList,FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
     stop(sprintf("incorrect 'FUN_MOD' for use in 'CreateInputsPerturb'. Only %s can be used",
                  paste(c(FUN_MODList, FUN_MODSnowList), collapse = ", ")))
   }
-  
+
   if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)) {
     StateNames <- c("Prod", "Rout", "UH2")
   } else {
     StateNames <- c("Prod", "Rout", "UH1", "UH2")
   }
-  
+
   # DaMethod
   DaMethod <- match.arg(DaMethod)
-  
+
   # Seed
   Seed0 <- as.numeric(Seed)
-  
+
   # StateEnKF & StatePert
   if (DaMethod == "none" && (!is.null(StateEnKF) | !is.null(StatePert))) {
     warning("'StateEnKF' and/or 'StatePert' not taken into account when 'DaMethod' is \"none\"")
@@ -46,7 +46,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   }
   if (DaMethod == "EnKF" && is.null(StateEnKF)) {
     stop("'StateEnKF' must be defined when 'DaMethod' is \"EnKF\"")
-  }  
+  }
   if (DaMethod != "none") {
     if (!is.null(StateEnKF)) {
       StateEnKF <- match.arg(StateEnKF, choices = StateNames, several.ok = TRUE)
@@ -61,13 +61,13 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   }
   if (DaMethod != "none" && any(!StatePert %in% StateNames)) {
     warning(StatePert[!StatePert %in% StateNames])
-  } 
-  
+  }
+
   # InputsModel
   if (!inherits(InputsModel, "InputsModel")) {
     stop("'InputsModel' must of class 'InputsModel'")
   }
-  
+
   # InputsPert
   if (is.null(InputsPert)) {
     IsMeteo <- FALSE
@@ -94,11 +94,11 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
         }
         if (length(ClassDiffInputsPert) != 0) {
           msgClassInputs <- sprintf("%s\n\tInputsPert:  %s", msgClassInputs, paste(dQuote(ClassDiffInputsPert), collapse = "\t"))
-        }       
+        }
         stop(msgClassInputs)
       }
     }
-    
+
     # NbMbr
     if (is.null(NbMbr)) {
       message(sprintf("'NbMbr' not defined: number of ensemble members automatically set to 'InputsPert$NbMbr' (%i)", InputsPert$NbMbr))
@@ -120,7 +120,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
         }
       }
     }
-    
+
     # Qobs
     if (is.null(Qobs) || all(is.na(Qobs)) || all(Qobs < 0,  na.rm = TRUE)) {
       DaMethod <- "none"
@@ -133,95 +133,95 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
         warning("negative value(s) of Qobs are automatically set to 'NA'")
       }
     }
-    
+
   }
-  
-  
+
+
   # ------ Settings
-  
+
   # data assimilation method used (not open-loop simulation)
   IsDa <- DaMethod != "none"
-  
+
   Nt <- length(IndRun)
-  
+
   NbState <- length(StateNames)
-  
+
   Qobs[Qobs < 0] <- NaN
   VarThr <- quantile(Qobs, probs = 0.1, na.rm = TRUE)
-  
+
   # member names
   MbrNames <- sprintf("Mbr_%s", seq_len(NbMbr))
-  
+
   # time names
   TimeNames <- sprintf("Time_%s", seq_len(Nt))
-  
+
   # InputsModel
   InputsModel <- InputsModel[IndRun]
-  
+
   # InputsPert
   InputsPert <- InputsPert[IndRun]
-  
+
   # Qobs
   Qobs <- Qobs[IndRun]
-  
-  
-  
+
+
+
   # ------ Ensemble initializations
-  
+
   ObsPert <- matrix(data = NA,
                     nrow = NbMbr, ncol = Nt,
                     dimnames = list(MbrNames,
                                     TimeNames))
-  
+
   QsimEns <- ObsPert
-  
+
   IniStatesEns   <- list()
   IniStatesEnsNt <- list()
-  
+
   OutputStates <- matrix(data = NaN,
                          nrow = NbState, ncol = NbMbr, byrow = TRUE,
                          dimnames = list(StateNames,
                                          MbrNames))
-  
-  EnsStateBkg <- array(data = rep(NaN, times = NbState*NbMbr*Nt), 
+
+  EnsStateBkg <- array(data = rep(NaN, times = NbState*NbMbr*Nt),
                        dim = c(NbState, NbMbr, Nt),
                        dimnames = list(StateNames,
                                        MbrNames,
                                        TimeNames))
-  
+
   EnsStateA   <- EnsStateBkg
-  
+
   ItAssim <- 0
-  
+
   # fake RunOptions
   RunOptionsIni <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
-                                           InputsModel = InputsModel, 
+                                           InputsModel = InputsModel,
                                            IndPeriod_Run = 1L,
                                            warning = FALSE, verbose = FALSE)
   RunOptionsIter <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
-                                            InputsModel = InputsModel, 
+                                            InputsModel = InputsModel,
                                             IndPeriod_Run = 1L,
                                             IndPeriod_WarmUp = 0L,
-                                            IniStates = NULL, 
+                                            IniStates = NULL,
                                             warning = FALSE, verbose = FALSE)
-  
-  
-  
+
+
+
   # ------ Run
-  
+
   if (IsMeteo) {
     if (is.null(InputsPert$Precip)) {
       InputsPert$Precip <- replicate(n = ncol(InputsPert$PotEvap),
                                      expr = InputsModel$Precip)
       dimnames(InputsPert$Precip) <- dimnames(InputsPert$PotEvap)
-    } 
+    }
     if (is.null(InputsPert$PotEvap)) {
       InputsPert$PotEvap <- replicate(n = ncol(InputsPert$Precip),
                                       expr = InputsModel$PotEvap)
       dimnames(InputsPert$PotEvap) <- dimnames(InputsPert$Precip)
     }
   }
-  
+
   for (iTime in seq_along(IndRun)) {
     if (!is.null(Seed)) {
       Seed <- Seed0 + iTime
@@ -229,27 +229,27 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
       on.exit(set.seed(seed = NULL))
     }
     for (iMbr in seq_len(NbMbr)) {
-      
+
       if (iTime == 1) { #default (one year by default) warmup
-        
+
         RunOptionsIni$IndPeriod_Run <- iTime
         OutputsModel <- FUN_MOD(InputsModel = InputsModel,
                                 RunOptions = RunOptionsIni, Param = Param)
-        
+
       } else { # IF iTime > 1
-        
+
         IniStates <- IniStatesEns[[iMbr]]
         IniStates$Store$Rest <- rep(NA, times = 3)
         IniStates <- unlist(IniStates)
         IniStates[is.na(IniStates)] <- 0
         RunOptionsIter$IniStates <- IniStates
         RunOptionsIter$IniResLevels <- NULL
-        
+
         # Definition of run options
         if (IsMeteo) {
           InputsPertMbr <- InputsPert
           InputsPertMbr$Precip <- InputsPert$Precip[, iMbr]
-          InputsPertMbr$PotEvap <- InputsPert$PotEvap[, iMbr] 
+          InputsPertMbr$PotEvap <- InputsPert$PotEvap[, iMbr]
           RunOptionsIter$IndPeriod_Run <- as.integer(iTime)
           InputsModel <- InputsPertMbr
         } else {
@@ -258,63 +258,63 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
         OutputsModel <- FUN_MOD(InputsModel = InputsModel,
                                 RunOptions = RunOptionsIter, Param = Param)
       } # END IF(t == 1)
-      
+
       IniStatesEns[[iMbr]] <- OutputsModel$StateEnd
       names(IniStatesEns)[iMbr] <- sprintf("Mbr_%s", iMbr)
-      
+
       EnsStateBkg["Prod", iMbr, iTime] <- OutputsModel$Prod
       EnsStateBkg["Rout", iMbr, iTime] <- OutputsModel$Rout
       EnsStateBkg["UH2"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH2[1]
       if ("UH1" %in% StateNames) {
         EnsStateBkg["UH1"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH1[1]
       }
-      
+
       QsimEns[iMbr, iTime]  <- OutputsModel$Qsim
-      
+
     } # END FOR particles
-    
-    
-    
+
+
+
     # ------ Assimilation [if an observation is available]
-    
+
     if (IsDa & is.finite(Qobs[iTime])) {
-      
+
       ItAssim <- ItAssim + 1
-      
+
       if (DaMethod == "EnKF") {
         ans <- DA_EnKF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], EnsState = EnsStateBkg[, , iTime],
                        Param = Param, StateNames = StateNames,
                        StatePert = StatePert,
                        NbMbr = NbMbr,
                        StateEnKF = StateEnKF, VarThr = VarThr)
-        
+
         for (iMbr in seq_len(NbMbr)) { # olivier, it is possible to write the following 3 loops without loops?
           IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStateEnkf["Prod", iMbr]
           IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStateEnkf["Rout", iMbr]
           IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStateEnkf["UH2" , iMbr]
           if ("UH1" %in% StateNames) {
-            IniStatesEns[[iMbr]]$UH$UH1[1]  <- ans$EnsStateEnkf["UH1", iMbr]  
+            IniStatesEns[[iMbr]]$UH$UH1[1] <- ans$EnsStateEnkf["UH1", iMbr]
           }
-        }   
-        
+        }
+
         if (iTime < Nt) {
           IniStatesEnsNt[[iTime+1]] <- IniStatesEns
           names(IniStatesEnsNt)[iTime+1] <- sprintf("Time_%s",iTime+1)
         }
-        
+
         if (!is.null(StatePert)) {
           for (iMbr in seq_len(NbMbr)) {
             IniStatesEns[[iMbr]]$Store$Prod <- ans$EnsStatePert["Prod", iMbr]
             IniStatesEns[[iMbr]]$Store$Rout <- ans$EnsStatePert["Rout", iMbr]
             IniStatesEns[[iMbr]]$UH$UH2[1]  <- ans$EnsStatePert["UH2" , iMbr]
             if ("UH1" %in% StateNames) {
-              IniStatesEns[[iMbr]]$UH$UH1[1]  <- ans$EnsStatePert["UH1", iMbr]  
+              IniStatesEns[[iMbr]]$UH$UH1[1] <- ans$EnsStatePert["UH1", iMbr]
             }
-          } 
-        }   
-        
+          }
+        }
+
         EnsStateA[, , iTime] <- ans$EnsStateEnkf
-        
+
         if (iTime < Nt) {
           if (!is.null(StatePert)) {
             EnsStateBkg[, , iTime+1] <- ans$EnsStatePert
@@ -323,54 +323,54 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
           }
         }
         ObsPert[, iTime] <- ans$ObsPert
-        
+
       } else if (DaMethod == "PF") {
-        ans <- DA_PF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], States = IniStatesEns, 
+        ans <- DA_PF(Obs = Qobs[iTime], Qsim = QsimEns[, iTime], States = IniStatesEns,
                      Param = Param, StateNames = StateNames,
                      NbMbr = NbMbr,
                      StatePert = StatePert, VarThr = VarThr)
-        
+
         if (!is.null(StatePert)) {
           IniStatesEns <- ans$EnsStatePert
         } else {
           IniStatesEns <- ans$EnsStatePf
         }
-        
+
         EnsStateA["Prod", , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$Store$Prod)
         EnsStateA["Rout", , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$Store$Rout)
         EnsStateA["UH2" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH2[1])
         if ("UH1" %in% StateNames) {
-          EnsStateA["UH1" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH1[1])  
+          EnsStateA["UH1" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH1[1])
         }
-        
+
         if (iTime < Nt) { # olivier?
           IniStatesEnsNt[[iTime+1]] <- ans$EnsStatePf
           names(IniStatesEnsNt)[iTime+1] <- sprintf("Time_%s", iTime+1)
         }
       }
-      
+
     } else { # IF no assimilation
-      
+
       if (iTime < Nt) {
         IniStatesEnsNt[[iTime+1]] <- IniStatesEns
         names(IniStatesEnsNt)[iTime+1] <- sprintf("Time_%s", iTime+1)
-        
+
         EnsStateBkg[, , iTime+1] <- EnsStateBkg[, , iTime]
       }
-      
+
       EnsStateA [, , iTime] <- EnsStateBkg[, , iTime]
       if (DaMethod == "EnKF") {
         ObsPert[, iTime] <- rep(Qobs[iTime], times = NbMbr)
       }
-      
+
     } # END IF assimilation
-    
+
   } # END FOR time
-  
-  
-  
+
+
+
   # ------ Outputs and class
-  
+
   res <- list(DatesR = InputsModel$DatesR,
               QsimEns = QsimEns,
               EnsStateBkg = EnsStateBkg,
@@ -380,5 +380,5 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
               NbState = NbState)
   class(res) <- c("OutputsModelDA", DaMethod, TimeUnit)
   return(res)
-  
+
 }
