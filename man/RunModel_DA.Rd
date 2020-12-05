@@ -11,7 +11,7 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
             IndRun,
             FUN_MOD, Param,
             DaMethod = c("EnKF", "PF", "none"), NbMbr = NULL,
-            StateEnKF = NULL, StatePert = NULL, 
+            StateEnKF = NULL, StatePert = NULL,
             Seed = NULL)
 }
 
@@ -32,30 +32,30 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 \item{Param}{[numeric] vector of model parameters (number of parameters depends on the used hydrological model, from 4 parameters in GR4J up to 10 parameters in GR6J with CemaNeige)}
 
 \item{DaMethod}{[character] name of the data assimilation technique:
-  \tabular{ll}{                                                                      
+  \tabular{ll}{
     "EnKF" \tab discharge assimilation via Ensemble Kalman filter                   \cr
     "PF"   \tab discharge assimilation via Particle filter                          \cr
     "none" \tab discharge assimilation is not performed (i.e. open-loop simulation) \cr
-  }} 
-  
+  }}
+
 \item{NbMbr}{(optional) [numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme; by default=\code{NULL}: 50 if \emph{InputsPert} is not set or \emph{InputsPert$NbMbr} otherwise)}
 
 \item{StateEnKF}{[character] vector of the names of state variables to be updated via EnKF:
-  \tabular{ll}{                                                        
-    "Prod" \tab level of the production store [mm]                             \cr    
-    "Rout" \tab level of the routing store [mm]                                \cr    
-    "UH1"  \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr    
+  \tabular{ll}{
+    "Prod" \tab level of the production store [mm]                             \cr
+    "Rout" \tab level of the routing store [mm]                                \cr
+    "UH1"  \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr
     "UH2"  \tab unit hydrograph 2 levels [mm]
-  }}  
+  }}
 
 \item{StatePert}{[character] vector of the names of state variables to be perturbed via EnKF or PF:
-  \tabular{ll}{                                                        
-    "Prod" \tab level of the production store [mm]                             \cr      
-    "Rout" \tab level of the routing store [mm]                                \cr      
-    "UH1   \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr    
+  \tabular{ll}{
+    "Prod" \tab level of the production store [mm]                             \cr
+    "Rout" \tab level of the routing store [mm]                                \cr
+    "UH1   \tab unit hydrograph 1 levels [mm] (not defined for the GR5J model) \cr
     "UH2"  \tab unit hydrograph 2 levels [mm]
-  }} 
-  
+  }}
+
 \item{Seed}{(optional) [numeric] seed of random number generator}
 
 }
@@ -63,17 +63,17 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 \value{
 [list] runModel_DA function provides a list containing the outputs organised as follows:
 
-  \tabular{ll}{  
+  \tabular{ll}{
     \emph{$DatesR     } \tab [POSIXlt] series of dates (length of IndRun)
             \cr
-            \cr  
+            \cr
     \emph{$QsimEns    } \tab [numeric] matrix (dim(NbMbr, Nt)) of ensemble discharge simulations
             \cr
             \cr
-    \emph{$EnsStateBkg} \tab [numeric] array (dim(Nstate, NbMbr, Nt)) of ensemble values of background model states (before the filter update)       
+    \emph{$EnsStateBkg} \tab [numeric] array (dim(Nstate, NbMbr, Nt)) of ensemble values of background model states (before the filter update)
             \cr
             \cr
-    \emph{$EnsStateA  } \tab [numeric] array (dim(Nstate, NbMbr, Nt)) of ensemble values of analysis model states (after the filter update)                          
+    \emph{$EnsStateA  } \tab [numeric] array (dim(Nstate, NbMbr, Nt)) of ensemble values of analysis model states (after the filter update)
             \cr
             \cr
     \emph{$NbMbr      } \tab [integer] atomic vector of number of ensemble members
@@ -83,15 +83,15 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
             \cr
             \cr
     \emph{$NbState    } \tab [integer] atomic vector of number of of model states
-         }                                                                            
+         }
 }
 
 \description{
-Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes. More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (in review). 
+Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes. More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (in review).
 }
 
 \details{
-Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != "none") via the EnKF or PF schemes. Because of the sequential approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.  
+Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != "none") via the EnKF or PF schemes. Because of the sequential approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.
 \cr\cr
 When accounting for the uncertainty in model inputs (see \emph{InputsPert}), the ensemble discharge simulations are driven by perfect meteorological forecasts, which are generated according to the methodology proposed by Clark et al. (2008) (see \code{\link{CreateInputsPert}} for details).
 \cr\cr
@@ -99,7 +99,7 @@ It is possible to enable/disable the update of specific state variables via EnKF
 \cr\cr
 Both the PF and EnKF can account for uncertainty in model states by perturbing the state variables specified in \emph{StatePert} (Salamon and Feyen, 2009). It is noteworthy that, when using the EnKF, the perturbation is allowed only for the state variables included in \emph{StateEnKF}. If the state uncertainty is taken into account, the initial states at the prediction time step \emph{t + 1} are the perturbed analysis states resulting from the assimilation and perturbation procedures at time step \emph{t}.
 \cr\cr
-In order to ensure reproducible results, \emph{Seed} can be set to fix the randomness in the generation of perturbations. 
+In order to ensure reproducible results, \emph{Seed} can be set to fix the randomness in the generation of perturbations.
 \cr\cr
 For further details and guidelines on the choice of the DA technique, see the references section.
 \cr\cr
@@ -112,13 +112,13 @@ library(airGRdatassim)
 ## loading catchment data
 data(L0123001, package = "airGR")
 Param <- c(X1 = 194.243, X2 = -0.088, X3 = 117.740, X4 = 1.680, X5 = 0.000)
-         
+
 ## run period selection
 IndRun <- seq(which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-01"),
               which(format(BasinObs$DatesR, format = "\%Y-\%m-\%d")=="2006-01-31"))
-               
+
 ## preparation of the InputsModel object
-InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$DatesR, 
+InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$DatesR,
                                  Precip = BasinObs$P, PotEvap = BasinObs$E)
 
 ## number of ensemble members
@@ -126,11 +126,11 @@ InputsModel <- CreateInputsModel(FUN_MOD = RunModel_GR5J, DatesR = BasinObs$Date
 ## minimum of 30 recommanded for the PF scheme
 NbMbr <- 20L
 
-## preparation of perturbed meteorological ensemble            
+## preparation of perturbed meteorological ensemble
 InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
                                DatesR = BasinObs$DatesR,
-                               Precip = BasinObs$P, PotEvap = BasinObs$E, 
-                               NbMbr = NbMbr)               
+                               Precip = BasinObs$P, PotEvap = BasinObs$E,
+                               NbMbr = NbMbr)
 
 ## simulation with DA via EnKF
 OutputsModelDA <- RunModel_DA(InputsModel = InputsModel,

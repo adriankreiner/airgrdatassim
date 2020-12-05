@@ -22,7 +22,7 @@ Consistently with the airGR package, both structure and class of function argume
 
 ## --- Models
 
-DA schemes are designed to be coupled with GR daily hydrological models, which are implemented in the airGR package. These models can be called within the airGRdatassim package using the following airGR functions (see the \code{\link[airGR]{airGR}} manual to get the references of the GR models): \cr 
+DA schemes are designed to be coupled with GR daily hydrological models, which are implemented in the airGR package. These models can be called within the airGRdatassim package using the following airGR functions (see the \code{\link[airGR]{airGR}} manual to get the references of the GR models): \cr
   - \code{\link[airGR]{RunModel_GR4J}}: four-parameter daily lumped hydrological model \cr
   - \code{\link[airGR]{RunModel_GR5J}}: five-parameter daily lumped hydrological model \cr
   - \code{\link[airGR]{RunModel_GR6J}}: six-parameter daily lumped hydrological model  \cr
@@ -33,7 +33,7 @@ DA schemes are designed to be coupled with GR daily hydrological models, which a
 
 ## --- How to get started
 
-Because airGRdatassim is an airGR-based package, specific airGR functions should be jointly used to ensure the proper use of the airGRdatassim tools. Indeed, before performing the DA-based streamflow simulations, the hydrological model needs to be calibrated through the airGR calibration function. Therefore, the following steps are recommended: \cr  
+Because airGRdatassim is an airGR-based package, specific airGR functions should be jointly used to ensure the proper use of the airGRdatassim tools. Indeed, before performing the DA-based streamflow simulations, the hydrological model needs to be calibrated through the airGR calibration function. Therefore, the following steps are recommended: \cr
 
   1. refer to the help for \code{\link[airGR]{Calibration_Michel}} in the airGR package, run the provided example and then refer to the help for \code{\link{CreateCalibOptions}} to understand how a model calibration is prepared/made; \cr
   2. refer to the help for \code{\link{CreateInputsPert}} to understand how the probabilistic model inputs are generated, if the uncertainty in meteorological forcings is taken into account; \cr
