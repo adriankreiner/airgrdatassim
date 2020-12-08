@@ -64,7 +64,7 @@ Olivier Delaigue, Gaia Piazzi
 
 \examples{
 ### Generation of ensemble model inputs for data assimilation
-example(CreateInputsPertE)
+example(CreateInputsPert)
 
 ## results preview
 par(mfrow = c(2, 1))
