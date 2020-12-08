@@ -7,6 +7,7 @@
 
 \title{Generation of ensemble model inputs for data assimilation}
 
+
 \usage{
 CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
                  PotEvap = NULL, TempMean = NULL,
@@ -14,8 +15,8 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
                  NbMbr = 50, Seed = NULL)
 }
 
-\arguments{
 
+\arguments{
 \item{FUN_MOD}{[function] hydrological model function (e.g. \code{\link[airGR]{RunModel_GR5J}}, \code{\link[airGR]{RunModel_CemaNeigeGR5J}})}
 
 \item{DatesR}{[POSIXct] vector of dates}
@@ -37,10 +38,9 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
 \item{Seed}{(optional) [numeric] seed of random number generator}
 }
 
+
 \value{
-
 \emph{InputsPert}{[list] object of class \emph{InputsModel} containing the ensembles of perturbed model inputs required to perform data assimilation:}
-
   \tabular{ll}{
      \emph{$DatesR } \tab [POSIXlt] vector of dates
                           \cr\cr
@@ -52,9 +52,11 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
   }
 }
 
+
 \description{
 Function which perturbs the model inputs to generate probabilistic meteorological forcings required to perform ensemble-based data assimilation.
 }
+
 
 \details{
 The function generates an ensemble of precipitation or/and potential evapotranspiration time series, from data provided as function argument/s. The mean air temperature required to create CemaNeige inputs is not perturbed.
@@ -69,6 +71,7 @@ For further details, see the references section.
 \cr\cr
 Nota: The function can be applied when using GR4J, GR5J and GR6J models (i.e. daily model time step), with or withouth the CemaNeige module.
 }
+
 
 \examples{
 library(airGRdatassim)
@@ -97,15 +100,18 @@ par(mfrow = c(2, 1))
 plot(InputsPert[IndRun])
 }
 
+
 \author{
 Gaia Piazzi, Olivier Delaigue
 }
+
 
 \references{
 - Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324, doi: \href{https://www.doi.org/10.1016/j.advwatres.2008.06.005}{10.1016/j.advwatres.2008.06.005}
 \cr\cr
 - Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (in review). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research.
 }
+
 
 \seealso{
 \code{\link{RunModel_DA}}

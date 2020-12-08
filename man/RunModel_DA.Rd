@@ -4,7 +4,9 @@
 \name{RunModel_DA}
 \alias{RunModel_DA}
 
+
 \title{Run discharge simulations with ensemble-based data assimilation}
+
 
 \usage{
 RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
@@ -15,9 +17,8 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
             Seed = NULL)
 }
 
+
 \arguments{
-
-
 \item{InputsModel}{[list] object of class \emph{InputsModel} containing the data required to run the model  (see \code{\link[airGR]{CreateInputsModel}} for details)}
 
 \item{InputsPert}{(optional) [list] object of class \emph{InputsModel} containing the ensembles of perturbed data required to evaluate the model probabilistic outputs, if the uncertainty in meteorological forcings is taken into account. The variables data proposed in \emph{InputsPert} will erase the variables data given in \emph{InputsModel}}
@@ -25,7 +26,6 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 \item{Qobs}{(optional) [numeric] time series of observed discharges [mm/d]}
 
 \item{IndRun}{[numeric] index of period to be used for the model run [-]}
-
 
 \item{FUN_MOD}{[function] daily hydrological model functions (GR4J, GR5J or GR6J; e.g. \code{\link[airGR]{RunModel_GR5J}}, \code{\link[airGR]{RunModel_CemaNeigeGR5J}})}
 
@@ -57,12 +57,11 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
   }}
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
-
 }
+
 
 \value{
 [list] runModel_DA function provides a list containing the outputs organised as follows:
-
   \tabular{ll}{
     \emph{$DatesR     } \tab [POSIXlt] series of dates (length of IndRun)
             \cr
@@ -86,9 +85,11 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
          }
 }
 
+
 \description{
 Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes. More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (in review).
 }
+
 
 \details{
 Discharge observations are sequentially assimilated at each time step (if \emph{DaMethod} != "none") via the EnKF or PF schemes. Because of the sequential approach, the analysis states resulting from the assimilation procedure at time step \emph{t} are used as initial states at the following prediction time step \emph{t + 1}.
@@ -105,6 +106,7 @@ For further details and guidelines on the choice of the DA technique, see the re
 \cr\cr
 Nota: The function can be applied when using GR4J, GR5J and GR6J models (i.e. daily model time step), with or withouth the CemaNeige module (see \code{\link[airGR]{airGR}} package).
 }
+
 
 \examples{
 library(airGRdatassim)
@@ -146,9 +148,11 @@ OutputsModelDA <- RunModel_DA(InputsModel = InputsModel,
 plot(OutputsModelDA, Qobs = BasinObs$Qmm[IndRun])
 }
 
+
 \author{
 Gaia Piazzi, Olivier Delaigue
 }
+
 
 \references{
 - Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324, doi: \href{https://www.doi.org/10.1016/j.advwatres.2008.06.005}{10.1016/j.advwatres.2008.06.005}
