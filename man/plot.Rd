@@ -17,7 +17,8 @@ Function which creates time series plots for perturbed inputs and DA model outpu
 
 \usage{
 \method{plot}{InputsPert}(x, which = "all", main = NULL,
-     ColPrecip = "royalblue", ColPotEvap = "green3", ...)
+     ColPrecip = "royalblue", ColPotEvap = "green3",
+     ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...)
 \method{plot}{OutputsModelDA}(x, Qobs = NULL, main = NULL,
      ColSim = "orangered", ColObs = par("fg"), ...)
 }
@@ -35,6 +36,8 @@ Function which creates time series plots for perturbed inputs and DA model outpu
 \item{ColPrecip}{(optional) [character] color to be used for perturbed precipitation (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
 
 \item{ColPotEvap}{(optional) [character] color to be used for perturbed potential evapotransipration (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
+
+\item{ask}{(optional) [logical] if \code{TRUE}, the user is asked before each plot, see \code{\link[graphics]{par}(ask = .)}}
 
 \item{ColSim}{(optional) [character] color to be used for simulated flow (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
 

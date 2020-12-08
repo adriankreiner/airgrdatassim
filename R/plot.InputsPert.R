@@ -1,5 +1,7 @@
 plot.InputsPert <- function(x, which = "all", main = NULL,
-                            ColPrecip = "royalblue", ColPotEvap = "green3", ...) {
+                            ColPrecip = "royalblue", ColPotEvap = "green3",
+                            ask = prod(par("mfcol")) < length(which) && dev.interactive(),
+                            ...) {
 
 
   ## ---------- check arguments
@@ -19,6 +21,12 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
   NamesInputsPert <- intersect(names(x), which)
   if (length(NamesInputsPert) < 1L) {
     stop(sprintf("'%s' element not available in x", which))
+  }
+
+  ## ask
+  if (length(NamesInputsPert) > 1L && ask) {
+    oask <- devAskNewPage(TRUE)
+    on.exit(devAskNewPage(oask))
   }
 
 
@@ -45,6 +53,7 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
 
     ## ---------- plot
 
+    dev.hold()
     RangeInputsPert <- apply(x[[iName]], MARGIN = 1, FUN = range)
     plot(x = x$DatesR, y = rowMeans(x[[iName]]),
          ylim = range(RangeInputsPert),
@@ -54,6 +63,8 @@ plot.InputsPert <- function(x, which = "all", main = NULL,
          panel.first = polygon(x = c(as.numeric(x$DatesR), rev(as.numeric(x$DatesR))),
                                y = c(RangeInputsPert[1L, ], rev(RangeInputsPert[2L, ])),
                                col = adjustcolor(Col, alpha.f = 0.25), border = NA))
+    dev.flush()
+
   }
 
 
