@@ -96,8 +96,9 @@ InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
 str(InputsPert)
 
 ## results preview on a subset
-par(mfrow = c(2, 1))
+\dontrun{
 plot(InputsPert[IndRun])
+}
 }
 
 

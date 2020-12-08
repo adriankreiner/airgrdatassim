@@ -145,7 +145,9 @@ OutputsModelDA <- RunModel_DA(InputsModel = InputsModel,
                               StatePert = c("Prod", "Rout"))
 
 ## results preview
+\dontrun{
 plot(OutputsModelDA, Qobs = BasinObs$Qmm[IndRun])
+}
 }
 
 
