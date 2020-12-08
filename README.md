@@ -1,5 +1,5 @@
 
-# airGRdatassim: Suite of tools to perform ensemble-based discharge assimilation in GR Hydrological Models
+# airGRdatassim: Suite of Tools to Perform Ensemble-Based Data Assimilation with GR Hydrological Models
 
 ## Overview
 
