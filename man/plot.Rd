@@ -60,3 +60,24 @@ Olivier Delaigue, Gaia Piazzi
 \seealso{
 \code{\link{CreateInputsPert}}, \code{\link{RunModel_DA}}
 }
+
+
+\examples{
+### Generation of ensemble model inputs for data assimilation
+example(CreateInputsPertE)
+
+## results preview
+par(mfrow = c(2, 1))
+plot(InputsPert)
+
+## results preview on a subset on one perturbed variable
+par(mfrow = c(1, 1))
+plot(InputsPert[IndRun], which = "PotEvap")
+
+
+### Run discharge simulations with ensemble-based data assimilation
+example(RunModel_DA)
+
+## results preview
+plot(OutputsModelDA, Qobs = BasinObs$Qmm[IndRun])
+}
