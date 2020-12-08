@@ -115,5 +115,5 @@ Gaia Piazzi, Olivier Delaigue
 
 
 \seealso{
-\code{\link{RunModel_DA}}
+\code{\link{RunModel_DA}}, \code{\link[airGRdatassim]{plot}}
 }

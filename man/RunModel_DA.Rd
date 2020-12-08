@@ -166,5 +166,5 @@ Gaia Piazzi, Olivier Delaigue
 
 
 \seealso{
-\code{\link{CreateInputsPert}}
+\code{\link{CreateInputsPert}}, \code{\link[airGRdatassim]{plot}}
 }
