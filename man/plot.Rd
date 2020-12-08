@@ -29,8 +29,6 @@ Function which creates time series plots for perturbed inputs and DA model outpu
 
 \item{which}{(optional) [character] choice of plots (e.g. \code{"Precip"} or \code{"PotEvap"}, default = \code{"all"})}
 
-\item{Qobs}{(optional) [numeric] time series of observed flow [mm/day]}
-
 \item{main}{(optional) [character] an overall title for the plot (see \code{\link[graphics]{title}})}
 
 \item{ColPrecip}{(optional) [character] color to be used for perturbed precipitation (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
@@ -38,6 +36,8 @@ Function which creates time series plots for perturbed inputs and DA model outpu
 \item{ColPotEvap}{(optional) [character] color to be used for perturbed potential evapotransipration (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
 
 \item{ask}{(optional) [logical] if \code{TRUE}, the user is asked before each plot, see \code{\link[graphics]{par}(ask = .)}}
+
+\item{Qobs}{(optional) [numeric] time series of observed flow [mm/day]}
 
 \item{ColSim}{(optional) [character] color to be used for simulated flow (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
 
