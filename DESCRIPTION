@@ -1,7 +1,7 @@
 Package: airGRdatassim
 Type: Package
 Title: Suite of Tools to Perform Ensemble-Based Data Assimilation with GR Hydrological Models
-Version: 0.0.2.55
+Version: 0.0.2.56
 Date: 2020-12-08
 Authors@R: c(
   person("Gaia", "Piazzi", role = c("aut"), comment = c(ORCID = "0000-0002-4167-0794")),
@@ -10,7 +10,14 @@ Authors@R: c(
   person("Maxime", "Logez", role = c("ctb"), comment = c(ORCID = "0000-0001-9843-0495"))
   )
 Depends: airGR (>= 1.4.3.65)
-Suggests: knitr, rmarkdown
+Imports: 
+  graphics,
+  grDevices,
+  stats,
+  utils
+Suggests:
+  knitr,
+  rmarkdown
 Description: Add-on to the 'airGR' package which provides the tools to assimilate observed discharges in daily GR hydrological model. The package consists in two functions allowing to perform the assimilation of observed discharges via Ensemble Kalman filter or Particle filter.
 License: GPL-2
 BugReports: https://gitlab.irstea.fr/HYCAR-Hydro/airgrdatassim/-/issues
