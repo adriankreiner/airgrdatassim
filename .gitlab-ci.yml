@@ -13,6 +13,7 @@ cache:
     - R_LIBS/
 
 before_script:
+  - apt-get update && apt-get -y install libxml2-dev
   - echo "R_LIBS='$(pwd)/R_LIBS'" > .Renviron
 
 update_packages:
@@ -20,7 +21,6 @@ update_packages:
   script:
     - mkdir -p R_LIBS
     - Rscript -e 'if(!dir.exists("R_LIBS/remotes")) install.packages("remotes", lib = "R_LIBS")'
-    - apt-get update && apt-get -y install libxml2-dev
     - Rscript -e 'remotes::update_packages(c("knitr", "rmarkdown"), lib = "R_LIBS")'
     - Rscript -e 'remotes::install_gitlab("HYCAR-Hydro/airgr@dev", host = "gitlab.irstea.fr", lib = "R_LIBS")'
 
