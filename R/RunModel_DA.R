@@ -178,18 +178,13 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   IniStatesEns   <- list()
   IniStatesEnsNt <- list()
 
-  OutputStates <- matrix(data = NaN,
-                         nrow = NbState, ncol = NbMbr, byrow = TRUE,
-                         dimnames = list(StateNames,
-                                         MbrNames))
-
   EnsStateBkg <- array(data = rep(NaN, times = NbState*NbMbr*Nt),
                        dim = c(NbState, NbMbr, Nt),
                        dimnames = list(StateNames,
                                        MbrNames,
                                        TimeNames))
 
-  EnsStateA   <- EnsStateBkg
+  EnsStateA <- EnsStateBkg
 
   ItAssim <- 0
 
