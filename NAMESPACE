@@ -2,6 +2,7 @@
 ##            S3 methods           ##
 #####################################
 S3method('[', InputsModel)
+S3method('[', OutputsModel)
 S3method(plot, InputsPert)
 S3method(plot, OutputsModelDA)
 

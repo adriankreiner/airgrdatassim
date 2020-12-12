@@ -25,3 +25,40 @@
   }
   .ExtractInputsModel(Inputs, IndRun)
 }
+
+.ExtractOutputsModel <- function(Outputs, IndRun) {
+  IsStateEnd <- !is.null(Outputs$StateEnd)
+  if (IsStateEnd) {
+    IsStateEnd <- TRUE
+    StateEnd <- Outputs$StateEnd
+    Outputs$StateEnd <- NULL
+  }
+  res <- lapply(Outputs, function(x) {
+    if (is.matrix(x)  && length(dim(x)) == 2L) {
+      res0 <- x[, IndRun]
+    }
+    if (is.array(x) && length(dim(x)) == 3L) {
+      res0 <- x[, , IndRun]
+    }
+    if (is.vector(x) | inherits(x, "POSIXt")) {
+      res0 <- x[IndRun]
+    }
+    if (is.list(x) & !inherits(x, "POSIXt")) {
+      res0 <- .ExtractOutputsModel(Outputs = x, IndRun = IndRun)
+    }
+    return(res0)
+  })
+  if (IsStateEnd) {
+    res$StateEnd <- StateEnd
+  }
+  class(res) <- class(Outputs)
+  res
+}
+
+'[.OutputsModel' <- function(Outputs, IndRun) {
+  if (!inherits(Outputs, "OutputsModel")) {
+    stop("'Outputs' must be of class 'OutputsModel'")
+  }
+  .ExtractOutputsModel(Outputs, IndRun)
+}
+
