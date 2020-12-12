@@ -62,3 +62,16 @@
   .ExtractOutputsModel(Outputs, IndRun)
 }
 
+'[.OutputsModelDA' <- function(Outputs, IndRun) {
+  NbMbr   <- Outputs$NbMbr
+  Nt      <- Outputs$Nt
+  NbState <- Outputs$NbState
+  if (!inherits(Outputs, "OutputsModelDA")) {
+    stop("'Outputs' must be of class 'OutputsModelDA'")
+  }
+  res <- .ExtractOutputsModel(Outputs, IndRun)
+  res$NbMbr   <- NbMbr
+  res$Nt      <- Nt
+  res$NbState <- NbState
+  res
+}
