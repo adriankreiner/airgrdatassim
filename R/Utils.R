@@ -1,5 +1,5 @@
-.ExtractInputsModel <- function(Inputs, i) {
-  res <- lapply(Inputs, function(x) {
+.ExtractInputsModel <- function(x, i) {
+  res <- lapply(x, function(x) {
     if (is.matrix(x)) {
       res0 <- x[i, ]
     }
@@ -7,33 +7,33 @@
       res0 <- x[i]
     }
     if (is.list(x) & !inherits(x, "POSIXt")) {
-      res0 <- .ExtractInputsModel(Inputs = x, i = i)
+      res0 <- .ExtractInputsModel(x = x, i = i)
     }
     return(res0)
   })
-  if (!is.null(Inputs$ZLayers)) {
-    res$ZLayers <- Inputs$ZLayers
+  if (!is.null(x$ZLayers)) {
+    res$ZLayers <- x$ZLayers
   }
-  class(res) <- class(Inputs)
+  class(res) <- class(x)
   res
 }
 
 
-'[.InputsModel' <- function(Inputs, i) {
-  if (!inherits(Inputs, "InputsModel")) {
-    stop("'Inputs' must be of class 'InputsModel'")
+'[.InputsModel' <- function(x, i) {
+  if (!inherits(x, "InputsModel")) {
+    stop("'x' must be of class 'InputsModel'")
   }
-  .ExtractInputsModel(Inputs, i)
+  .ExtractInputsModel(x, i)
 }
 
-.ExtractOutputsModel <- function(Outputs, i) {
-  IsStateEnd <- !is.null(Outputs$StateEnd)
+.ExtractOutputsModel <- function(x, i) {
+  IsStateEnd <- !is.null(x$StateEnd)
   if (IsStateEnd) {
     IsStateEnd <- TRUE
-    StateEnd <- Outputs$StateEnd
-    Outputs$StateEnd <- NULL
+    StateEnd <- x$StateEnd
+    x$StateEnd <- NULL
   }
-  res <- lapply(Outputs, function(x) {
+  res <- lapply(x, function(x) {
     if (is.matrix(x)  && length(dim(x)) == 2L) {
       res0 <- x[, i]
     }
@@ -44,32 +44,32 @@
       res0 <- x[i]
     }
     if (is.list(x) & !inherits(x, "POSIXt")) {
-      res0 <- .ExtractOutputsModel(Outputs = x, i = i)
+      res0 <- .ExtractOutputsModel(x = x, i = i)
     }
     return(res0)
   })
   if (IsStateEnd) {
     res$StateEnd <- StateEnd
   }
-  class(res) <- class(Outputs)
+  class(res) <- class(x)
   res
 }
 
-'[.OutputsModel' <- function(Outputs, i) {
-  if (!inherits(Outputs, "OutputsModel")) {
-    stop("'Outputs' must be of class 'OutputsModel'")
+'[.OutputsModel' <- function(x, i) {
+  if (!inherits(x, "OutputsModel")) {
+    stop("'x' must be of class 'OutputsModel'")
   }
-  .ExtractOutputsModel(Outputs, i)
+  .ExtractOutputsModel(x, i)
 }
 
-'[.OutputsModelDA' <- function(Outputs, i) {
-  NbMbr   <- Outputs$NbMbr
-  Nt      <- Outputs$Nt
-  NbState <- Outputs$NbState
-  if (!inherits(Outputs, "OutputsModelDA")) {
-    stop("'Outputs' must be of class 'OutputsModelDA'")
+'[.OutputsModelDA' <- function(x, i) {
+  NbMbr   <- x$NbMbr
+  Nt      <- x$Nt
+  NbState <- x$NbState
+  if (!inherits(x, "OutputsModelDA")) {
+    stop("'x' must be of class 'OutputsModelDA'")
   }
-  res <- .ExtractOutputsModel(Outputs, i)
+  res <- .ExtractOutputsModel(x, i)
   res$NbMbr   <- NbMbr
   res$Nt      <- Nt
   res$NbState <- NbState
