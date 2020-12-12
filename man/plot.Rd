@@ -76,4 +76,7 @@ example(RunModel_DA)
 
 ## results preview
 plot(OutputsModelDA, Qobs = BasinObs$Qmm[IndRun])
+
+## results preview on a subset
+plot(OutputsModelDA[1:10], Qobs = BasinObs$Qmm[IndRun][1:10])
 }
