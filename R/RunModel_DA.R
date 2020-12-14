@@ -142,7 +142,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   # data assimilation method used (not open-loop simulation)
   IsDa <- DaMethod != "none"
 
-  Nt <- length(IndRun)
+  NbTime <- length(IndRun)
 
   NbState <- length(StateNames)
 
@@ -153,7 +153,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   MbrNames <- sprintf("Mbr_%s", seq_len(NbMbr))
 
   # time names
-  TimeNames <- sprintf("Time_%s", seq_len(Nt))
+  TimeNames <- sprintf("Time_%s", seq_len(NbTime))
 
   # InputsModel
   InputsModel <- InputsModel[IndRun]
@@ -169,17 +169,17 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   # ------ Ensemble initializations
 
   ObsPert <- matrix(data = NA,
-                    nrow = NbMbr, ncol = Nt,
+                    nrow = NbMbr, ncol = NbTime,
                     dimnames = list(MbrNames,
                                     TimeNames))
 
   QsimEns <- ObsPert
 
   IniStatesEns   <- list()
-  IniStatesEnsNt <- list()
+  IniStatesEnsNbTime <- list()
 
-  EnsStateBkg <- array(data = rep(NaN, times = NbState*NbMbr*Nt),
-                       dim = c(NbState, NbMbr, Nt),
+  EnsStateBkg <- array(data = rep(NaN, times = NbState*NbMbr*NbTime),
+                       dim = c(NbState, NbMbr, NbTime),
                        dimnames = list(StateNames,
                                        MbrNames,
                                        TimeNames))
@@ -292,9 +292,9 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
           }
         }
 
-        if (iTime < Nt) {
-          IniStatesEnsNt[[iTime+1]] <- IniStatesEns
-          names(IniStatesEnsNt)[iTime+1] <- sprintf("Time_%s",iTime+1)
+        if (iTime < NbTime) {
+          IniStatesEnsNbTime[[iTime+1]] <- IniStatesEns
+          names(IniStatesEnsNbTime)[iTime+1] <- sprintf("Time_%s",iTime+1)
         }
 
         if (!is.null(StatePert)) {
@@ -310,7 +310,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
 
         EnsStateA[, , iTime] <- ans$EnsStateEnkf
 
-        if (iTime < Nt) {
+        if (iTime < NbTime) {
           if (!is.null(StatePert)) {
             EnsStateBkg[, , iTime+1] <- ans$EnsStatePert
           } else {
@@ -338,17 +338,17 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
           EnsStateA["UH1" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH1[1])
         }
 
-        if (iTime < Nt) { # olivier?
-          IniStatesEnsNt[[iTime+1]] <- ans$EnsStatePf
-          names(IniStatesEnsNt)[iTime+1] <- sprintf("Time_%s", iTime+1)
+        if (iTime < NbTime) { # olivier?
+          IniStatesEnsNbTime[[iTime+1]] <- ans$EnsStatePf
+          names(IniStatesEnsNbTime)[iTime+1] <- sprintf("Time_%s", iTime+1)
         }
       }
 
     } else { # IF no assimilation
 
-      if (iTime < Nt) {
-        IniStatesEnsNt[[iTime+1]] <- IniStatesEns
-        names(IniStatesEnsNt)[iTime+1] <- sprintf("Time_%s", iTime+1)
+      if (iTime < NbTime) {
+        IniStatesEnsNbTime[[iTime+1]] <- IniStatesEns
+        names(IniStatesEnsNbTime)[iTime+1] <- sprintf("Time_%s", iTime+1)
 
         EnsStateBkg[, , iTime+1] <- EnsStateBkg[, , iTime]
       }
@@ -371,7 +371,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
               EnsStateBkg = EnsStateBkg,
               EnsStateA = EnsStateA,
               NbMbr = NbMbr,
-              Nt = Nt,
+              NbTime = NbTime,
               NbState = NbState)
   class(res) <- c("OutputsModelDA", DaMethod, TimeUnit)
   return(res)
