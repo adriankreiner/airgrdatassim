@@ -17,7 +17,7 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL,
 
   ## ---------- graphical variables
 
-  RangeQsimEns <- apply(x$QsimEns, MARGIN = 2, FUN = range)
+  RangeQsimEns <- apply(x$QsimEns, MARGIN = 1, FUN = range)
 
   if (!is.null(Qobs)) {
     LegObs <- "obs"
@@ -47,7 +47,7 @@ plot.OutputsModelDA <- function(x, Qobs = NULL, main = NULL,
 
   ## ---------- plot
 
-  plot(x = x$DatesR, y = colMeans(x$QsimEns),
+  plot(x = x$DatesR, y = rowMeans(x$QsimEns),
        ylim = range(RangeQsimEns, Qobs, na.rm = TRUE),
        type = "l", col = ColSim, lwd = 2,
        main = Main,

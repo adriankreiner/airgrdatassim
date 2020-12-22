@@ -35,10 +35,10 @@
   }
   res <- lapply(x, function(x) {
     if (is.matrix(x)  && length(dim(x)) == 2L) {
-      res0 <- x[, i]
+      res0 <- x[i, ]
     }
     if (is.array(x) && length(dim(x)) == 3L) {
-      res0 <- x[, , i]
+      res0 <- x[i, , ]
     }
     if (is.vector(x) | inherits(x, "POSIXt")) {
       res0 <- x[i]

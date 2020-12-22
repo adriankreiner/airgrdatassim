@@ -66,19 +66,19 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
     \emph{$DatesR     } \tab [POSIXlt] series of dates (length of IndRun)
             \cr
             \cr
-    \emph{$QsimEns    } \tab [numeric] matrix (dim(NbMbr, NbTime)) of ensemble discharge simulations
+    \emph{$QsimEns    } \tab [numeric] matrix (dim(NbTime, NbMbr)) of ensemble discharge simulations
             \cr
             \cr
-    \emph{$EnsStateBkg} \tab [numeric] array (dim(Nstate, NbMbr, NbTime)) of ensemble values of background model states (before the filter update)
+    \emph{$EnsStateBkg} \tab [numeric] array (dim(NbTime, NbMbr, Nstate)) of ensemble values of background model states (before the filter update)
             \cr
             \cr
-    \emph{$EnsStateA  } \tab [numeric] array (dim(Nstate, NbMbr, NbTime)) of ensemble values of analysis model states (after the filter update)
-            \cr
-            \cr
-    \emph{$NbMbr      } \tab [integer] atomic vector of number of ensemble members
+    \emph{$EnsStateA  } \tab [numeric] array (dim(NbTime, NbMbr, Nstate)) of ensemble values of analysis model states (after the filter update)
             \cr
             \cr
     \emph{$NbTime     } \tab [integer] atomic vector of length of IndRun
+            \cr
+            \cr
+    \emph{$NbMbr      } \tab [integer] atomic vector of number of ensemble members
             \cr
             \cr
     \emph{$NbState    } \tab [integer] atomic vector of number of of model states
