@@ -20,7 +20,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                        "RunModel_CemaNeigeGR6J")
 
   FUN_MOD <- match.fun(FUN_MOD)
-  if (!any(sapply(c(FUN_MODList,FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
+  if (!any(sapply(c(FUN_MODList, FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
     stop(sprintf("incorrect 'FUN_MOD' for use in 'CreateInputsPerturb'. Only %s can be used",
                  paste(c(FUN_MODList, FUN_MODSnowList), collapse = ", ")))
   }
@@ -225,7 +225,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
     }
     for (iMbr in seq_len(NbMbr)) {
 
-      if (iTime == 1) { #default (one year by default) warmup
+      if (iTime == 1) { # default (one year by default) warmup
 
         RunOptionsIni$IndPeriod_Run <- iTime
         OutputsModel <- FUN_MOD(InputsModel = InputsModel,
@@ -240,7 +240,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
         RunOptionsIter$IniStates <- IniStates
         RunOptionsIter$IniResLevels <- NULL
 
-        # Definition of run options
+        # definition of run options
         if (IsMeteo) {
           InputsPertMbr <- InputsPert
           InputsPertMbr$Precip <- InputsPert$Precip[, iMbr]
@@ -259,9 +259,9 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
 
       EnsStateBkg["Prod", iMbr, iTime] <- OutputsModel$Prod
       EnsStateBkg["Rout", iMbr, iTime] <- OutputsModel$Rout
-      EnsStateBkg["UH2"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH2[1]
+      EnsStateBkg["UH2" , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH2[1]
       if ("UH1" %in% StateNames) {
-        EnsStateBkg["UH1"  , iMbr, iTime] <- OutputsModel$StateEnd$UH$UH1[1]
+        EnsStateBkg["UH1", iMbr, iTime] <- OutputsModel$StateEnd$UH$UH1[1]
       }
 
       QsimEns[iMbr, iTime]  <- OutputsModel$Qsim
@@ -335,7 +335,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
         EnsStateA["Rout", , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$Store$Rout)
         EnsStateA["UH2" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH2[1])
         if ("UH1" %in% StateNames) {
-          EnsStateA["UH1" , , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH1[1])
+          EnsStateA["UH1", , iTime] <- sapply(seq_along(ans$EnsStatePf), function(x) ans$EnsStatePf[[x]]$UH$UH1[1])
         }
 
         if (iTime < NbTime) { # olivier?
