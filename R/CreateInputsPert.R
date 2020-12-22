@@ -33,7 +33,7 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
   MeteoNames <- c("Precip", "PotEvap")
 
   # length of the input vectors
-  Nt <- length(DatesR)
+  NbTime <- length(DatesR)
 
   # model time step [day]
   Dt <- 1
@@ -57,11 +57,11 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
   skipVarMeteo <- NULL
   if (is.null(Precip)) {
     skipVarMeteo <- c(skipVarMeteo, "Precip")
-    Precip <- rep(0, times = Nt)
+    Precip <- rep(0, times = NbTime)
   }
   if (is.null(PotEvap)) {
     skipVarMeteo <- c(skipVarMeteo, "PotEvap")
-    PotEvap <- rep(0, times = Nt)
+    PotEvap <- rep(0, times = NbTime)
   }
 
   # select MeteoNames and Eps in function of the provided variables
@@ -94,21 +94,21 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
   MbrNames <- sprintf("Mbr_%s", seq_len(NbMbr))
 
   # time names
-  TimeNames <- sprintf("Time_%s", seq_len(Nt))
+  TimeNames <- sprintf("Time_%s", seq_len(NbTime))
 
 
   # error time evolution
-  S <- array(data = rep(NaN, times = NbMeteo*NbMbr*Nt),
-             dim = c(NbMeteo, NbMbr, Nt),
+  S <- array(data = rep(NaN, times = NbMeteo*NbMbr*NbTime),
+             dim = c(NbMeteo, NbMbr, NbTime),
              dimnames = list(MeteoNames, MbrNames, TimeNames))
   # uniform random numbers
-  U <- array(data = rep(NaN, times = NbMeteo*NbMbr*Nt),
-             dim = c(NbMeteo, NbMbr, Nt),
+  U <- array(data = rep(NaN, times = NbMeteo*NbMbr*NbTime),
+             dim = c(NbMeteo, NbMbr, NbTime),
              dimnames = list(MeteoNames, MbrNames, TimeNames))
 
   # multiplicative perturbations of model inputs
-  Fi <- array(data = rep(NaN, times = NbMeteo*NbMbr*Nt),
-              dim = c(NbMeteo, NbMbr, Nt),
+  Fi <- array(data = rep(NaN, times = NbMeteo*NbMbr*NbTime),
+              dim = c(NbMeteo, NbMbr, NbTime),
               dimnames = list(MeteoNames, MbrNames, TimeNames))
 
 
@@ -117,7 +117,7 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
 
   MeteoEns <- sapply(MeteoNames, function(iMeteo) {
     matrix(data = rep(InputsPert[[iMeteo]], each = NbMbr),
-           nrow = Nt, byrow = TRUE,
+           nrow = NbTime, byrow = TRUE,
            dimnames = list(TimeNames, MbrNames))
   }, simplify = "array")
 
@@ -128,7 +128,7 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
 
   # ------ Perturbation of the time series of model forcings (i.e., precipitation and potential evapotranspiration)
 
-  for (iTime in seq_len(Nt)) { # olivier, can we do apply here?
+  for (iTime in seq_len(NbTime)) { # olivier, can we do apply here?
 
     # white noise
     if (!is.null(Seed)) {
