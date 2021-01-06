@@ -2,7 +2,7 @@
 \alias{airGRdatassim}
 \docType{package}
 \encoding{UTF-8}
-\title{Suite of tools to perform ensemble-based discharge assimilation with GR Hydrological Models}
+\title{\packageTitle{airGRdatassim}}
 \description{
 airGRdatassim is a package based on the airGR hydrological modelling package. It provides the tools to assimilate observed discharges in the GR daily hydrological models (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony (\href{https://webgr.inrae.fr/en/}{Catchment Hydrology research group} of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (in review). \cr\cr
 
