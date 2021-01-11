@@ -373,7 +373,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
               NbTime = NbTime,
               NbMbr = NbMbr,
               NbState = NbState)
-  class(res) <- c("OutputsModelDA", DaMethod, TimeUnit)
+  class(res) <- c("OutputsModelDA", "OutputsModel", DaMethod, TimeUnit)
   return(res)
 
 }

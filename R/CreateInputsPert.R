@@ -182,6 +182,6 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
 
   # ------ Class
 
-  class(InputsPert) <- c(class(InputsPert), "InputsPert")
+  class(InputsPert) <- c("InputsPert", class(InputsPert))
   return(InputsPert)
 }
