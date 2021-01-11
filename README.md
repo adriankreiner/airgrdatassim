@@ -8,11 +8,12 @@ airGRdatassim is a package based on the airGR hydrological modeling package. It 
 
 ## Installation
 
-To download the version of the airGRdatassim package that is on GitLab, you have first install the [Git software](https://git-scm.com/downloads). Then you can install the package in the R environment, using the following command lines:
+To download the version of the airGRdatassim package that is on GitLab, you have first install the [Git software](https://git-scm.com/downloads). Since you need the latest version of airGR (not yet on CRAN), you need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/history.html) in order to do so from its sources.  Then you can install the package in the R environment, using the following command lines:
 
 ``` r
 Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
 install.packages("remotes")
+remotes::install_git(url = "https://gitlab.irstea.fr/HYCAR-Hydro/airgr")
 remotes::install_git(url = "https://gitlab.irstea.fr/HYCAR-Hydro/airgrdatassim")
 ```
 
