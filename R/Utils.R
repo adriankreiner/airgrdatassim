@@ -1,7 +1,16 @@
 
 ## =================================================================================
-## function to extract parts of InputsModel or .OutputsModelDA object
+## function to extract parts of InputsPert or OutputsModelDA objects
 ## =================================================================================
+
+'[.InputsPert' <-  function(x, i) {
+  res <- NextMethod()
+  if (is.numeric(i)) {
+    res$NbMbr <- x$NbMbr
+  }
+  return(res)
+}
+
 
 '[.OutputsModelDA' <- function(x, i) {
   if (!inherits(x, "OutputsModelDA")) {
