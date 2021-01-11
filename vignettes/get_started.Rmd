@@ -18,7 +18,7 @@ airGR_bib <- toBibtex(citation("airGR"))
 airGR_bib <- gsub("@Article\\{", "@Article{airGR2017", airGR_bib)
 airGR_bib <- gsub("@Manual\\{", "@Manual{R-airGR", airGR_bib)
 airGRdatassim_bib <- toBibtex(citation("airGRdatassim")) #toBibtex(citation("airGRdatassim")[1])
-airGRdatassim_bib <- gsub("@Article\\{", "@Article{piazzi_sequential_2020", airGRdatassim_bib)
+airGRdatassim_bib <- gsub("@Article\\{", "@Article{piazzi_sequential_2021", airGRdatassim_bib)
 airGRdatassim_bib <- gsub("@Manual\\{", "@Manual{R-airGRdatassim", airGRdatassim_bib)
 options(encoding = "UTF-8")
 writeLines(text = airGR_bib, con = "airgr_ref.bib")
@@ -35,7 +35,7 @@ Discharge simulations are affected by several sources of uncertainty (e.g. error
 
 Data assimilation (DA) allows to combine measurements and model simulations under the assumption that both supply useful information to obtain the most likely estimate of the system state. Among the sequential methods, the ensemble-based techniques allow to explicitly handle different sources of uncertainty and to quantify the unknown errors of both model states and observations.
 
-After the study of @piazzi_sequential_2020, airGRdatassim package [@R-airGRdatassim] provides functions allowing to perform DA-based ensemble discharge simulations. airGRdatassim is a package based on the [airGR](https://CRAN.R-project.org/package=airGR) hydrological modeling package [@airGR2017; @R-airGR]. This package is designed to flexibly use the Ensemble Kalman filter (EnKF) or Particle filter (PF) technique to assimilate daily discharge observations into GR4J, GR5J, and GR6J models  (see the [airGR manual](https://cran.r-project.org/web/packages/airGR/airGR.pdf#page.4) to get the references of the GR models). 
+After the study of @piazzi_sequential_2021, airGRdatassim package [@R-airGRdatassim] provides functions allowing to perform DA-based ensemble discharge simulations. airGRdatassim is a package based on the [airGR](https://CRAN.R-project.org/package=airGR) hydrological modeling package [@airGR2017; @R-airGR]. This package is designed to flexibly use the Ensemble Kalman filter (EnKF) or Particle filter (PF) technique to assimilate daily discharge observations into GR4J, GR5J, and GR6J models  (see the [airGR manual](https://cran.r-project.org/web/packages/airGR/airGR.pdf#page.4) to get the references of the GR models). 
 
 The uncertainty in both the meteorological forcings (i.e. precipitation and potential evapotranspiration) and model states (i.e. production store level, routing store level and unit hydrographs) can be easily taken into account by enabling specific perturbation procedures.
 
@@ -81,7 +81,7 @@ If `DaMethod = "EnKF"`, the EnKF performs the update of the state variables spec
 
 If `DaMethod = "none"`, discharge assimilation is not performed (i.e., open-loop simulation).
 
-Among the model states, the update of the routing store level ensures the most benefit from the assimilation of observed discharges. Conversely, the update of the unit hydrograph only has a slight impact on the accuracy of the DA-based discharge simulations [@piazzi_sequential_2020].
+Among the model states, the update of the routing store level ensures the most benefit from the assimilation of observed discharges. Conversely, the update of the unit hydrograph only has a slight impact on the accuracy of the DA-based discharge simulations [@piazzi_sequential_2021].
 
 
 ## Model uncertainties
@@ -95,7 +95,7 @@ The perturbation of model states is performed through a normally-distributed nul
 When considering the uncertainty in the forcings, the `CreateInputsPert()` function generates an ensemble for precipitation or/and potential evapotranspiration, provided as function argument/s.
 It is noteworthy that a significant reduction in the ensemble spread may occur especially in no-rain periods, when accounting only for meteorological uncertainty.
 
-Even though a more comprehensive representation of the state uncertainty can prevent the ensemble shrinkage, it has a different impact on the performance of the PF and the EnKF schemes [@piazzi_sequential_2020]. Indeed, while a higher model error covariance can lead to an overweighting of observations in the EnKF-based analysis procedure, a larger spread of the ensemble simulations allows for a more straightforward weighting and thus a more efficient resampling of particles in the PF scheme. 
+Even though a more comprehensive representation of the state uncertainty can prevent the ensemble shrinkage, it has a different impact on the performance of the PF and the EnKF schemes [@piazzi_sequential_2021]. Indeed, while a higher model error covariance can lead to an overweighting of observations in the EnKF-based analysis procedure, a larger spread of the ensemble simulations allows for a more straightforward weighting and thus a more efficient resampling of particles in the PF scheme. 
 
 
 ## Definition of DA settings

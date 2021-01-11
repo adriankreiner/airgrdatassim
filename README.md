@@ -3,7 +3,7 @@
 
 ## Overview
 
-airGRdatassim is a package based on the airGR hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/home/) of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR5J can be found in Piazzi et al. (in review)
+airGRdatassim is a package based on the airGR hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/home/) of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR5J can be found in Piazzi et al. (accepted)
 
 
 ## Installation
@@ -59,4 +59,4 @@ For more information and to get started with the package, you can refer to the v
 
 ## References
 
-- Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (in review). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research.
+- Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (accepted). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research.
