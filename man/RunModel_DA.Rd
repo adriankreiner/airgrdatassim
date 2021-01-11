@@ -3,6 +3,7 @@
 
 \name{RunModel_DA}
 \alias{RunModel_DA}
+\alias{[.OutputsModelDA}
 
 
 \title{Run discharge simulations with ensemble-based data assimilation}
@@ -15,6 +16,8 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
             DaMethod = c("EnKF", "PF", "none"), NbMbr = NULL,
             StateEnKF = NULL, StatePert = NULL,
             Seed = NULL)
+
+\method{[}{OutputsModelDA}(x, i)
 }
 
 
@@ -57,6 +60,10 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
   }}
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
+
+\item{x}{[OutputsModelDA] object of class OutputsModelDA}
+
+\item{i}{[integer] of the indices to subset a time series or [character] names of the elements to extract}
 }
 
 

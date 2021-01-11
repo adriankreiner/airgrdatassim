@@ -3,6 +3,7 @@
 
 \name{CreateInputsPert}
 \alias{CreateInputsPert}
+\alias{[.InputsPert}
 
 
 \title{Generation of ensemble model inputs for data assimilation}
@@ -13,6 +14,8 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
                  PotEvap = NULL, TempMean = NULL,
                  ZInputs = NULL, HypsoData = NULL, NLayers = 5,
                  NbMbr = 50, Seed = NULL)
+
+\method{[}{InputsPert}(x, i)
 }
 
 
@@ -36,6 +39,10 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
 \item{NbMbr}{(optional) [numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme)}
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
+
+\item{x}{[InputsPert] object of class InputsPert}
+
+\item{i}{[integer] of the indices to subset a time series or [character] names of the elements to extract}
 }
 
 
