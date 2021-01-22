@@ -26,12 +26,14 @@ bibentry(bibtype     = "Manual",
          journal     = "R News",
          year        = year,
          note        = note,
+         doi         = "10.15454/WEYYVZ",
          url         = "https://gitlab.irstea.fr/HYCAR-Hydro/airgrdatassim",
          textVersion =
-           paste0("Piazzi, G., Delaigue, O. (",
+           paste0("Piazzi, G. and Delaigue, O. (",
                   year,
                   "). airGRdatassim: Suite of Tools to Perform Ensemble-Based Data Assimilation in GR Hydrological Models. ",
-                  note,
-                  ". URL: https://gitlab.irstea.fr/HYCAR-Hydro/airgrdatassim."
+                  note, ", ",
+                  "doi: 10.15454/WEYYVZ", ", ",
+                  "URL  : https://gitlab.irstea.fr/HYCAR-Hydro/airgrdatassim."
                   )
 )
