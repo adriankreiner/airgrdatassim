@@ -22,7 +22,7 @@ Consistently with the airGR package, both structure and class of function argume
 
 ## --- Models
 
-DA schemes are designed to be coupled with GR daily hydrological models, which are implemented in the airGR package. These models can be called within the airGRdatassim package using the following airGR functions (see the \code{\link[airGR]{airGR}} manual to get the references of the GR models): \cr
+DA schemes are designed to be coupled with GR daily hydrological models, which are implemented in the airGR package. These models can be called within the airGRdatassim package using the following airGR functions (use the command `?airGR` to get the references of the GR models): \cr
   - \code{\link[airGR]{RunModel_GR4J}}: four-parameter daily lumped hydrological model \cr
   - \code{\link[airGR]{RunModel_GR5J}}: five-parameter daily lumped hydrological model \cr
   - \code{\link[airGR]{RunModel_GR6J}}: six-parameter daily lumped hydrological model  \cr
