@@ -4,6 +4,7 @@
 \name{RunModel_DA}
 \alias{RunModel_DA}
 \alias{[.OutputsModelDA}
+\alias{plot.OutputsModelDA}
 
 
 \title{Run discharge simulations with ensemble-based data assimilation}
@@ -18,6 +19,9 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
             Seed = NULL)
 
 \method{[}{OutputsModelDA}(x, i)
+
+\method{plot}{OutputsModelDA}(x, Qobs = NULL, main = NULL,
+     ColSim = "orangered", ColObs = par("fg"), ...)
 }
 
 
@@ -26,7 +30,7 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 
 \item{InputsPert}{(optional) [list] object of class \emph{InputsModel} containing the ensembles of perturbed data required to evaluate the model probabilistic outputs, if the uncertainty in meteorological forcings is taken into account. The variables data proposed in \emph{InputsPert} will erase the variables data given in \emph{InputsModel}}
 
-\item{Qobs}{(optional) [numeric] time series of observed discharges [mm/d]}
+\item{Qobs}{(optional) [numeric] time series of observed flow [mm/d]}
 
 \item{IndRun}{[numeric] index of period to be used for the model run [-]}
 
@@ -61,9 +65,15 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
 
-\item{x}{[OutputsModelDA] object of class OutputsModelDA}
+\item{x}{[OutputsModelDA] containing the vector of dates (\emph{POSIXt}) and the time series of numeric values DA model outputs}
 
 \item{i}{[integer] of the indices to subset a time series or [character] names of the elements to extract}
+
+\item{main}{(optional) [character] an overall title for the plot (see \code{\link[graphics]{title}})}
+
+\item{ColSim, ColObs}{(optional) [character] color to be used for simulated flow and observed flow (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
+
+\item{...}{other parameters to be passed through to plotting functions}
 }
 
 
@@ -90,6 +100,10 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
             \cr
     \emph{$NbState    } \tab [integer] atomic vector of number of of model states
          }
+
+On the graphical outputs: \cr
+  - solid line: medians of the input values \cr
+  - polygon: minima and maxima of the input values \cr
 }
 
 
@@ -152,9 +166,10 @@ OutputsModelDA <- RunModel_DA(InputsModel = InputsModel,
                               StatePert = c("Prod", "Rout"))
 
 ## results preview
-\dontrun{
 plot(OutputsModelDA, Qobs = BasinObs$Qmm[IndRun])
-}
+
+## results preview on a subset
+plot(OutputsModelDA[1:10], Qobs = BasinObs$Qmm[IndRun][1:10])
 }
 
 
@@ -173,5 +188,5 @@ Gaia Piazzi, Olivier Delaigue
 
 
 \seealso{
-\code{\link{CreateInputsPert}}, \code{\link[airGRdatassim]{plot}}
+\code{\link{CreateInputsPert}}
 }

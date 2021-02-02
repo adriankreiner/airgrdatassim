@@ -4,6 +4,7 @@
 \name{CreateInputsPert}
 \alias{CreateInputsPert}
 \alias{[.InputsPert}
+\alias{plot.InputsPert}
 
 
 \title{Generation of ensemble model inputs for data assimilation}
@@ -16,6 +17,10 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
                  NbMbr = 50, Seed = NULL)
 
 \method{[}{InputsPert}(x, i)
+
+\method{plot}{InputsPert}(x, which = "all", main = NULL,
+     ColPrecip = "royalblue", ColPotEvap = "green3",
+     ask = prod(par("mfcol")) < length(which) && dev.interactive(), ...)
 }
 
 
@@ -40,9 +45,19 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
 
-\item{x}{[InputsPert] object of class InputsPert}
+\item{x}{[InputsPert] containing the vector of dates (\emph{POSIXt}) and the time series of numeric values list perturbed}
 
 \item{i}{[integer] of the indices to subset a time series or [character] names of the elements to extract}
+
+\item{which}{(optional) [character] choice of plots (e.g. \code{"Precip"} or \code{"PotEvap"}, default = \code{"all"})}
+
+\item{main}{(optional) [character] an overall title for the plot (see \code{\link[graphics]{title}})}
+
+\item{ColPrecip, ColPotEvap}{(optional) [character] color to be used for perturbed precipitation and perturbed potential evapotransipration (in any format that \code{\link[grDevices]{col2rgb}} accepts)}
+
+\item{ask}{(optional) [logical] if \code{TRUE}, the user is asked before each plot, see \code{\link[graphics]{par}(ask = .)}}
+
+\item{...}{other parameters to be passed through to plotting functions}
 }
 
 
@@ -77,6 +92,10 @@ In order to ensure reproducible results, \emph{Seed} can be set to fix the rando
 For further details, see the references section.
 \cr\cr
 Nota: The function can be applied when using GR4J, GR5J and GR6J models (i.e. daily model time step), with or withouth the CemaNeige module.
+
+On the graphical outputs: \cr
+  - solid line: medians of the input values \cr
+  - polygon: minima and maxima of the input values \cr
 }
 
 
@@ -102,10 +121,13 @@ InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
                                NbMbr = 100L)
 str(InputsPert)
 
-## results preview on a subset
-\dontrun{
-plot(InputsPert[IndRun])
-}
+## results preview
+par(mfrow = c(2, 1))
+plot(InputsPert)
+
+## results preview on a subset on one perturbed variable
+par(mfrow = c(1, 1))
+plot(InputsPert[IndRun], which = "PotEvap")
 }
 
 
@@ -122,5 +144,5 @@ Gaia Piazzi, Olivier Delaigue
 
 
 \seealso{
-\code{\link{RunModel_DA}}, \code{\link[airGRdatassim]{plot}}
+\code{\link{RunModel_DA}}
 }
