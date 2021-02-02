@@ -290,7 +290,7 @@ matplot(x = BasinObs$DatesR[IndRun],
                   Qobs),
         type = "l", col = c("red", "green", "blue", "black"),
         lty = c(1, 1, 1, 3), lwd = c(1.5, 1.5, 1.5, 1.5),
-        xlab = "Time", ylab = "Discharge [mm/day]",
+        xlab = "Time", ylab = "Discharge [mm/d]",
         xaxt = "n"
 )
 axis.POSIXct(side = 1, x = BasinObs$DatesR[IndRun])
