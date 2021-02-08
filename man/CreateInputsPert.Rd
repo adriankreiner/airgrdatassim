@@ -122,12 +122,14 @@ InputsPert <- CreateInputsPert(FUN_MOD = RunModel_GR5J,
 str(InputsPert)
 
 ## results preview
-par(mfrow = c(2, 1))
+oldpar <- par(mfrow = c(2, 1))
 plot(InputsPert)
+par(oldpar)
 
 ## results preview on a subset on one perturbed variable
-par(mfrow = c(1, 1))
+oldpar <- par(mfrow = c(1, 1))
 plot(InputsPert[IndRun], which = "PotEvap")
+par(oldpar)
 }
 
 
