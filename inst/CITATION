@@ -21,19 +21,19 @@ bibentry(bibtype     = "Article",
 )
 
 bibentry(bibtype     = "Manual",
-         title       = "{airGRdatassim}: Suite of Tools to Perform Ensemble-Based Data Assimilation in {GR} Hydrological Models",
+         title       = "{airGRdatassim}: Ensemble-Based Data Assimilation in {GR} Hydrological Models",
          author      = personList(as.person("G. Piazzi"), as.person("O. Delaigue")),
          journal     = "R News",
          year        = year,
          note        = note,
          doi         = "10.15454/WEYYVZ",
-         url         = "https://gitlab.irstea.fr/HYCAR-Hydro/airgrdatassim",
+         url         = "https://CRAN.R-project.org/package=airGRdatassim",
          textVersion =
            paste0("Piazzi, G. and Delaigue, O. (",
                   year,
-                  "). airGRdatassim: Suite of Tools to Perform Ensemble-Based Data Assimilation in GR Hydrological Models. ",
+                  "). airGRdatassim: Ensemble-Based Data Assimilation in GR Hydrological Models. ",
                   note, ", ",
                   "doi: 10.15454/WEYYVZ", ", ",
-                  "URL  : https://gitlab.irstea.fr/HYCAR-Hydro/airgrdatassim."
+                  "URL  : https://CRAN.R-project.org/package=airGRdatassim."
                   )
 )
