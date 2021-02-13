@@ -1,5 +1,5 @@
 
-# airGRdatassim: Suite of Tools to Perform Ensemble-Based Data Assimilation with GR Hydrological Models
+# airGRdatassim: Ensemble-Based Data Assimilation with GR Hydrological Models
 
 ## Overview
 
