@@ -141,7 +141,7 @@ Gaia Piazzi, Olivier Delaigue
 \references{
 - Clark, M. P., Rupp, D. E., Woods, R. A., Zheng, X., Ibbitt, R. P., Slater, A. G. et al. (2008). Hydrological data assimilation with the ensemble Kalman filter: Use of streamflow observations to update states in a distributed hydrological model. Advances in Water Resources, 31(10), 1309-1324, \doi{10.1016/j.advwatres.2008.06.005}
 \cr\cr
-- Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (accepted). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research, \doi{10.1029/2020WR028390}.
+- Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (2021). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model at basin scale. Water Resources Research, 57, \doi{10.1029/2020WR028390}.
 }
 
 

@@ -3,7 +3,7 @@
 
 ## Overview
 
-'airGR' is a package based on the 'airGR' hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/home/) of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR5J can be found in Piazzi et al. (accepted)
+'airGR' is a package based on the 'airGR' hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/home/) of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR5J can be found in Piazzi et al. (2021)
 
 
 ## Installation
@@ -67,4 +67,4 @@ For more information and to get started with the package, you can refer to the v
 
 ## References
 
-- Piazzi, G., Thirel, G., Perrin, C. and Delaigue, O. (accepted). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model. Water Resources Research, doi: [10.1029/2020WR028390](https://doi.org/10.1029/2020WR028390).
+-  Piazzi G., Thirel G., Perrin C. & Delaigue O. (2021). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model at basin scale at Basin Scale. Water Resources Research, 57, doi: [10.1029/2020WR028390](https://doi.org/10.1029/2020WR028390).
