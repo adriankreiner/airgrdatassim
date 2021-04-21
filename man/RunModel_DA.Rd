@@ -108,7 +108,7 @@ On the graphical outputs: \cr
 
 
 \description{
-Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes. More information about the efficiency of these data assimilation schemes with GR4J can be found in Piazzi et al. (2021).
+Function which performs discharge ensemble simulations with the assimilation of observed discharges through the Ensemble Kalman filter (EnKF) or the Particle filter (PF) schemes. More information about the efficiency of these data assimilation schemes with GR5J can be found in Piazzi et al. (2021).
 }
 
 
