@@ -67,4 +67,4 @@ For more information and to get started with the package, you can refer to the v
 
 ## References
 
--  Piazzi G., Thirel G., Perrin C. & Delaigue O. (2021). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model at basin scale at Basin Scale. Water Resources Research, 57, doi: [10.1029/2020WR028390](https://doi.org/10.1029/2020WR028390).
+-  Piazzi G., Thirel G., Perrin C. & Delaigue O. (2021). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model at basin scale at basin scale. Water Resources Research, 57, doi: [10.1029/2020WR028390](https://doi.org/10.1029/2020WR028390).
