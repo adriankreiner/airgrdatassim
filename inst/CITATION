@@ -37,6 +37,6 @@ bibentry(bibtype     = "Manual",
                   "). airGRdatassim: Ensemble-Based Data Assimilation in GR Hydrological Models. ",
                   note, ", ",
                   "doi: 10.15454/WEYYVZ", ", ",
-                  "URL  : https://CRAN.R-project.org/package=airGRdatassim."
+                  "URL: https://CRAN.R-project.org/package=airGRdatassim."
                   )
 )
