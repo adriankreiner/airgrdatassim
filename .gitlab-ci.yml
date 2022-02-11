@@ -35,7 +35,7 @@ before_script:
 .check_airGR_cran:
   stage: check
   script:
-    - tlmgr install ec && tlmgr install cm-super
+    - tlmgr update --self && tlmgr install ec && tlmgr install cm-super
     - R -q -e 'install.packages("airGR")'
     - R -q -e 'remotes::update_packages("rcmdcheck")'
     - R -q -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
@@ -43,7 +43,7 @@ before_script:
 .check_airGR_notcran:
   stage: check
   script:
-    - tlmgr install ec && tlmgr install cm-super
+    - tlmgr update --self && tlmgr install ec && tlmgr install cm-super
     - R -q -e 'remotes::install_gitlab("HYCAR-Hydro/airgr@dev", host = "gitlab.irstea.fr")'
     - R -q -e 'remotes::update_packages("rcmdcheck")'
     - R -q -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
