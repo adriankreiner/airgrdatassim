@@ -1,39 +1,69 @@
 stages:
-    - update_packages
-    - build
-    - checks
+  - check
+
+variables:
+  R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
 
 default:
   tags: [docker]
 
-image: r-base:latest
-
 cache:
+  key: "airGRdatassim-${R_VERSION}"
   paths:
-    - R_LIBS/
+    - $R_LIBS_USER
 
 before_script:
-  - apt-get update && apt-get -y install libxml2-dev
-  - echo "R_LIBS='$(pwd)/R_LIBS'" > .Renviron
+  - mkdir -p $R_LIBS_USER
+  - echo "R_LIBS='$R_LIBS_USER'" > .Renviron
+  - R -q -e 'remotes::install_deps(dependencies = TRUE)'
 
-update_packages:
-  stage: update_packages
-  script:
-    - mkdir -p R_LIBS
-    - Rscript -e 'if(!dir.exists("R_LIBS/remotes")) install.packages("remotes", lib = "R_LIBS")'
-    - Rscript -e 'remotes::update_packages(c("knitr", "rmarkdown"), lib = "R_LIBS")'
-    - Rscript -e 'remotes::install_gitlab("HYCAR-Hydro/airgr@dev", host = "gitlab.irstea.fr", lib = "R_LIBS")'
 
-build:
-  stage: build
-  script:
-    - apt-get update && apt-get -y install libxml2-dev
-    - R CMD build ../airgrdatassim
-  artifacts:
-    paths:
-      - airGRdatassim_*.tar.gz
+.Rdevel:
+  image: rocker/verse:devel
+  variables:
+    R_VERSION: devel
 
-check_as_cran:
-  stage: checks
+.Rpatched:
+  only:
+    refs:
+      - tags
+      - schedules
+  image: rocker/verse:latest
+  variables:
+    R_VERSION: patched
+
+.check_airGR_cran:
+  stage: check
   script:
-    - R CMD check --as-cran --no-manual airGRdatassim_*.tar.gz
+    - tlmgr install ec && tlmgr install cm-super
+    - R -q -e 'install.packages("airGR")'
+    - R -q -e 'remotes::update_packages("rcmdcheck")'
+    - R -q -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
+
+.check_airGR_notcran:
+  stage: check
+  script:
+    - tlmgr install ec && tlmgr install cm-super
+    - R -q -e 'remotes::install_gitlab("HYCAR-Hydro/airgr@dev", host = "gitlab.irstea.fr")'
+    - R -q -e 'remotes::update_packages("rcmdcheck")'
+    - R -q -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
+
+check_patched_airGR_cran:
+  extends:
+    - .Rpatched
+    - .check_airGR_cran
+
+check_devel_airGR_cran:
+  extends:
+    - .Rdevel
+    - .check_airGR_cran
+
+check_patched_airGR_notcran:
+  extends:
+    - .Rpatched
+    - .check_airGR_notcran
+
+check_devel_airGR_notcran:
+  extends:
+    - .Rdevel
+    - .check_airGR_notcran
