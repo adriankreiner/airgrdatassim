@@ -36,7 +36,7 @@ before_script:
   stage: check
   script:
     - tlmgr install ec && tlmgr install cm-super
-    - R -e 'install_packages("airGR")'
+    - R -e 'install.packages("airGR")'
     - R -e 'remotes::update_packages("rcmdcheck")'
     - R -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
 
