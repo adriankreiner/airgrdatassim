@@ -35,6 +35,7 @@ before_script:
 .check:
   stage: check
   script:
+    - tlmgr install ec && tlmgr install cm-super
     - R -e 'remotes::update_packages("rcmdcheck")'
     - R -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
 
