@@ -1,39 +1,52 @@
 stages:
-    - update_packages
-    - build
-    - checks
+  - check
+  - scheduled_tests
+  - revdepcheck
+
+variables:
+  R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
 
 default:
   tags: [docker]
 
-image: rocker/verse:devel
-
 cache:
+  key: "airGRdatassim-${R_VERSION}"
   paths:
-    - R_LIBS/
+    - $R_LIBS_USER
 
 before_script:
-  - apt-get update && apt-get -y install libxml2-dev
-  - echo "R_LIBS='$(pwd)/R_LIBS'" > .Renviron
+  - mkdir -p $R_LIBS_USER
+  - echo "R_LIBS='$R_LIBS_USER'" > .Renviron
+  - R -e 'remotes::install_deps(dependencies = TRUE)'
+  - R -e 'remotes::install_gitlab("HYCAR-Hydro/airgr@dev", host = "gitlab.irstea.fr")'
 
-update_packages:
-  stage: update_packages
-  script:
-    - mkdir -p R_LIBS
-    - Rscript -e 'if(!dir.exists("R_LIBS/remotes")) install.packages("remotes", lib = "R_LIBS")'
-    - Rscript -e 'remotes::update_packages(c("knitr", "rmarkdown"), lib = "R_LIBS")'
-    - Rscript -e 'remotes::install_gitlab("HYCAR-Hydro/airgr@dev", host = "gitlab.irstea.fr", lib = "R_LIBS")'
+.R-devel:
+  image: rocker/verse:devel
+  variables:
+    R_VERSION: devel
 
-build:
-  stage: build
-  script:
-    - apt-get update && apt-get -y install libxml2-dev
-    - R CMD build ../airgrdatassim
-  artifacts:
-    paths:
-      - airGRdatassim_*.tar.gz
+.R-patched:
+  only:
+    refs:
+      - tags
+      - schedules
+  image: rocker/verse:latest
+  variables:
+    R_VERSION: patched
 
-check_as_cran:
-  stage: checks
+.check:
+  stage: check
   script:
-    - R CMD check --as-cran --no-manual airGRdatassim_*.tar.gz
+  - tlmgr install ec epstopdf-pkg
+  - R -e 'remotes::update_packages("rcmdcheck")'
+  - R -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
+
+check_patched:
+  extends:
+    - .check
+    - .R-patched
+
+check_devel:
+  extends:
+    - .check
+    - .R-devel
