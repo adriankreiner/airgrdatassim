@@ -1,7 +1,5 @@
 stages:
   - check
-  - scheduled_tests
-  - revdepcheck
 
 variables:
   R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
@@ -37,9 +35,8 @@ before_script:
 .check:
   stage: check
   script:
-  - tlmgr install ec epstopdf-pkg
-  - R -e 'remotes::update_packages("rcmdcheck")'
-  - R -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
+    - R -e 'remotes::update_packages("rcmdcheck")'
+    - R -e 'rcmdcheck::rcmdcheck(args = "--as-cran", error_on = "warning")'
 
 check_patched:
   extends:
