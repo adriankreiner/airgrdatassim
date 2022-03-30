@@ -78,28 +78,15 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
 
 
 \value{
-[list] runModel_DA function provides a list containing the outputs organised as follows:
-  \tabular{ll}{
-    \emph{$DatesR     } \tab [POSIXlt] series of dates (length of IndRun)
-            \cr
-            \cr
-    \emph{$QsimEns    } \tab [numeric] matrix (dim(NbTime, NbMbr)) of ensemble discharge simulations
-            \cr
-            \cr
-    \emph{$EnsStateBkg} \tab [numeric] array (dim(NbTime, NbMbr, Nstate)) of ensemble values of background model states (before the filter update)
-            \cr
-            \cr
-    \emph{$EnsStateA  } \tab [numeric] array (dim(NbTime, NbMbr, Nstate)) of ensemble values of analysis model states (after the filter update)
-            \cr
-            \cr
-    \emph{$NbTime     } \tab [integer] atomic vector of length of IndRun
-            \cr
-            \cr
-    \emph{$NbMbr      } \tab [integer] atomic vector of number of ensemble members
-            \cr
-            \cr
-    \emph{$NbState    } \tab [integer] atomic vector of number of of model states
-         }
+[list] \code{'OutputsModel'} containing the outputs organised as follows:
+
+  \item{DatesR     }{[POSIXlt] series of dates (length of IndRun)}
+  \item{QsimEns    }{[numeric] matrix (dim(NbTime, NbMbr)) of ensemble discharge simulations}
+  \item{EnsStateBkg}{[numeric] array (dim(NbTime, NbMbr, Nstate)) of ensemble values of background model states (before the filter update)}
+  \item{EnsStateA  }{[numeric] array (dim(NbTime, NbMbr, Nstate)) of ensemble values of analysis model states (after the filter update)}
+  \item{NbTime     }{[integer] atomic vector of length of IndRun}
+  \item{NbMbr      }{[integer] atomic vector of number of ensemble members}
+  \item{NbState    }{[integer] atomic vector of number of of model states}
 
 On the graphical outputs: \cr
   - solid line: medians of the input values \cr

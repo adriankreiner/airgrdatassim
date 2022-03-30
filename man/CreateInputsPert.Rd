@@ -62,16 +62,11 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
 
 
 \value{
-\emph{InputsPert}{[list] object of class \emph{InputsModel} containing the ensembles of perturbed model inputs required to perform data assimilation:}
-  \tabular{ll}{
-     \emph{$DatesR } \tab [POSIXlt] vector of dates
-                          \cr\cr
-     \emph{$Precip } \tab [numeric] matrix (dim(NbTime, NbMbr)) of ensemblist time series of perturbed total precipitation [mm/d] (with NbTime the length of the period; generated only if the precipitation time series is provided as a function argument)
-                          \cr\cr
-     \emph{$PotEvap} \tab [numeric] matrix (dim(NbTime, NbMbr)) of ensemblist time series of perturbed potential evapotranspiration [mm/d] (generated only if the time series of potential evapotranspiration is provided as a function argument)
-                          \cr\cr
-     \emph{$NbMbr  } \tab [integer] atomic vector of number of ensemble members
-  }
+[list] of class \code{'InputsModel'} containing the ensembles of perturbed model inputs required to perform data assimilation:
+  \item{DatesR }{[POSIXlt] vector of dates}
+  \item{Precip }{[numeric] matrix (dim(NbTime, NbMbr)) of ensemblist time series of perturbed total precipitation [mm/d] (with NbTime the length of the period; generated only if the precipitation time series is provided as a function argument)}
+  \item{PotEvap}{[numeric] matrix (dim(NbTime, NbMbr)) of ensemblist time series of perturbed potential evapotranspiration [mm/d] (generated only if the time series of potential evapotranspiration is provided as a function argument)}
+  \item{NbMbr  }{[integer] atomic vector of number of ensemble members}
 }
 
 
