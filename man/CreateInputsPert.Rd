@@ -67,6 +67,10 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
   \item{Precip }{[numeric] matrix (dim(NbTime, NbMbr)) of ensemblist time series of perturbed total precipitation [mm/d] (with NbTime the length of the period; generated only if the precipitation time series is provided as a function argument)}
   \item{PotEvap}{[numeric] matrix (dim(NbTime, NbMbr)) of ensemblist time series of perturbed potential evapotranspiration [mm/d] (generated only if the time series of potential evapotranspiration is provided as a function argument)}
   \item{NbMbr  }{[integer] atomic vector of number of ensemble members}
+
+On the graphical outputs: \cr
+  - solid line: medians of the input values \cr
+  - polygon: minima and maxima of the input values \cr
 }
 
 
@@ -87,10 +91,6 @@ In order to ensure reproducible results, \emph{Seed} can be set to fix the rando
 For further details, see the references section.
 \cr\cr
 Nota: The function can be applied when using GR4J, GR5J and GR6J models (i.e. daily model time step), with or withouth the CemaNeige module.
-
-On the graphical outputs: \cr
-  - solid line: medians of the input values \cr
-  - polygon: minima and maxima of the input values \cr
 }
 
 
