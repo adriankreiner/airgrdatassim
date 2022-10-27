@@ -3,3 +3,4 @@
 ^\.Rprofile$
 ^packrat/
 ^\.gitlab-ci.yml$
+^ci$
