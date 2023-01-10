@@ -3,7 +3,7 @@
 
 ## Overview
 
-'airGR' is a package based on the 'airGR' hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/home/) of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR5J can be found in Piazzi et al. (2021)
+'airGRdatassim' is a package based on the 'airGR' hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/home/) of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR5J can be found in Piazzi et al. (2021)
 
 
 ## Installation
@@ -18,11 +18,12 @@ install.packages("airGRdatassim")
 
 ### Unrelease version
 
-To download the version of the package that is on GitLab, you have first install the 'remotes' package. Then you can install the 'airGRdatassim' package in the R environment, using the following command lines:
+To download the version of the package that is on GitLab, you have first install the 'remotes' package. Then you can install the 'airGRdatassim' package in the R environmen:
 
 ``` r
 install.packages("remotes")
-remotes::install_gitlab(repo = "HYCAR-Hydro/airgrdatassim", host = "https://gitlab.irstea.fr", 
+remotes::install_gitlab(repo = "HYCAR-Hydro/airgrdatassim", 
+                        host = "https://gitlab.irstea.fr", 
                         dependencies = TRUE, build_vignettes = TRUE)
 ```
 
