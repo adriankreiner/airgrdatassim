@@ -18,13 +18,14 @@ install.packages("airGRdatassim")
 
 ### Unrelease version
 
-To download the version of the package that is on GitLab, you have first install the 'remotes' package. Then you can install the 'airGRdatassim' package in the R environmen:
+To use the development version of the package that is on GitLab, you have first install the 'remotes' package. Then you can install the 'airGRdatassim' package in the R environment:
 
 ``` r
 install.packages("remotes")
 remotes::install_gitlab(repo = "HYCAR-Hydro/airgrdatassim", 
                         host = "https://gitlab.irstea.fr", 
-                        dependencies = TRUE, build_vignettes = TRUE)
+                        dependencies = TRUE, 
+                        build_vignettes = TRUE)
 ```
 
 
