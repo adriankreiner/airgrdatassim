@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.Rprofile$
+^packrat/
+^\.gitlab-ci.yml$
+^ci$
