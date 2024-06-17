@@ -12,6 +12,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   TimeUnit <- "daily"
 
   FUN_MODList <- c("RunModel_GR4J",
+                   "RunModel_GR4J_Glacier",
                    "RunModel_GR5J",
                    "RunModel_GR6J")
 
