@@ -4,7 +4,8 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                         FUN_MOD, Param,
                         DaMethod = c("EnKF", "PF", "none"), NbMbr = NULL,
                         StateEnKF = NULL, StatePert = NULL,
-                        Seed = NULL) {
+                        Seed = NULL,
+                        RunOptionsInitial = NULL) {
 
   # ------ Checks
 
@@ -12,20 +13,25 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   TimeUnit <- "daily"
 
   FUN_MODList <- c("RunModel_GR4J",
-                   "RunModel_GR4J_Glacier",
                    "RunModel_GR5J",
                    "RunModel_GR6J")
 
   FUN_MODSnowList <- c("RunModel_CemaNeigeGR4J",
+                       "RunModel_CemaNeigeGR4J_Glacier",
                        "RunModel_CemaNeigeGR5J",
                        "RunModel_CemaNeigeGR6J")
 
+  
+
   FUN_MOD <- match.fun(FUN_MOD)
+  
+  
   if (!any(sapply(c(FUN_MODList, FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
+    
     stop(sprintf("incorrect 'FUN_MOD' for use in 'CreateInputsPerturb'. Only %s can be used",
                  paste(c(FUN_MODList, FUN_MODSnowList), collapse = ", ")))
   }
-
+  
   if (identical (FUN_MOD, RunModel_GR5J) | identical (FUN_MOD, RunModel_CemaNeigeGR5J)) {
     StateNames <- c("Prod", "Rout", "UH2")
   } else {
@@ -121,7 +127,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
         }
       }
     }
-
+    
     # Qobs
     if (is.null(Qobs) || all(is.na(Qobs)) || all(Qobs < 0,  na.rm = TRUE)) {
       DaMethod <- "none"
@@ -190,16 +196,23 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   ItAssim <- 0
 
   # fake RunOptions
-  RunOptionsIni <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
-                                           InputsModel = InputsModel,
-                                           IndPeriod_Run = 1L,
-                                           warning = FALSE, verbose = FALSE)
+  if (is.null(RunOptionsIni)) {
+    RunOptionsIni <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
+                                             InputsModel = InputsModel,
+                                             IndPeriod_Run = 1L,
+                                             warning = FALSE, verbose = FALSE)
+    
+    RunOptionsIni$RelIce <- rel_ice
+  } 
+  RunOptionsIni <- RunOptionsInitial
+
   RunOptionsIter <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
                                             InputsModel = InputsModel,
                                             IndPeriod_Run = 1L,
                                             IndPeriod_WarmUp = 0L,
                                             IniStates = NULL,
                                             warning = FALSE, verbose = FALSE)
+  RunOptionsIter$RelIce <- rel_ice
 
 
 
