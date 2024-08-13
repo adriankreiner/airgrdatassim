@@ -5,7 +5,8 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                         DaMethod = c("EnKF", "PF", "none"), NbMbr = NULL,
                         StateEnKF = NULL, StatePert = NULL,
                         Seed = NULL,
-                        RunOptionsInitial = NULL) {
+                        RunOptionsInitial = NULL,
+                        Rel_ice = NULL) {
 
   # ------ Checks
 
@@ -193,26 +194,51 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
 
   EnsStateA <- EnsStateBkg
 
+  WeightsHistory <- list()
+  Qsim_raw <- list()
   ItAssim <- 0
 
+
+  
+  
+  
   # fake RunOptions
-  if (is.null(RunOptionsIni)) {
+  # RunOptionsIni <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
+  #                                          InputsModel = InputsModel,
+  #                                          IndPeriod_Run = 1L,
+  #                                          warning = FALSE, verbose = FALSE)
+  # RunOptionsIni$RelIce <- Rel_ice
+  # 
+  # RunOptionsIter <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
+  #                                           InputsModel = InputsModel,
+  #                                           IndPeriod_Run = 1L,
+  #                                           IndPeriod_WarmUp = 0L,
+  #                                           IniStates = NULL,
+  #                                           warning = FALSE, verbose = FALSE)
+  # 
+  # RunOptionsIter$RelIce <- Rel_ice
+  
+  ### NEW 
+  if (is.null(RunOptionsInitial)) {
     RunOptionsIni <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
                                              InputsModel = InputsModel,
                                              IndPeriod_Run = 1L,
-                                             warning = FALSE, verbose = FALSE)
+                                             warning = FALSE, verbose = FALSE, 
+                                             RelIce = Rel_ice)
     
-    RunOptionsIni$RelIce <- rel_ice
-  } 
-  RunOptionsIni <- RunOptionsInitial
+    
+  } else {
+    RunOptionsIni <- RunOptionsInitial
+  }
+  
 
   RunOptionsIter <- airGR::CreateRunOptions(FUN_MOD = FUN_MOD,
                                             InputsModel = InputsModel,
                                             IndPeriod_Run = 1L,
                                             IndPeriod_WarmUp = 0L,
                                             IniStates = NULL,
-                                            warning = FALSE, verbose = FALSE)
-  RunOptionsIter$RelIce <- rel_ice
+                                            warning = FALSE, verbose = FALSE, 
+                                            RelIce = Rel_ice)
 
 
 
@@ -240,13 +266,12 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
     for (iMbr in seq_len(NbMbr)) {
 
       if (iTime == 1) { # default (one year by default) warmup
-
         RunOptionsIni$IndPeriod_Run <- iTime
         OutputsModel <- FUN_MOD(InputsModel = InputsModel,
                                 RunOptions = RunOptionsIni, Param = Param)
+      
 
       } else { # IF iTime > 1
-
         IniStates <- IniStatesEns[[iMbr]]
         IniStates$Store$Rest <- rep(NA, times = 3)
         IniStates <- unlist(IniStates)
@@ -339,9 +364,16 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
                      NbMbr = NbMbr,
                      StatePert = StatePert, VarThr = VarThr)
 
+        # Tracking 
+        WeightsHistory[[iTime]] <- ans$WeightsHistory
+        Qsim_raw[[iTime]] <- QsimEns[, iTime]
+        
+        
+        
         if (!is.null(StatePert)) {
           IniStatesEns <- ans$EnsStatePert
         } else {
+          print("ELSE")
           IniStatesEns <- ans$EnsStatePf
         }
 
@@ -386,7 +418,8 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
               EnsStateA = aperm(EnsStateA),
               NbTime = NbTime,
               NbMbr = NbMbr,
-              NbState = NbState)
+              NbState = NbState, 
+              IniStatesEns = IniStatesEns)
   class(res) <- c("OutputsModelDA", "OutputsModel", DaMethod, TimeUnit)
   return(res)
 

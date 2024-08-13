@@ -1,6 +1,9 @@
 
 CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, TempMean = NULL,
-                             ZInputs = NULL, HypsoData = NULL, NLayers = 5, NbMbr = 50, Seed = NULL) {
+                             ZInputs = NULL, HypsoData = NULL, NLayers = 5, NbMbr = 50, Seed = NULL, 
+                             Eps_Ptot = 0.65, Eps_PET = 0.65, 
+                             GradP = NULL, 
+                             GradT = NULL) {
 
   # ------ Checks
 
@@ -9,8 +12,10 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
                    "RunModel_GR6J")
 
   FUN_MODSnowList <- c("RunModel_CemaNeigeGR4J",
+                       "RunModel_CemaNeigeGR4J_Glacier",
                        "RunModel_CemaNeigeGR5J",
-                       "RunModel_CemaNeigeGR6J")
+                       "RunModel_CemaNeigeGR6J", 
+                       "RunModel_CemaNeigeGR6J_Glacier")
 
   FUN_MOD <- match.fun(FUN_MOD)
 
@@ -43,7 +48,7 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
   Alfa <- 1 - (Dt/Tao)
 
   # fractional error parameter for Precip and PotEvap
-  Eps  <- c(Precip = 0.65, PotEvap = 0.65)
+  Eps  <- c(Precip = Eps_Ptot, PotEvap = Eps_PET)
 
   # complementary error function
   Erfc <- function(x) {
@@ -78,13 +83,15 @@ CreateInputsPert <- function(FUN_MOD, DatesR, Precip = NULL, PotEvap = NULL, Tem
 
   if (any(sapply(c(FUN_MODList), function(x) identical(FUN_MOD, match.fun(x)))))  {
     InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
-                                           Precip = Precip, PotEvap = PotEvap)
+                                           Precip = Precip, PotEvap = PotEvap, 
+                                           GradP = GradP, GradT = GradT)
 
   } else if (any(sapply(c(FUN_MODSnowList), function(x) identical(FUN_MOD, match.fun(x))))) {
     InputsPert <- airGR::CreateInputsModel(FUN_MOD = FUN_MOD, DatesR = DatesR,
                                            Precip = Precip, PotEvap = PotEvap,
                                            TempMean = TempMean, ZInputs = ZInputs,
-                                           HypsoData = HypsoData, NLayers = NLayers)
+                                           HypsoData = HypsoData, NLayers = NLayers, 
+                                           GradP = GradP, GradT = GradT)
   }
 
   #***************************************************************************************************************

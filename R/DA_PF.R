@@ -19,12 +19,14 @@ DA_PF <- function(Obs, Qsim, States,
   CurrentState     <- list()
   CurrentStatePert <- list()
 
-
+  WeightsHistory <- list() 
 
   # ------ Particles weighting
 
-  VarObs <- max(VarThr^2, (0.1*Obs)^2)
-
+  scaling_factor <- 0.1  # Adjusted scaling factor based on analysis
+  # VarObs <- scaling_factor * Obs^2
+    VarObs <- max(VarThr^2, (scaling_factor * Obs)^2)
+  
   # evaluation of innovations
   Innov <- Obs - Qsim
   names(Innov) <- MbrNames
@@ -35,9 +37,12 @@ DA_PF <- function(Obs, Qsim, States,
   # normalisation of weights
   Weights <- Weights/sum(Weights)
 
+  WeightsHistory <- Weights 
+#print(WeightsHistory)
   # if the ensemble is squeezed, NA-valued weights can be generated --> all particles are assigned equal weights
   if (!all(is.finite(Weights))) {
     Weights <- rep(1/NbMbr, times = NbMbr)
+    # print("YES")
   }
 
 
@@ -95,7 +100,7 @@ DA_PF <- function(Obs, Qsim, States,
     MuState <- rep(0, times = NbState)
     names(MuState) <- StateNames
 
-    # evaluation of the variance of state variables
+    # evaluation of the variance of state variables (3, 1.2)
     SdState <- pmin(3,
                      pmax(1.2,
                           apply(EnsState[, as.numeric(as.character(Repeats$Indices)), drop = FALSE], MARGIN = 1, sd, na.rm = TRUE),
@@ -108,7 +113,6 @@ DA_PF <- function(Obs, Qsim, States,
   # ------ Resampling
 
   for (iPart in seq_len(nrow(Repeats))) {
-
     IndexParticle <- as.numeric(as.character(Repeats$Indices[iPart]))
     RepParticle   <- as.numeric(as.character(Repeats$Freq[iPart]))
 
@@ -177,7 +181,7 @@ DA_PF <- function(Obs, Qsim, States,
 
   # ------ Outputs
 
-  ans <- list(EnsStatePf = EnsStatePf)
+  ans <- list(EnsStatePf = EnsStatePf, WeightsHistory = WeightsHistory)
   if (!is.null(StatePert)) {
     ans$EnsStatePert <- EnsStatePert
   }
