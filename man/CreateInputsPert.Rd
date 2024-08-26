@@ -14,7 +14,9 @@
 CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
                  PotEvap = NULL, TempMean = NULL,
                  ZInputs = NULL, HypsoData = NULL, NLayers = 5,
-                 NbMbr = 50, Seed = NULL)
+                 NbMbr = 50, Seed = NULL, 
+                 Eps_Ptot = 0.65, Eps_PET = 0.65,
+                 GradP = NULL, GradT = NULL)
 
 \method{[}{InputsPert}(x, i)
 
@@ -44,6 +46,15 @@ CreateInputsPert(FUN_MOD, DatesR, Precip = NULL,
 \item{NbMbr}{(optional) [numeric] number of ensemble members (minimum of 20 recommanded for the EnKF scheme and of 30 for the PF scheme)}
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
+
+\item{Eps_Ptot}{[integer] Fractional error parameter for precipitation. See Piazzi et. al., 2021. The default value is 0.65.}
+
+\item{Eps_PET}{[integer] Fractional error parameter for potential evapotranspiration. See Piazzi et. al., 2021 The default value is 0.65.}
+
+\item{GradP}{[integer] The altitudinal correction factor for precipitation used in \code{\link{DataAltiExtrapolation_Valery}}. See deatils}
+
+\item{GradT}{[data frame] The daily temperature lapse rate in degrees Celsius per 100 meters. The data frame includes columns for the day (day) and month (month) of the year, along with the mean (grad_Tmean), minimum (grad_Tmin), and maximum (grad_Tmax) temperature lapse rates for each day in in Celsius per 100m.}
+
 
 \item{x}{[InputsPert] containing the vector of dates (\emph{POSIXt}) and the time series of numeric values list perturbed}
 
