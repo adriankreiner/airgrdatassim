@@ -1,72 +1,22 @@
+# airGRdatassim: Modified airGRdatassim Package for Operational Use with Glacier Module
 
-# airGRdatassim: Ensemble-Based Data Assimilation with GR Hydrological Models
+This package is a modification of the original [airGRdatassim](https://cran.r-project.org/web/packages/airGRdatassim/index.html) version 0.1.3 package available on CRAN. Both the original and this modified package are built on the `airGR` hydrological modeling framework. These packages provide tools for assimilating observed discharges into the GR daily hydrological models (GR4J, GR5J, and GR6J, with and without the CemaNeige snow model). The original package was developed by the Catchment Hydrology research group at INRAE-Antony, part of the HYCAR Research Unit, France. For more information on the effectiveness of these data assimilation schemes with GR5J, refer to Piazzi et al. (2021).
 
-## Overview
+## Modifications in This Version:
 
-'airGRdatassim' is a package based on the 'airGR' hydrological modeling package. It provides the tools to assimilate observed discharges in the GR daily hydrological model (GR4J, GR5J and GR6J, with and without the CemaNeige snow model). The package is developed at INRAE-Antony ([Catchment Hydrology research group](https://webgr.inrae.fr/en/home/) of the HYCAR Research Unit, France). More information about the efficiency of these data assimilation schemes with GR5J can be found in Piazzi et al. (2021)
-
+1.  **Glacier Module Integration**: Added Glacier modules for the GR4J-CemaNeige and GR6J-CemaNeige models, allowing them to function with data assimilation techniques.
+2.  **Operational Enhancements**: Enabled the model to start with specified initial conditions, a feature not available in the original version, improving its utility in operational settings.
+3.  **Forcing Perturbation Customization**: Introduced the ability to specify basin-specific temperature and precipitation lapse rates within the forcing perturbation process, providing more tailored simulations.
+4.  **Adjustable Forcing Perturbation Spread**: Added functionality to adjust the spread of the forcing perturbation, offering greater control over the uncertainty in input data.
 
 ## Installation
 
-### Release version
+### Prerequisites
 
-To install the version of the package that is on the CRAN, you just have to use the following command line:
+Before installing airGR_GM, ensure you have the following prerequisites installed on your system:
 
-``` r
-install.packages("airGRdatassim")
-```
+-   **R**: Version 4.1.1 or higher.
 
-### Unrelease version
+-   [RTools](https://cran.r-project.org/bin/windows/Rtools/) (Windows only): Required for building packages from source.
 
-To use the development version of the package that is on GitLab, you have first install the 'remotes' package. Then you can install the 'airGRdatassim' package in the R environment:
-
-``` r
-install.packages("remotes")
-remotes::install_gitlab(repo = "HYCAR-Hydro/airgrdatassim", 
-                        host = "https://gitlab.irstea.fr", 
-                        dependencies = TRUE, 
-                        build_vignettes = TRUE)
-```
-
-
-## Functions and objects
-
-The 'airGRdatassim' package allows users of GR Hydrological models to assimilate discharge observations with the aim of improving streamflow simulations.
-The data assimilation (DA) scheme has been designed to allow the choice between two sequential ensemble-based DA techniques, namely the Ensemble Kalman filter (EnKF) and the Particle filter (PF).
-The functions are coded in R and both their names and arguments are consistent with the 'airGR' package.
-
-With the aim of providing an user-friendly package, 'airGRdatassim' relies on two main functions :
-
-  - `CreateInputsPerturb()` generates the probabilistic model inputs to perform the ensemble-based DA when accounting for the uncertainty in meteorological forcings;
-  - `RunModel_DA()` performs streamflow ensemble simulations with the assimilation of observed discharges through the EnKF or the PF scheme.
-
-Consistently with the 'airGR' package, both structure and class of function arguments are specifically defined to prevent the risk of mis-use and ensure the flexibility of functions. Advanced users wishing to apply the package to their own models will need to comply with these imposed structures and refer to the package source codes to get all the specification requirements.
-
-
-## Hydrological model
-
-DA schemes are designed to be coupled with GR daily hydrological model, which is implemented in the 'airGR' package. This model can be called within the 'airGRdatassim' package using the following 'airGR' functions (use the command `?airGR` to get the references of the GR models): 
-
-  - `RunModel_GR4J()`: four-parameter daily lumped hydrological model
-  - `RunModel_GR5J()`: five-parameter daily lumped hydrological model
-  - `RunModel_GR6J()`: six-parameter daily lumped hydrological model
-  - `RunModel_CemaNeigeGR4J()`: combined use of GR4J and CemaNeige
-  - `RunModel_CemaNeigeGR5J()`: combined use of GR5J and CemaNeige
-  - `RunModel_CemaNeigeGR6J()`: combined use of GR6J and CemaNeige
-
-
-## How to get started
-
-Because 'airGRdatassim' is an airGR-based package, specific 'airGR' functions should be jointly used to ensure the proper use of the 'airGRdatassim' tools. Indeed, before performing the DA-based streamflow simulations, the hydrological model needs to be calibrated through the 'airGR' calibration function. Therefore, the following steps are recommended:    
-
-  1. refer to the help for `Calibration_Michel()` in the 'airGR' package, run the provided example and then refer to the help for `CreateCalibOptions()` to understand how a model calibration is prepared/made;
-  2. refer to the help for `CreateInputsPerturb()` to understand how the probabilistic model inputs are generated, if the uncertainty in meteorological forcings is taken into account;
-  3. refer to the help for `RunModel_DA()` to understand how to perform the DA-based streamflow simulations;
-  4. refer to the help for `ErrorCrit_NSE()` and `CreateInputsCrit()` in the 'airGR' package to understand how the computation of an error criterion is prepared/made.
-
-For more information and to get started with the package, you can refer to the vignette (`vignette("get_started", package = "airGRdatassim")`).
-
-
-## References
-
--  Piazzi G., Thirel G., Perrin C. & Delaigue O. (2021). Sequential data assimilation for streamflow forecasting: assessing the sensitivity to uncertainties and updated variables of a conceptual hydrological model at basin scale at basin scale. Water Resources Research, 57, doi: [10.1029/2020WR028390](https://doi.org/10.1029/2020WR028390).
+-   **airGR**: The customised `airGR` package must be preinstalled. Please refer to [airGR_GM](https://github.com/hydrosolutions/airGR_GM)
