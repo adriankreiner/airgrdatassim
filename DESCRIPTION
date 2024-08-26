@@ -16,6 +16,7 @@ Suggests:
   rmarkdown
 Description: Add-on to the 'airGRdatassim' package based on version 0.1.3.9000. This modification allows starting with initial conditions and running data assimilation for RunModel_GR4JCemaNeige_Glacier and RunModel_GR6JCemaNeige_Glacier. It also enables adjustment of forcing perturbation and precipitation and temperature lapse rates. The airGRdatassim is an add-on to the airGR package.
 License: GPL-2
+URL: https://cran.r-project.org/web/packages/airGRdatassim/index.html
 NeedsCompilation: no
 Encoding: UTF-8
 VignetteBuilder: knitr
