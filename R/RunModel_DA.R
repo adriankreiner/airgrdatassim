@@ -20,8 +20,7 @@ RunModel_DA <- function(InputsModel, InputsPert = NULL, Qobs = NULL,
   FUN_MODSnowList <- c("RunModel_CemaNeigeGR4J",
                        "RunModel_CemaNeigeGR4J_Glacier",
                        "RunModel_CemaNeigeGR5J",
-                       "RunModel_CemaNeigeGR6J", 
-                       "RunModel_CemaNeigeGR6J_Glacier")
+                       "RunModel_CemaNeigeGR6J")
 
   
 
