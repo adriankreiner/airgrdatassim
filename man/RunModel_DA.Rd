@@ -16,7 +16,9 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
             FUN_MOD, Param,
             DaMethod = c("EnKF", "PF", "none"), NbMbr = NULL,
             StateEnKF = NULL, StatePert = NULL,
-            Seed = NULL)
+            Seed = NULL, 
+            RunOptionsInitial = NULL,
+            Rel_ice = NULL)
 
 \method{[}{OutputsModelDA}(x, i)
 
@@ -64,6 +66,10 @@ RunModel_DA(InputsModel, InputsPert = NULL, Qobs = NULL,
   }}
 
 \item{Seed}{(optional) [numeric] seed of random number generator}
+
+\item{RunOptionsInitial}{(optional) [list] Initial condition from run without DA. See details.}
+
+\item{Rel_ice}{[numeric] vector of relative ice area in the elevation band. See details in CreateRunOptions}
 
 \item{x}{[OutputsModelDA] containing the vector of dates (\emph{POSIXt}) and the time series of numeric values DA model outputs}
 
@@ -113,6 +119,29 @@ In order to ensure reproducible results, \emph{Seed} can be set to fix the rando
 For further details and guidelines on the choice of the DA technique, see the references section.
 \cr\cr
 Nota: The function can be applied when using GR4J, GR5J and GR6J models (i.e. daily model time step), with or withouth the CemaNeige module (see \code{\link[airGR]{airGR}} package).
+\cr\cr
+
+Example of creating `RunOptionsInitial`:
+\preformatted{
+RunOptionsIni <- CreateRunOptions(
+  FUN_MOD = FUN_MOD,
+  InputsModel = inputsModel,
+  IndPeriod_Run = 1L,
+  warning = FALSE,
+  verbose = FALSE,
+  IniStates = initstate,
+  IndPeriod_WarmUp = 0L,
+  RelIce = Basin_Info$rel_ice
+)
+}
+
+Here, \code{initstate} represents the end state of a previous model run, typically retrieved as follows:
+
+\preformatted{
+initstate <- runResults$StateEnd
+}
+where runResults is the output for example from the function RunModel_GR4JCemaNeige_Glacier.
+
 }
 
 
