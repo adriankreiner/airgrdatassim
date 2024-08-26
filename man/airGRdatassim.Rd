@@ -32,8 +32,10 @@ DA schemes are designed to be coupled with GR daily hydrological models, which a
   - \code{\link[airGR]{RunModel_GR5J}}: five-parameter daily lumped hydrological model \cr
   - \code{\link[airGR]{RunModel_GR6J}}: six-parameter daily lumped hydrological model  \cr
   - \code{\link[airGR]{RunModel_CemaNeigeGR4J}}: combined use of GR4J and CemaNeige    \cr
+  - \code{\link[airGR]{RunModel_CemaNeigeGR4J_Glacier}}: combined use of GR4J and CemaNeige    \cr
   - \code{\link[airGR]{RunModel_CemaNeigeGR5J}}: combined use of GR5J and CemaNeige    \cr
-  - \code{\link[airGR]{RunModel_CemaNeigeGR6J}}: combined use of GR6J and CemaNeige    \cr\cr
+  - \code{\link[airGR]{RunModel_CemaNeigeGR6J}}: combined use of GR6J and CemaNeige    \cr
+  - \code{\link[airGR]{RunModel_CemaNeigeGR6J_Glacier}}: combined use of GR6J and CemaNeige    \cr\cr
 
 
 ## --- How to get started
